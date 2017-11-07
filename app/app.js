@@ -1,10 +1,10 @@
-var app = angular.module('FrontEnd', ['ngRoute']);
+angular.module('FrontEnd', ['ngRoute']);
 
-app.config(function ($routeProvider) {
+angular.module('FrontEnd').config(function ($routeProvider) {
     $routeProvider
         .when('/', {
             templateUrl: 'Widoki/logowanie.html',
-            controller: 'indexController1'
+            controller: 'logowanieKontroler'
         })
         .when('/uzytkownik', {
             templateUrl: 'Widoki/uzytkownik.html',
