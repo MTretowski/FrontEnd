@@ -3,20 +3,564 @@
 
 <head>
 
-  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular-route.min.js"></script>
-  <script src="app.js"></script>
-  <script src="Kontrolery/logowanieKontroler.js"></script>
+    <meta charset="utf-8">
 
-  <title>FrontEnd</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular-route.min.js"></script>
+
+    <script src="js/jquery-1.11.2.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+
+
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="Style/style.css">
+
+    <script src="app.js"></script>
+    <script src="Kontrolery/logowanieKontroler.js"></script>
+    <script src="Kontrolery/uzytkownikKontroler.js"></script>
+
+    <title>FrontEnd</title>
 
 </head>
 
 <body>
 
-<div ng-view>
+<!----------------------------  Niezalogowany użytkownik  ---------------------------->
+
+<nav ng-show="sprawdzUprawnienia()===''" class="navbar navbar-default" role="navigation" ng-controller="logowanieKontroler">
+    <div class="navbar-header">
+        <a class="navbar-brand">Mateusz Trętowski - Praca inżynierska</a>
+    </div>
+</nav>
+
+<div ng-show="sprawdzUprawnienia()===''" class="container" ng-controller="logowanieKontroler">
+
+    <br>
+
+    <form class="form-horizontal">
+
+        <div class="form-group">
+
+            <label class="control-label col-sm-4" for="email">Email:</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control" id="email" ng-model="email">
+            </div>
+
+        </div>
+
+        <div class="form-group">
+
+            <label class="control-label col-sm-4" for="haslo">Hasło:</label>
+            <div class="col-sm-4">
+                <input type="password" class="form-control" id="haslo" ng-model="haslo">
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="col-sm-offset-4 col-sm-2">
+                <button type="submit" class="btn btn-info" ng-click=zaloguj()>Zaloguj się</button>
+            </div>
+        </div>
+
+    </form>
+</div>
+
+
+
+<!----------------------------  Zalogowany użytkownik  ---------------------------->
+
+<nav ng-hide="sprawdzUprawnienia()===''" class="navbar navbar-default" role="navigation" ng-controller="logowanieKontroler">
+    <div class="navbar-header">
+        <a class="navbar-brand">Mateusz Trętowski - Praca inżynierska</a>
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+    </div>
+    <div class="navbar-collapse collapse">
+        <ul class="nav navbar-nav navbar-right">
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                   aria-expanded="false">Zalogowano jako: <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li data-toggle="modal" data-target="#zmianaHasla"><a href="#">Zmień hasło</a></li>
+                    <li role="separator" class="divider"></li>
+                    <li><a href="/" ng-click="wyloguj()">Wyloguj się</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+
+
+<div ng-hide="sprawdzUprawnienia()===''" class="container" ng-controller="logowanieKontroler">
+    <ul class="nav nav-tabs nav-justified">
+        <li class="active"><a data-toggle="tab" href="#trasy">Trasy</a></li>
+        <li><a data-toggle="tab" href="#tankowania">Tankowania</a></li>
+        <li><a data-toggle="tab" href="#uzytkownik">Pomiary</a></li>
+        <li><a data-toggle="tab" href="#kierowcy">Kierowcy</a></li>
+        <li><a data-toggle="tab" href="#stacje">Stacje</a></li>
+        <li><a data-toggle="tab" href="#pojazdy">Pojazdy</a></li>
+        <li><a data-toggle="tab" href="#dostawcy">Dostawcy</a></li>
+        <li  ng-show="sprawdzUprawnienia()==='administrator'" ><a data-toggle="tab" href="#uzytkownicy">Użytkownicy</a></li>
+    </ul>
+</div>
+
+
+
+
+
+<!----------------------------  Okno zmiany hasła  ---------------------------->
+
+<div id="zmianaHasla" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-sm">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close glyphicon glyphicon-remove" data-dismiss="modal"></button>
+                <h4 class="modal-title">Zmiana hasła</h4>
+            </div>
+            <div class="modal-body">
+
+                <label>Stare hasło:</label>
+                <input type="email" class="form-control" id="stareHaslo" placeholder="Podaj stare hasło">
+                <br>
+                <label>Nowe hasło:</label>
+                <input type="password" class="form-control" id="noweHaslo" placeholder="Podaj nowe hasło">
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" data-dismiss="modal">Zmień hasło</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Anuluj</button>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!----------------------------  Okno dodania trasy  ---------------------------->
+
+<div id="nowaTrasa" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-lg">
+
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close glyphicon glyphicon-remove" data-dismiss="modal"></button>
+                <h4 class="modal-title">Dodaj trasę</h4>
+            </div>
+
+            <div class="modal-body">
+
+                <div class="row">
+                    <div class="col-md-6">
+
+                        <form class="form-horizontal">
+
+                            <div class="form-group">
+                                <label class="control-label col-md-2" for="test1">Kierowca</label>
+                                <div class="col-md-10">
+                                    <input type="text" class="form-control" id="test1" placeholder="Podaj email">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-md-2" for="test2">Pojazd</label>
+                                <div class="col-md-10">
+                                    <input type="text" class="form-control" id="test2" placeholder="Podaj email">
+                                </div>
+                            </div>
+
+                            <label>Rozpoczęcie trasy</label>
+                            <div class="form-group">
+                                <label class="control-label col-md-1" for="test4">Data</label>
+                                <div class="col-md-5">
+                                    <input type="date" class="form-control" id="test4" placeholder="Podaj email">
+                                </div>
+                                <label class="control-label col-md-2" for="test5">Godzina</label>
+                                <div class="col-md-4">
+                                    <input type="time" class="form-control" id="test5" placeholder="Podaj email">
+                                </div>
+                            </div>
+
+                            <label>Zakończenie trasy</label>
+                            <div class="form-group">
+                                <label class="control-label col-md-1" for="test6">Data</label>
+                                <div class="col-md-5">
+                                    <input type="date" class="form-control" id="test6" placeholder="Podaj email">
+                                </div>
+                                <label class="control-label col-md-2" for="test7">Godzina</label>
+                                <div class="col-md-4">
+                                    <input type="time" class="form-control" id="test7" placeholder="Podaj email">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-md-6" for="test8">Przejechane kilometry</label>
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control" id="test8" placeholder="Podaj email">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-md-6" for="test9">Zużyte paliwo - Webasto
+                                    (L)</label>
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control" id="test9" placeholder="Podaj email">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-md-6" for="test10">Zużyte paliwo - CAN (L)</label>
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control" id="test10" placeholder="Podaj email">
+                                </div>
+                            </div>
+
+                        </form>
+
+                        <table class="table table-condensed table-responsive table-hover table-bordered table-striped">
+                            <tbody>
+                            <tr>
+                                <th>Zużyte paliwo - Webasto + CAN (L)</th>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <th>Paliwo przed wyjazdem (L)</th>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <th>Paliwo dotankowane (L)</th>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <th>Paliwo po powrocie (L)</th>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <th>Zużyte paliwo (L)</th>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <th>Srednie spalanie wg GPS (L/100 km)</th>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <th>Srednie spalanie faktyczne (L/100 km)</th>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <th>Różnica w spalaniu (L/100 km)</th>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <th>Różnica w zużyciu paliwa (L)</th>
+                                <td></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="col-md-6">
+                        <h4 class="text-center">Pomiary</h4>
+
+                        <div class="col-md-12 text-center">
+                            <div class="btn"><a class="btn btn-success" data-toggle="modal" data-target="">
+                                Dodaj pomiar
+                            </a>
+                            </div>
+                        </div>
+
+                        <table class="table table-condensed table-responsive table-hover table-bordered table-striped">
+                            <thead>
+                            <tr>
+                                <th class="text-center">Rodzaj</th>
+                                <th class="text-center">Data</th>
+                                <th class="text-center">Paliwo w zbiornikach</th>
+                                <th class="text-center">Edytuj</th>
+                                <th class="text-center">Usuń</th>
+                            </tr>
+                            </thead>
+
+                            <tbody>
+                            <tr>
+                                <td>Początkowy</td>
+                                <td>28.02.2017</td>
+                                <td>1200,00</td>
+                                <td>
+                                    <button type="button"
+                                            class="btn-xs btn-warning btn-group-justified glyphicon glyphicon-edit"></button>
+                                </td>
+                                <td>
+                                    <button type="button"
+                                            class="btn-xs btn-danger btn-group-justified glyphicon glyphicon-remove"></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Końcowy</td>
+                                <td>23.03.2017</td>
+                                <td>999,99</td>
+                                <td>
+                                    <button type="button"
+                                            class="btn-xs btn-warning btn-group-justified glyphicon glyphicon-edit"></button>
+                                </td>
+                                <td>
+                                    <button type="button"
+                                            class="btn-xs btn-danger btn-group-justified glyphicon glyphicon-remove"></button>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+
+                        <h4 class="text-center">Tankowania</h4>
+
+                        <div class="col-md-12 text-center">
+                            <div class="btn"><a class="btn btn-success" data-toggle="modal" data-target="">
+                                Dodaj tankowanie
+                            </a>
+                            </div>
+                        </div>
+
+                        <table class="table table-condensed table-responsive table-hover table-bordered table-striped">
+                            <thead>
+                            <tr>
+                                <th class="text-center">Data</th>
+                                <th class="text-center">Ilość</th>
+                                <th class="text-center">Dostawca</th>
+                                <th class="text-center">Edytuj</th>
+                                <th class="text-center">Usuń</th>
+                            </tr>
+                            </thead>
+
+                            <tbody>
+                            <tr ng-repeat="wierszTankowania in tankowania">
+                                <td>{{wierszTankowania.Data}}</td>
+                                <td>{{wierszTankowania.Ilosc}}</td>
+                                <td>{{wierszTankowania.Dostawca}}</td>
+                                <td>
+                                    <button type="button"
+                                            class="btn-xs btn-warning btn-group-justified glyphicon glyphicon-edit"></button>
+                                </td>
+                                <td>
+                                    <button type="button"
+                                            class="btn-xs btn-danger btn-group-justified glyphicon glyphicon-remove"></button>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="form-group">
+                            <label>Komentarz</label>
+                            <textarea class="form-control" rows="4" id="comment"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+        <div class="modal-footer">
+            <button type="button" class="btn btn-success" data-dismiss="modal">Dodaj</button>
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Anuluj</button>
+        </div>
+    </div>
 
 </div>
+
+
+
+
+<!----------------------------  Zakładka Trasy  ---------------------------->
+
+
+<div class="tab-content">
+
+    <div ng-hide="sprawdzUprawnienia()===''" id="trasy" class="tab-pane fade in active" ng-controller="UzytkownikKontroler">
+
+        <div class="container">
+            <br>
+
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <div class="btn-group">
+                        <a class="btn btn-info" ng-click="pokazFiltry = !pokazFiltry">
+                            {{pokazFiltry ? 'Ukryj filtry' : 'Pokaż filtry'}}
+                        </a>
+                        <a class="btn btn-success" data-toggle="modal" data-target="#nowaTrasa">
+                            Dodaj trasę
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" ng-show="pokazFiltry">
+                <br>
+                <div class="col-md-offset-2 col-md-4">
+                    <div class="input-group">
+                        <span class="input-group-addon">Data rozpoczęcia: </span>
+                        <input type="date" class="form-control" ng-model="filtrDataOd">
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="input-group">
+                        <span class="input-group-addon">Data zakończenia: </span>
+                        <input type="date" class="form-control" ng-model="filtrDataDo">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" ng-show="pokazFiltry">
+                <br>
+                <div class="col-md-offset-2 col-md-3">
+                    <div class="input-group">
+                        <span class="input-group-addon">Kierowca: </span>
+                        <input type="text" class="form-control" ng-model="filtrKierowca">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="input-group">
+                        <span class="input-group-addon">Pojazd: </span>
+                        <input type="text" class="form-control" ng-model="filtrPojazd">
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="input-group"><input type="checkbox">
+                        Pokaż tylko podejrzane
+                    </div>
+                </div>
+            </div>
+
+            <br>
+
+            <table class="table table-condensed table-responsive table-hover table-bordered table-striped">
+                <thead>
+                <tr>
+                    <th class="text-center">
+                        <a href="#" ng-click="kluczSortowania = 'Pojazd';odwrotneSortowanie = !odwrotneSortowanie">
+                            Pojazd
+                            <span ng-show="kluczSortowania == 'Pojazd' && !odwrotneSortowanie"
+                                  class="glyphicon glyphicon-triangle-bottom"></span>
+                            <span ng-show="kluczSortowania == 'Pojazd' && odwrotneSortowanie"
+                                  class="glyphicon glyphicon-triangle-top"></span>
+                        </a>
+                    </th>
+
+                    <th class="text-center">
+                        <a href="#"
+                           ng-click="kluczSortowania = 'Kierowca';odwrotneSortowanie = !odwrotneSortowanie">
+                            Kierowca
+                            <span ng-show="kluczSortowania == 'Kierowca' && !odwrotneSortowanie"
+                                  class="glyphicon glyphicon-triangle-bottom"></span>
+                            <span ng-show="kluczSortowania == 'Kierowca' && odwrotneSortowanie"
+                                  class="glyphicon glyphicon-triangle-top"></span>
+                        </a>
+                    </th>
+
+                    <th class="text-center">
+                        <a href="#"
+                           ng-click="kluczSortowania = 'DataRozpoczecia';odwrotneSortowanie = !odwrotneSortowanie">
+                            Data rozpoczęcia
+                            <span ng-show="kluczSortowania == 'DataRozpoczecia' && !odwrotneSortowanie"
+                                  class="glyphicon glyphicon-triangle-bottom"></span>
+                            <span ng-show="kluczSortowania == 'DataRozpoczecia' && odwrotneSortowanie"
+                                  class="glyphicon glyphicon-triangle-top"></span>
+                        </a>
+                    </th>
+
+                    <th class="text-center">
+                        <a href="#"
+                           ng-click="kluczSortowania = 'DataZakonczenia';odwrotneSortowanie = !odwrotneSortowanie">
+                            Data zakończenia
+                            <span ng-show="kluczSortowania == 'DataZakonczenia' && !odwrotneSortowanie"
+                                  class="glyphicon glyphicon-triangle-bottom"></span>
+                            <span ng-show="kluczSortowania == 'DataZakonczenia' && odwrotneSortowanie"
+                                  class="glyphicon glyphicon-triangle-top"></span>
+                        </a>
+                    </th>
+
+                    <th class="text-center">
+                        <a href="#"
+                           ng-click="kluczSortowania = 'SpalanieFakt';odwrotneSortowanie = !odwrotneSortowanie">
+                            Sr. spal. fakt.
+                            <span ng-show="kluczSortowania == 'SpalanieFakt' && !odwrotneSortowanie"
+                                  class="glyphicon glyphicon-triangle-bottom"></span>
+                            <span ng-show="kluczSortowania == 'SpalanieFakt' && odwrotneSortowanie"
+                                  class="glyphicon glyphicon-triangle-top"></span>
+                        </a>
+                    </th>
+
+                    <th class="text-center">
+                        <a href="#"
+                           ng-click="kluczSortowania = 'SpalanieGPS';odwrotneSortowanie = !odwrotneSortowanie">
+                            Sr. spal. wg GPS
+                            <span ng-show="kluczSortowania == 'SpalanieGPS' && !odwrotneSortowanie"
+                                  class="glyphicon glyphicon-triangle-bottom"></span>
+                            <span ng-show="kluczSortowania == 'SpalanieGPS' && odwrotneSortowanie"
+                                  class="glyphicon glyphicon-triangle-top"></span>
+                        </a>
+                    </th>
+
+                    <th class="text-center">
+                        <a href="#" ng-click="kluczSortowania = 'Roznica';odwrotneSortowanie = !odwrotneSortowanie">
+                            Różnica w spalaniu
+                            <span ng-show="kluczSortowania == 'Roznica' && !odwrotneSortowanie"
+                                  class="glyphicon glyphicon-triangle-bottom"></span>
+                            <span ng-show="kluczSortowania == 'Roznica' && odwrotneSortowanie"
+                                  class="glyphicon glyphicon-triangle-top"></span>
+                        </a>
+                    </th>
+
+                    <th class="text-center">
+                        <a href="#" ng-click="kluczSortowania = 'Dystans';odwrotneSortowanie = !odwrotneSortowanie">
+                            Dystans
+                            <span ng-show="kluczSortowania == 'Dystans' && !odwrotneSortowanie"
+                                  class="glyphicon glyphicon-triangle-bottom"></span>
+                            <span ng-show="kluczSortowania == 'Dystans' && odwrotneSortowanie"
+                                  class="glyphicon glyphicon-triangle-top"></span>
+                        </a>
+                    </th>
+                    <th class="text-center">Edytuj</th>
+                    <th class="text-center">Usuń</th>
+                </tr>
+
+                </thead>
+                <tbody>
+                <tr ng-repeat="wiersz in trasy | filter:{Samochod: filtrPojazd, Kierowca:filtrKierowca}| orderBy:kluczSortowania:odwrotneSortowanie">
+                    <td>{{wiersz.Samochod}}</td>
+                    <td>{{wiersz.Kierowca}}</td>
+                    <td>{{wiersz.DataRozpoczecia}}</td>
+                    <td>{{wiersz.DataZakonczenia}}</td>
+                    <td>{{wiersz.SpalanieFakt}}</td>
+                    <td>{{wiersz.SpalanieGPS}}</td>
+                    <td>{{wiersz.Roznica}}</td>
+                    <td>{{wiersz.Dystans}}</td>
+                    <td>
+                        <button type="button"
+                                class="btn-xs btn-warning btn-group-justified glyphicon glyphicon-edit"></button>
+                    </td>
+                    <td>
+                        <button type="button"
+                                class="btn-xs btn-danger btn-group-justified glyphicon glyphicon-remove"></button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+
 
 </body>
 
