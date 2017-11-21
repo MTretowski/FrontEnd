@@ -20,6 +20,8 @@
     <script src="Kontrolery/tankowaniaKontroler.js"></script>
     <script src="Kontrolery/pomiaryKontroler.js"></script>
     <script src="Kontrolery/kierowcyKontroler.js"></script>
+    <script src="Kontrolery/pojazdyKontroler.js"></script>
+    <script src="Kontrolery/uzytkownicyKontroler.js"></script>
 
     <title>FrontEnd</title>
 
@@ -95,9 +97,7 @@
         <li><a data-toggle="tab" href="#tankowania">Tankowania</a></li>
         <li><a data-toggle="tab" href="#pomiary">Pomiary</a></li>
         <li><a data-toggle="tab" href="#kierowcy">Kierowcy</a></li>
-        <li><a data-toggle="tab" href="#stacje">Stacje</a></li>
         <li><a data-toggle="tab" href="#pojazdy">Pojazdy</a></li>
-        <li><a data-toggle="tab" href="#dostawcy">Dostawcy</a></li>
         <li ng-show="sprawdzUprawnienia()==='administrator'"><a data-toggle="tab" href="#uzytkownicy">Użytkownicy</a>
         </li>
     </ul>
@@ -134,6 +134,7 @@
     </div>
 </div>
 
+
 <!----------------------------  Okno dodania trasy  ---------------------------->
 
 <div id="nowaTrasa" class="modal fade" role="dialog" ng-controller="trasyKontroler">
@@ -146,7 +147,6 @@
             </div>
 
             <div class="modal-body">
-                {{tytulOkna}}
                 <div class="row">
                     <div class="col-md-6">
                         <form class="form-horizontal">
@@ -495,7 +495,6 @@
 </div>
 
 
-
 <!----------------------------  Okno dodania kierowcy  ---------------------------->
 
 <div id="nowyKierowca" class="modal fade" role="dialog" ng-controller="tankowaniaKontroler">
@@ -517,6 +516,154 @@
                         <label class="control-label col-md-2">Nazwisko</label>
                         <div class="col-md-4">
                             <input type="text" class="form-control">
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" data-dismiss="modal">Dodaj</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Anuluj</button>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<!----------------------------  Okno dodania pojazdu  ---------------------------->
+
+<div id="nowyPojazd" class="modal fade" role="dialog" ng-controller="pojazdyKontroler">
+    <div class="modal-dialog">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close glyphicon glyphicon-remove" data-dismiss="modal"></button>
+                <h4 class="modal-title">Dodaj pojazd</h4>
+            </div>
+
+            <div class="modal-body">
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label class="control-label col-md-4">Numer rejestracyjny</label>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-4">Marka i model</label>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-6">Norma spalania (L / 100 km)</label>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-6">Dopuszczalne odchylenie (L / 100 km)</label>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control">
+                        </div>
+                    </div>
+
+                    <br>
+
+                    <div class="col-md-12 text-center">
+                        <label>Przeliczniki (L / cm)</label>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3">Zbiornik lewy</label>
+                        <div class="col-md-3">
+                            <input type="text" class="form-control">
+                        </div>
+                        <label class="control-label col-md-3">Zbiornik prawy</label>
+                        <div class="col-md-3">
+                            <input type="text" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 text-center">
+                        <label>Pojemności zbiorników (L)</label>
+                        <div class="input-group center-block"><input type="checkbox" ng-model="zbiornikiTakieSame"> Zbiorniki takie same</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-3">Zbiornik lewy</label>
+                        <div class="col-md-3">
+                            <input type="text" class="form-control" ng-disabled="zbiornikiTakieSame">
+                        </div>
+                        <label class="control-label col-md-3">Zbiornik prawy</label>
+                        <div class="col-md-3">
+                            <input type="text" class="form-control" ng-disabled="zbiornikiTakieSame">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-3">Suma</label>
+                        <div class="col-md-3">
+                            <input type="text" class="form-control" ng-disabled="!zbiornikiTakieSame">
+                        </div>
+                    </div>
+
+                </form>
+
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" data-dismiss="modal">Dodaj</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Anuluj</button>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<!----------------------------  Okno dodania użytkownika  ---------------------------->
+
+<div id="nowyUzytkownik" class="modal fade" role="dialog" ng-controller="tankowaniaKontroler">
+    <div class="modal-dialog">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close glyphicon glyphicon-remove" data-dismiss="modal"></button>
+                <h4 class="modal-title">Dodaj kierowcę</h4>
+            </div>
+
+            <div class="modal-body">
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label class="control-label col-md-2">Imię</label>
+                        <div class="col-md-4">
+                            <input type="text" class="form-control">
+                        </div>
+                        <label class="control-label col-md-2">Nazwisko</label>
+                        <div class="col-md-4">
+                            <input type="text" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-2">Email:</label>
+                        <div class="col-md-4">
+                            <input type="text" class="form-control">
+                        </div>
+                        <label class="control-label col-md-2">Rola:</label>
+                        <div class="col-md-4">
+                            <input type="text" class="form-control">
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-danger center-block" ng-click="resetHasla = !resetHasla">Rest hasła</button>
+                    <div ng-show="resetHasla" class="form-group">
+                        <br>
+                        <label class="control-label col-md-3">Nowe hasło: </label>
+                        <div class="col-md-3">
+                            <input type="password" class="form-control">
                         </div>
                     </div>
                 </form>
@@ -1007,6 +1154,207 @@
 
     </div>
 
+
+    <!----------------------------  Zakładka Pojazdy  ---------------------------->
+
+    <div id="pojazdy" class="tab-pane fade" ng-controller="pojazdyKontroler">
+
+        <div class="container">
+
+            <br>
+
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <div class="btn-group">
+                        <a class="btn btn-info" ng-click="pokazFiltry = !pokazFiltry">{{pokazFiltry ? 'Ukryj filtry' : 'Pokaż filtry'}}</a>
+                        <a class="btn btn-success" data-toggle="modal" data-target="#nowyPojazd">Dodaj pojazd</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" ng-show="pokazFiltry">
+                <br>
+                <div class="col-md-offset-2 col-md-4">
+                    <div class="input-group">
+                        <span class="input-group-addon">Numer rejestracyjny: </span>
+                        <input type="text" class="form-control" ng-model="filtrNumerRejestracyjny">
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="input-group">
+                        <span class="input-group-addon">Marka i model: </span>
+                        <input type="text" class="form-control" ng-model="filtrMarka">
+                    </div>
+                </div>
+            </div>
+
+            <br>
+
+            <table class="table table-condensed table-responsive table-hover table-bordered table-striped">
+                <thead>
+                <tr>
+                    <th class="text-center">
+                        <a href="#" ng-click="kluczSortowania = 'numerRejestracyjny';odwrotneSortowanie = !odwrotneSortowanie">
+                            Numer rejestracyjny
+                            <span ng-show="kluczSortowania == 'numerRejestracyjny' && !odwrotneSortowanie" class="glyphicon glyphicon-triangle-bottom"></span>
+                            <span ng-show="kluczSortowania == 'numerRejestracyjny' && odwrotneSortowanie" class="glyphicon glyphicon-triangle-top"></span>
+                        </a>
+                    </th>
+
+                    <th class="text-center">
+                        <a href="#" ng-click="kluczSortowania = 'marka';odwrotneSortowanie = !odwrotneSortowanie">
+                            Marka i model
+                            <span ng-show="kluczSortowania == 'marka' && !odwrotneSortowanie" class="glyphicon glyphicon-triangle-bottom"></span>
+                            <span ng-show="kluczSortowania == 'marka' && odwrotneSortowanie" class="glyphicon glyphicon-triangle-top"></span>
+                        </a>
+                    </th>
+
+                    <th class="text-center">
+                        <a href="#" ng-click="kluczSortowania = 'norma';odwrotneSortowanie = !odwrotneSortowanie">
+                            Norma spalania (L / 100 km)
+                            <span ng-show="kluczSortowania == 'norma' && !odwrotneSortowanie" class="glyphicon glyphicon-triangle-bottom"></span>
+                            <span ng-show="kluczSortowania == 'norma' && odwrotneSortowanie" class="glyphicon glyphicon-triangle-top"></span>
+                        </a>
+                    </th>
+
+                    <th class="text-center">
+                        <a href="#" ng-click="kluczSortowania = 'odchylenie';odwrotneSortowanie = !odwrotneSortowanie">
+                            Dopuszczalne odchylenie (L / 100 km)
+                            <span ng-show="kluczSortowania == 'odchylenie' && !odwrotneSortowanie" class="glyphicon glyphicon-triangle-bottom"></span>
+                            <span ng-show="kluczSortowania == 'odchylenie' && odwrotneSortowanie" class="glyphicon glyphicon-triangle-top"></span>
+                        </a>
+                    </th>
+
+                    <th class="text-center">Edytuj</th>
+                    <th class="text-center">Usuń</th>
+                </tr>
+
+                </thead>
+                <tbody>
+                <tr ng-repeat="wiersz in pojazdy | filter:{imie: filtrImie, nazwisko:filtrNazwisko}| orderBy:kluczSortowania:odwrotneSortowanie">
+                    <td class="text-center">{{wiersz.numerRejestracyjny}}</td>
+                    <td class="text-center">{{wiersz.marka}}</td>
+                    <td class="text-right">{{wiersz.norma | number : 2}}</td>
+                    <td class="text-right">{{wiersz.odchylenie | number : 2}}</td>
+                    <td>
+                        <button type="button" class="btn-xs btn-warning glyphicon glyphicon-edit center-block" data-toggle="modal" data-target="#nowyPojazd"></button>
+                    </td>
+                    <td>
+                        <button type="button" class="btn-xs btn-danger glyphicon glyphicon-remove center-block"></button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+        </div>
+
+    </div>
+
+
+
+    <!----------------------------  Zakładka Uzytkownicy  ---------------------------->
+
+    <div id="uzytkownicy" class="tab-pane fade" ng-controller="uzytkownicyKontroler">
+
+        <div class="container">
+
+            <br>
+
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <div class="btn-group">
+                        <a class="btn btn-info" ng-click="pokazFiltry = !pokazFiltry">{{pokazFiltry ? 'Ukryj filtry' : 'Pokaż filtry'}}</a>
+                        <a class="btn btn-success" data-toggle="modal" data-target="#nowyUzytkownik">Dodaj użytkownika</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" ng-show="pokazFiltry">
+                <br>
+                <div class="col-md-4">
+                    <div class="input-group">
+                        <span class="input-group-addon">Imię: </span>
+                        <input type="text" class="form-control" ng-model="filtrImie">
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="input-group">
+                        <span class="input-group-addon">Nazwisko: </span>
+                        <input type="text" class="form-control" ng-model="filtrNazwisko">
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="input-group">
+                        <span class="input-group-addon">Rola: </span>
+                        <input type="text" class="form-control" ng-model="filtrRola">
+                    </div>
+                </div>
+            </div>
+
+            <br>
+
+            <table class="table table-condensed table-responsive table-hover table-bordered table-striped">
+                <thead>
+                <tr>
+                    <th class="text-center">
+                        <a href="#" ng-click="kluczSortowania = 'imie';odwrotneSortowanie = !odwrotneSortowanie">
+                            Imię
+                            <span ng-show="kluczSortowania == 'imie' && !odwrotneSortowanie" class="glyphicon glyphicon-triangle-bottom"></span>
+                            <span ng-show="kluczSortowania == 'imie' && odwrotneSortowanie" class="glyphicon glyphicon-triangle-top"></span>
+                        </a>
+                    </th>
+
+                    <th class="text-center">
+                        <a href="#" ng-click="kluczSortowania = 'nazwisko';odwrotneSortowanie = !odwrotneSortowanie">
+                            Nazwisko
+                            <span ng-show="kluczSortowania == 'nazwisko' && !odwrotneSortowanie" class="glyphicon glyphicon-triangle-bottom"></span>
+                            <span ng-show="kluczSortowania == 'nazwisko' && odwrotneSortowanie" class="glyphicon glyphicon-triangle-top"></span>
+                        </a>
+                    </th>
+
+                    <th class="text-center">
+                        <a href="#" ng-click="kluczSortowania = 'email';odwrotneSortowanie = !odwrotneSortowanie">
+                            Email
+                            <span ng-show="kluczSortowania == 'email' && !odwrotneSortowanie" class="glyphicon glyphicon-triangle-bottom"></span>
+                            <span ng-show="kluczSortowania == 'email' && odwrotneSortowanie" class="glyphicon glyphicon-triangle-top"></span>
+                        </a>
+                    </th>
+
+                    <th class="text-center">
+                        <a href="#" ng-click="kluczSortowania = 'rola';odwrotneSortowanie = !odwrotneSortowanie">
+                            Rola
+                            <span ng-show="kluczSortowania == 'rola' && !odwrotneSortowanie" class="glyphicon glyphicon-triangle-bottom"></span>
+                            <span ng-show="kluczSortowania == 'rola' && odwrotneSortowanie" class="glyphicon glyphicon-triangle-top"></span>
+                        </a>
+                    </th>
+
+                    <th class="text-center">Edytuj</th>
+                    <th class="text-center">Usuń</th>
+                </tr>
+
+                </thead>
+                <tbody>
+                <tr ng-repeat="wiersz in uzytkownicy | filter:{imie: filtrImie, nazwisko:filtrNazwisko, rola:filtrRola}| orderBy:kluczSortowania:odwrotneSortowanie">
+                    <td class="text-center">{{wiersz.imie}}</td>
+                    <td class="text-center">{{wiersz.nazwisko}}</td>
+                    <td class="text-center">{{wiersz.email}}</td>
+                    <td class="text-center">{{wiersz.rola}}</td>
+                    <td>
+                        <button type="button" class="btn-xs btn-warning glyphicon glyphicon-edit center-block" data-toggle="modal" data-target="#nowyUzytkownik"></button>
+                    </td>
+                    <td>
+                        <button type="button" class="btn-xs btn-danger glyphicon glyphicon-remove center-block"></button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+        </div>
+
+    </div>
 
 
 </div>
