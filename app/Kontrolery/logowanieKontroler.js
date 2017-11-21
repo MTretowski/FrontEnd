@@ -1,25 +1,27 @@
-app.controller('logowanieKontroler', ['$rootScope', '$scope', function ($rootScope, $scope) {
-
-    $rootScope.rolaUzytkownika = "";
+app.controller('logowanieKontroler', ['$cookieStore','$rootScope', '$scope', function ($cookieStore, $rootScope, $scope) {
 
     $scope.email;
     $scope.haslo;
 
     $scope.zaloguj = function () {
         if ($scope.email === "uzytkownik" && $scope.haslo === "uzytkownik") {
-            $rootScope.rolaUzytkownika = "uzytkownik";
+            $cookieStore.put('rolaUzytkownika','uzytkownik');
         }
         else if ($scope.email === "admin" && $scope.haslo === "admin") {
-            $rootScope.rolaUzytkownika = "administrator";
+            $cookieStore.put('rolaUzytkownika','administrator');
         }
     }
 
     $scope.sprawdzUprawnienia = function () {
-        return $rootScope.rolaUzytkownika;
+        if ( $cookieStore.get('rolaUzytkownika') ) {
+            return $cookieStore.get('rolaUzytkownika')
+        } else {
+            return '';
+        }
     }
 
     $scope.wyloguj = function () {
-        $rootScope.rolaUzytkownika = "";
+        $cookieStore.remove('rolaUzytkownika');
     }
 
 }])

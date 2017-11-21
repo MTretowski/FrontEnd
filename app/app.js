@@ -1,1 +1,1 @@
-var app = angular.module('FrontEnd', []);
+var app = angular.module('FrontEnd', ['ngCookies']);

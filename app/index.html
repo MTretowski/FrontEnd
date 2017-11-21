@@ -6,11 +6,10 @@
     <meta charset="utf-8">
 
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular-route.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular-cookies.js"></script>
 
     <script src="js/jquery-1.11.2.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
-
 
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="Style/style.css">
@@ -28,8 +27,7 @@
 
 <!----------------------------  Niezalogowany użytkownik  ---------------------------->
 
-<nav ng-show="sprawdzUprawnienia()===''" class="navbar navbar-default" role="navigation"
-     ng-controller="logowanieKontroler">
+<nav ng-show="sprawdzUprawnienia()===''" class="navbar navbar-default" role="navigation" ng-controller="logowanieKontroler">
     <div class="navbar-header">
         <a class="navbar-brand">Mateusz Trętowski - Praca inżynierska</a>
     </div>
@@ -40,23 +38,18 @@
     <br>
 
     <form class="form-horizontal">
-
         <div class="form-group">
-
-            <label class="control-label col-sm-4" for="email">Email:</label>
+            <label class="control-label col-sm-4">Email:</label>
             <div class="col-sm-4">
-                <input type="text" class="form-control" id="email" ng-model="email">
+                <input type="text" class="form-control" ng-model="email">
             </div>
-
         </div>
 
         <div class="form-group">
-
-            <label class="control-label col-sm-4" for="haslo">Hasło:</label>
+            <label class="control-label col-sm-4">Hasło:</label>
             <div class="col-sm-4">
-                <input type="password" class="form-control" id="haslo" ng-model="haslo">
+                <input type="password" class="form-control" ng-model="haslo">
             </div>
-
         </div>
 
         <div class="row">
@@ -64,15 +57,13 @@
                 <button type="submit" class="btn btn-info" ng-click=zaloguj()>Zaloguj się</button>
             </div>
         </div>
-
     </form>
 </div>
 
 
 <!----------------------------  Zalogowany użytkownik  ---------------------------->
 
-<nav ng-hide="sprawdzUprawnienia()===''" class="navbar navbar-default" role="navigation"
-     ng-controller="logowanieKontroler">
+<nav ng-hide="sprawdzUprawnienia()===''" class="navbar navbar-default" role="navigation" ng-controller="logowanieKontroler">
     <div class="navbar-header">
         <a class="navbar-brand">Mateusz Trętowski - Praca inżynierska</a>
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -84,8 +75,7 @@
     <div class="navbar-collapse collapse">
         <ul class="nav navbar-nav navbar-right">
             <li class="dropdown">
-                <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                   aria-expanded="false">Zalogowano jako: <span class="caret"></span></a>
+                <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Zalogowano jako: <span class="caret"></span></a>
                 <ul class="dropdown-menu">
                     <li data-toggle="modal" data-target="#zmianaHasla"><a href="#">Zmień hasło</a></li>
                     <li role="separator" class="divider"></li>
@@ -106,7 +96,7 @@
         <li><a data-toggle="tab" href="#stacje">Stacje</a></li>
         <li><a data-toggle="tab" href="#pojazdy">Pojazdy</a></li>
         <li><a data-toggle="tab" href="#dostawcy">Dostawcy</a></li>
-        <li ng-show="sprawdzUprawnienia()==='administrator'"><a data-toggle="tab" href="#uzytkownicy">Użytkownicy</a>
+        <li ng-hide="sprawdzUprawnienia()==='administrator'"><a data-toggle="tab" href="#uzytkownicy">Użytkownicy</a>
         </li>
     </ul>
 </div>
@@ -125,11 +115,12 @@
             <div class="modal-body">
 
                 <label>Stare hasło:</label>
-                <input type="email" class="form-control" id="stareHaslo" placeholder="Podaj stare hasło">
-                <br>
-                <label>Nowe hasło:</label>
-                <input type="password" class="form-control" id="noweHaslo" placeholder="Podaj nowe hasło">
+                <input type="email" class="form-control" placeholder="Podaj stare hasło">
 
+                <br>
+
+                <label>Nowe hasło:</label>
+                <input type="password" class="form-control" placeholder="Podaj nowe hasło">
 
             </div>
             <div class="modal-footer">
@@ -138,15 +129,13 @@
 
             </div>
         </div>
-
     </div>
 </div>
 
 <!----------------------------  Okno dodania trasy  ---------------------------->
 
-<div id="nowaTrasa" class="modal fade" role="dialog">
+<div id="nowaTrasa" class="modal fade" role="dialog" ng-controller="trasyKontroler">
     <div class="modal-dialog modal-lg">
-
 
         <div class="modal-content">
             <div class="modal-header">
@@ -155,69 +144,65 @@
             </div>
 
             <div class="modal-body">
-
                 <div class="row">
                     <div class="col-md-6">
-
                         <form class="form-horizontal">
-
                             <div class="form-group">
-                                <label class="control-label col-md-2" for="test1">Kierowca</label>
+                                <label class="control-label col-md-2">Kierowca</label>
                                 <div class="col-md-10">
-                                    <input type="text" class="form-control" id="test1" placeholder="Podaj email">
+                                    <input type="text" class="form-control" placeholder="Podaj email">
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label class="control-label col-md-2" for="test2">Pojazd</label>
+                                <label class="control-label col-md-2">Pojazd</label>
                                 <div class="col-md-10">
-                                    <input type="text" class="form-control" id="test2" placeholder="Podaj email">
+                                    <input type="text" class="form-control" placeholder="Podaj email">
                                 </div>
                             </div>
 
                             <label>Rozpoczęcie trasy</label>
                             <div class="form-group">
-                                <label class="control-label col-md-1" for="test4">Data</label>
+                                <label class="control-label col-md-1">Data</label>
                                 <div class="col-md-5">
-                                    <input type="date" class="form-control" id="test4" placeholder="Podaj email">
+                                    <input type="date" class="form-control" placeholder="Podaj email">
                                 </div>
-                                <label class="control-label col-md-2" for="test5">Godzina</label>
+                                <label class="control-label col-md-2">Godzina</label>
                                 <div class="col-md-4">
-                                    <input type="time" class="form-control" id="test5" placeholder="Podaj email">
+                                    <input type="time" class="form-control" placeholder="Podaj email">
                                 </div>
                             </div>
 
                             <label>Zakończenie trasy</label>
                             <div class="form-group">
-                                <label class="control-label col-md-1" for="test6">Data</label>
+                                <label class="control-label col-md-1">Data</label>
                                 <div class="col-md-5">
-                                    <input type="date" class="form-control" id="test6" placeholder="Podaj email">
+                                    <input type="date" class="form-control" placeholder="Podaj email">
                                 </div>
-                                <label class="control-label col-md-2" for="test7">Godzina</label>
+                                <label class="control-label col-md-2">Godzina</label>
                                 <div class="col-md-4">
-                                    <input type="time" class="form-control" id="test7" placeholder="Podaj email">
+                                    <input type="time" class="form-control" placeholder="Podaj email">
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label class="control-label col-md-6" for="test8">Przejechane kilometry</label>
+                                <label class="control-label col-md-6">Przejechane kilometry</label>
                                 <div class="col-md-6">
-                                    <input type="text" class="form-control" id="test8" placeholder="Podaj email">
+                                    <input type="text" class="form-control" placeholder="Podaj email">
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label class="control-label col-md-6" for="test9">Zużyte paliwo - Webasto
-                                    (L)</label>
+                                <label class="control-label col-md-6">Zużyte paliwo - Webasto (L)</label>
                                 <div class="col-md-6">
-                                    <input type="text" class="form-control" id="test9" placeholder="Podaj email">
+                                    <input type="text" class="form-control" placeholder="Podaj email">
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label class="control-label col-md-6" for="test10">Zużyte paliwo - CAN (L)</label>
+                                <label class="control-label col-md-6">Zużyte paliwo - CAN (L)</label>
                                 <div class="col-md-6">
-                                    <input type="text" class="form-control" id="test10" placeholder="Podaj email">
+                                    <input type="text" class="form-control" placeholder="Podaj email">
                                 </div>
                             </div>
 
@@ -269,10 +254,7 @@
                         <h4 class="text-center">Pomiary</h4>
 
                         <div class="col-md-12 text-center">
-                            <div class="btn"><a class="btn btn-success" data-toggle="modal" data-target="">
-                                Dodaj pomiar
-                            </a>
-                            </div>
+                            <div class="btn"><a class="btn btn-success" data-toggle="modal" data-target=""> Dodaj pomiar</a></div>
                         </div>
 
                         <table class="table table-condensed table-responsive table-hover table-bordered table-striped">
@@ -292,12 +274,10 @@
                                 <td>28.02.2017</td>
                                 <td>1200,00</td>
                                 <td>
-                                    <button type="button"
-                                            class="btn-xs btn-warning btn-group-justified glyphicon glyphicon-edit"></button>
+                                    <button type="button" class="btn-xs btn-warning btn-group-justified glyphicon glyphicon-edit"></button>
                                 </td>
                                 <td>
-                                    <button type="button"
-                                            class="btn-xs btn-danger btn-group-justified glyphicon glyphicon-remove"></button>
+                                    <button type="button" class="btn-xs btn-danger btn-group-justified glyphicon glyphicon-remove"></button>
                                 </td>
                             </tr>
                             <tr>
@@ -305,12 +285,10 @@
                                 <td>23.03.2017</td>
                                 <td>999,99</td>
                                 <td>
-                                    <button type="button"
-                                            class="btn-xs btn-warning btn-group-justified glyphicon glyphicon-edit"></button>
+                                    <button type="button" class="btn-xs btn-warning btn-group-justified glyphicon glyphicon-edit"></button>
                                 </td>
                                 <td>
-                                    <button type="button"
-                                            class="btn-xs btn-danger btn-group-justified glyphicon glyphicon-remove"></button>
+                                    <button type="button" class="btn-xs btn-danger btn-group-justified glyphicon glyphicon-remove"></button>
                                 </td>
                             </tr>
                             </tbody>
@@ -319,10 +297,7 @@
                         <h4 class="text-center">Tankowania</h4>
 
                         <div class="col-md-12 text-center">
-                            <div class="btn"><a class="btn btn-success" data-toggle="modal" data-target="">
-                                Dodaj tankowanie
-                            </a>
-                            </div>
+                            <div class="btn"><a class="btn btn-success" data-toggle="modal" data-target="">Dodaj tankowanie</a></div>
                         </div>
 
                         <table class="table table-condensed table-responsive table-hover table-bordered table-striped">
@@ -338,16 +313,14 @@
 
                             <tbody>
                             <tr ng-repeat="wierszTankowania in tankowania">
-                                <td>{{wierszTankowania.data}}</td>
+                                <td>{{wierszTankowania.data | date : 'dd.MM.yyyy'}}</td>
                                 <td>{{wierszTankowania.ilosc}}</td>
                                 <td>{{wierszTankowania.dostawca}}</td>
                                 <td>
-                                    <button type="button"
-                                            class="btn-xs btn-warning btn-group-justified glyphicon glyphicon-edit"></button>
+                                    <button type="button" class="btn-xs btn-warning btn-group-justified glyphicon glyphicon-edit"></button>
                                 </td>
                                 <td>
-                                    <button type="button"
-                                            class="btn-xs btn-danger btn-group-justified glyphicon glyphicon-remove"></button>
+                                    <button type="button" class="btn-xs btn-danger btn-group-justified glyphicon glyphicon-remove"></button>
                                 </td>
                             </tr>
                             </tbody>
@@ -355,13 +328,98 @@
 
                         <div class="form-group">
                             <label>Komentarz</label>
-                            <textarea class="form-control" rows="4" id="comment"></textarea>
+                            <textarea class="form-control" rows="4"></textarea>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
+
+        <div class="modal-footer">
+            <button type="button" class="btn btn-success" data-dismiss="modal">Dodaj</button>
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Anuluj</button>
+        </div>
+    </div>
+
+</div>
 
 
+<!----------------------------  Okno dodania tankowania  ---------------------------->
+
+<div id="noweTankowanie" class="modal fade" role="dialog" ng-controller="tankowaniaKontroler">
+    <div class="modal-dialog">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close glyphicon glyphicon-remove" data-dismiss="modal"></button>
+                <h4 class="modal-title">Dodaj tankowanie</h4>
+            </div>
+
+            <div class="modal-body">
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label class="control-label col-md-2">Kierowca</label>
+                        <div class="col-md-10">
+                            <input type="text" class="form-control" placeholder="Podaj email">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-2">Pojazd</label>
+                        <div class="col-md-10">
+                            <input type="text" class="form-control" placeholder="Podaj email">
+                        </div>
+                    </div>
+
+                    <label>Rozpoczęcie trasy</label>
+                    <div class="form-group">
+                        <label class="control-label col-md-1">Data</label>
+                        <div class="col-md-5">
+                            <input type="date" class="form-control" placeholder="Podaj email">
+                        </div>
+                        <label class="control-label col-md-2">Godzina</label>
+                        <div class="col-md-4">
+                            <input type="time" class="form-control" placeholder="Podaj email">
+                        </div>
+                    </div>
+
+                    <label>Zakończenie trasy</label>
+                    <div class="form-group">
+                        <label class="control-label col-md-1">Data</label>
+                        <div class="col-md-5">
+                            <input type="date" class="form-control" placeholder="Podaj email">
+                        </div>
+                        <label class="control-label col-md-2">Godzina</label>
+                        <div class="col-md-4">
+                            <input type="time" class="form-control" placeholder="Podaj email">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-6">Przejechane kilometry</label>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" placeholder="Podaj email">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-6">Zużyte paliwo - Webasto (L)</label>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" placeholder="Podaj email">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-6">Zużyte paliwo - CAN (L)</label>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" placeholder="Podaj email">
+                        </div>
+                    </div>
+
+                </form>
+
+
+            </div>
         </div>
 
         <div class="modal-footer">
@@ -389,12 +447,8 @@
             <div class="row">
                 <div class="col-md-12 text-center">
                     <div class="btn-group">
-                        <a class="btn btn-info" ng-click="pokazFiltry = !pokazFiltry">
-                            {{pokazFiltry ? 'Ukryj filtry' : 'Pokaż filtry'}}
-                        </a>
-                        <a class="btn btn-success" data-toggle="modal" data-target="#nowaTrasa">
-                            Dodaj trasę
-                        </a>
+                        <a class="btn btn-info" ng-click="pokazFiltry = !pokazFiltry">{{pokazFiltry ? 'Ukryj filtry' : 'Pokaż filtry'}}</a>
+                        <a class="btn btn-success" data-toggle="modal" data-target="#nowaTrasa">Dodaj trasę</a>
                     </div>
                 </div>
             </div>
@@ -430,9 +484,7 @@
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <div class="input-group"><input type="checkbox">
-                        Pokaż tylko podejrzane
-                    </div>
+                    <div class="input-group"><input type="checkbox">Pokaż tylko podejrzane</div>
                 </div>
             </div>
 
@@ -444,85 +496,64 @@
                     <th class="text-center">
                         <a href="#" ng-click="kluczSortowania = 'pojazd';odwrotneSortowanie = !odwrotneSortowanie">
                             Pojazd
-                            <span ng-show="kluczSortowania == 'pojazd' && !odwrotneSortowanie"
-                                  class="glyphicon glyphicon-triangle-bottom"></span>
-                            <span ng-show="kluczSortowania == 'pojazd' && odwrotneSortowanie"
-                                  class="glyphicon glyphicon-triangle-top"></span>
+                            <span ng-show="kluczSortowania == 'pojazd' && !odwrotneSortowanie" class="glyphicon glyphicon-triangle-bottom"></span>
+                            <span ng-show="kluczSortowania == 'pojazd' && odwrotneSortowanie" class="glyphicon glyphicon-triangle-top"></span>
                         </a>
                     </th>
 
                     <th class="text-center">
-                        <a href="#"
-                           ng-click="kluczSortowania = 'kierowca';odwrotneSortowanie = !odwrotneSortowanie">
+                        <a href="#" ng-click="kluczSortowania = 'kierowca';odwrotneSortowanie = !odwrotneSortowanie">
                             Kierowca
-                            <span ng-show="kluczSortowania == 'kierowca' && !odwrotneSortowanie"
-                                  class="glyphicon glyphicon-triangle-bottom"></span>
-                            <span ng-show="kluczSortowania == 'kierowca' && odwrotneSortowanie"
-                                  class="glyphicon glyphicon-triangle-top"></span>
+                            <span ng-show="kluczSortowania == 'kierowca' && !odwrotneSortowanie" class="glyphicon glyphicon-triangle-bottom"></span>
+                            <span ng-show="kluczSortowania == 'kierowca' && odwrotneSortowanie" class="glyphicon glyphicon-triangle-top"></span>
                         </a>
                     </th>
 
                     <th class="text-center">
-                        <a href="#"
-                           ng-click="kluczSortowania = 'dataRozpoczecia';odwrotneSortowanie = !odwrotneSortowanie">
+                        <a href="#" ng-click="kluczSortowania = 'dataRozpoczecia';odwrotneSortowanie = !odwrotneSortowanie">
                             Data rozpoczęcia
-                            <span ng-show="kluczSortowania == 'dataRozpoczecia' && !odwrotneSortowanie"
-                                  class="glyphicon glyphicon-triangle-bottom"></span>
-                            <span ng-show="kluczSortowania == 'dataRozpoczecia' && odwrotneSortowanie"
-                                  class="glyphicon glyphicon-triangle-top"></span>
+                            <span ng-show="kluczSortowania == 'dataRozpoczecia' && !odwrotneSortowanie" class="glyphicon glyphicon-triangle-bottom"></span>
+                            <span ng-show="kluczSortowania == 'dataRozpoczecia' && odwrotneSortowanie" class="glyphicon glyphicon-triangle-top"></span>
                         </a>
                     </th>
 
                     <th class="text-center">
-                        <a href="#"
-                           ng-click="kluczSortowania = 'dataZakonczenia';odwrotneSortowanie = !odwrotneSortowanie">
+                        <a href="#" ng-click="kluczSortowania = 'dataZakonczenia';odwrotneSortowanie = !odwrotneSortowanie">
                             Data zakończenia
-                            <span ng-show="kluczSortowania == 'dataZakonczenia' && !odwrotneSortowanie"
-                                  class="glyphicon glyphicon-triangle-bottom"></span>
-                            <span ng-show="kluczSortowania == 'dataZakonczenia' && odwrotneSortowanie"
-                                  class="glyphicon glyphicon-triangle-top"></span>
+                            <span ng-show="kluczSortowania == 'dataZakonczenia' && !odwrotneSortowanie" class="glyphicon glyphicon-triangle-bottom"></span>
+                            <span ng-show="kluczSortowania == 'dataZakonczenia' && odwrotneSortowanie" class="glyphicon glyphicon-triangle-top"></span>
                         </a>
                     </th>
 
                     <th class="text-center">
-                        <a href="#"
-                           ng-click="kluczSortowania = 'spalanieFakt';odwrotneSortowanie = !odwrotneSortowanie">
+                        <a href="#" ng-click="kluczSortowania = 'spalanieFakt';odwrotneSortowanie = !odwrotneSortowanie">
                             Sr. spal. fakt.
-                            <span ng-show="kluczSortowania == 'spalanieFakt' && !odwrotneSortowanie"
-                                  class="glyphicon glyphicon-triangle-bottom"></span>
-                            <span ng-show="kluczSortowania == 'spalanieFakt' && odwrotneSortowanie"
-                                  class="glyphicon glyphicon-triangle-top"></span>
+                            <span ng-show="kluczSortowania == 'spalanieFakt' && !odwrotneSortowanie" class="glyphicon glyphicon-triangle-bottom"></span>
+                            <span ng-show="kluczSortowania == 'spalanieFakt' && odwrotneSortowanie" class="glyphicon glyphicon-triangle-top"></span>
                         </a>
                     </th>
 
                     <th class="text-center">
-                        <a href="#"
-                           ng-click="kluczSortowania = 'spalanieGPS';odwrotneSortowanie = !odwrotneSortowanie">
+                        <a href="#" ng-click="kluczSortowania = 'spalanieGPS';odwrotneSortowanie = !odwrotneSortowanie">
                             Sr. spal. wg GPS
-                            <span ng-show="kluczSortowania == 'spalanieGPS' && !odwrotneSortowanie"
-                                  class="glyphicon glyphicon-triangle-bottom"></span>
-                            <span ng-show="kluczSortowania == 'spalanieGPS' && odwrotneSortowanie"
-                                  class="glyphicon glyphicon-triangle-top"></span>
+                            <span ng-show="kluczSortowania == 'spalanieGPS' && !odwrotneSortowanie" class="glyphicon glyphicon-triangle-bottom"></span>
+                            <span ng-show="kluczSortowania == 'spalanieGPS' && odwrotneSortowanie" class="glyphicon glyphicon-triangle-top"></span>
                         </a>
                     </th>
 
                     <th class="text-center">
                         <a href="#" ng-click="kluczSortowania = 'roznica';odwrotneSortowanie = !odwrotneSortowanie">
                             Różnica w spalaniu
-                            <span ng-show="kluczSortowania == 'roznica' && !odwrotneSortowanie"
-                                  class="glyphicon glyphicon-triangle-bottom"></span>
-                            <span ng-show="kluczSortowania == 'roznica' && odwrotneSortowanie"
-                                  class="glyphicon glyphicon-triangle-top"></span>
+                            <span ng-show="kluczSortowania == 'roznica' && !odwrotneSortowanie" class="glyphicon glyphicon-triangle-bottom"></span>
+                            <span ng-show="kluczSortowania == 'roznica' && odwrotneSortowanie" class="glyphicon glyphicon-triangle-top"></span>
                         </a>
                     </th>
 
                     <th class="text-center">
                         <a href="#" ng-click="kluczSortowania = 'dystans';odwrotneSortowanie = !odwrotneSortowanie">
                             Dystans
-                            <span ng-show="kluczSortowania == 'dystans' && !odwrotneSortowanie"
-                                  class="glyphicon glyphicon-triangle-bottom"></span>
-                            <span ng-show="kluczSortowania == 'dystans' && odwrotneSortowanie"
-                                  class="glyphicon glyphicon-triangle-top"></span>
+                            <span ng-show="kluczSortowania == 'dystans' && !odwrotneSortowanie" class="glyphicon glyphicon-triangle-bottom"></span>
+                            <span ng-show="kluczSortowania == 'dystans' && odwrotneSortowanie" class="glyphicon glyphicon-triangle-top"></span>
                         </a>
                     </th>
                     <th class="text-center">Edytuj</th>
@@ -534,26 +565,22 @@
                 <tr ng-repeat="wiersz in trasy | filter:{pojazd: filtrPojazd, kierowca:filtrKierowca}| orderBy:kluczSortowania:odwrotneSortowanie">
                     <td>{{wiersz.pojazd}}</td>
                     <td>{{wiersz.kierowca}}</td>
-                    <td>{{wiersz.dataRozpoczecia}}</td>
-                    <td>{{wiersz.dataZakonczenia}}</td>
-                    <td>{{wiersz.spalanieFakt}}</td>
-                    <td>{{wiersz.spalanieGPS}}</td>
-                    <td>{{wiersz.roznica}}</td>
-                    <td>{{wiersz.dystans}}</td>
+                    <td>{{wiersz.dataRozpoczecia | date : 'dd.MM.yyyy'}}</td>
+                    <td>{{wiersz.dataZakonczenia | date : 'dd.MM.yyyy'}}</td>
+                    <td>{{wiersz.spalanieFakt | number : 2}}</td>
+                    <td>{{wiersz.spalanieGPS | number : 2}}</td>
+                    <td>{{wiersz.roznica | number : 2}}</td>
+                    <td>{{wiersz.dystans | number : 2}}</td>
                     <td>
-                        <button type="button"
-                                class="btn-xs btn-warning btn-group-justified glyphicon glyphicon-edit"></button>
+                        <button type="button" class="btn-xs btn-warning btn-group-justified glyphicon glyphicon-edit"></button>
                     </td>
                     <td>
-                        <button type="button"
-                                class="btn-xs btn-danger btn-group-justified glyphicon glyphicon-remove"></button>
+                        <button type="button" class="btn-xs btn-danger btn-group-justified glyphicon glyphicon-remove"></button>
                     </td>
                 </tr>
                 </tbody>
             </table>
-
         </div>
-
 
     </div>
 
@@ -569,12 +596,8 @@
             <div class="row">
                 <div class="col-md-12 text-center">
                     <div class="btn-group">
-                        <a class="btn btn-info" ng-click="pokazFiltry = !pokazFiltry">
-                            {{pokazFiltry ? 'Ukryj filtry' : 'Pokaż filtry'}}
-                        </a>
-                        <a class="btn btn-success" data-toggle="modal" data-target="#noweTankowanie">
-                            Dodaj tankowanie
-                        </a>
+                        <a class="btn btn-info" ng-click="pokazFiltry = !pokazFiltry">{{pokazFiltry ? 'Ukryj filtry' : 'Pokaż filtry'}}</a>
+                        <a class="btn btn-success" data-toggle="modal" data-target="#noweTankowanie">Dodaj tankowanie</a>
                     </div>
                 </div>
             </div>
@@ -583,13 +606,13 @@
                 <br>
                 <div class="col-md-offset-2 col-md-4">
                     <div class="input-group">
-                        <span class="input-group-addon">Data rozpoczęcia: </span>
+                        <span class="input-group-addon">Data od: </span>
                         <input type="date" class="form-control" ng-model="filtrDataOd">
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="input-group">
-                        <span class="input-group-addon">Data zakończenia: </span>
+                        <span class="input-group-addon">Data do: </span>
                         <input type="date" class="form-control" ng-model="filtrDataDo">
                     </div>
                 </div>
@@ -619,64 +642,48 @@
                     <th class="text-center">
                         <a href="#" ng-click="kluczSortowania = 'pojazd';odwrotneSortowanie = !odwrotneSortowanie">
                             Pojazd
-                            <span ng-show="kluczSortowania == 'pojazd' && !odwrotneSortowanie"
-                                  class="glyphicon glyphicon-triangle-bottom"></span>
-                            <span ng-show="kluczSortowania == 'pojazd' && odwrotneSortowanie"
-                                  class="glyphicon glyphicon-triangle-top"></span>
+                            <span ng-show="kluczSortowania == 'pojazd' && !odwrotneSortowanie" class="glyphicon glyphicon-triangle-bottom"></span>
+                            <span ng-show="kluczSortowania == 'pojazd' && odwrotneSortowanie" class="glyphicon glyphicon-triangle-top"></span>
                         </a>
                     </th>
 
                     <th class="text-center">
-                        <a href="#"
-                           ng-click="kluczSortowania = 'data';odwrotneSortowanie = !odwrotneSortowanie">
+                        <a href="#" ng-click="kluczSortowania = 'data';odwrotneSortowanie = !odwrotneSortowanie">
                             Data
-                            <span ng-show="kluczSortowania == 'data' && !odwrotneSortowanie"
-                                  class="glyphicon glyphicon-triangle-bottom"></span>
-                            <span ng-show="kluczSortowania == 'data' && odwrotneSortowanie"
-                                  class="glyphicon glyphicon-triangle-top"></span>
+                            <span ng-show="kluczSortowania == 'data' && !odwrotneSortowanie" class="glyphicon glyphicon-triangle-bottom"></span>
+                            <span ng-show="kluczSortowania == 'data' && odwrotneSortowanie" class="glyphicon glyphicon-triangle-top"></span>
                         </a>
                     </th>
 
                     <th class="text-center">
-                        <a href="#"
-                           ng-click="kluczSortowania = 'ilosc';odwrotneSortowanie = !odwrotneSortowanie">
+                        <a href="#" ng-click="kluczSortowania = 'ilosc';odwrotneSortowanie = !odwrotneSortowanie">
                             Ilość
-                            <span ng-show="kluczSortowania == 'ilosc' && !odwrotneSortowanie"
-                                  class="glyphicon glyphicon-triangle-bottom"></span>
-                            <span ng-show="kluczSortowania == 'ilosc' && odwrotneSortowanie"
-                                  class="glyphicon glyphicon-triangle-top"></span>
+                            <span ng-show="kluczSortowania == 'ilosc' && !odwrotneSortowanie" class="glyphicon glyphicon-triangle-bottom"></span>
+                            <span ng-show="kluczSortowania == 'ilosc' && odwrotneSortowanie" class="glyphicon glyphicon-triangle-top"></span>
                         </a>
                     </th>
 
                     <th class="text-center">
-                        <a href="#"
-                           ng-click="kluczSortowania = 'cena';odwrotneSortowanie = !odwrotneSortowanie">
+                        <a href="#" ng-click="kluczSortowania = 'cena';odwrotneSortowanie = !odwrotneSortowanie">
                             Cena/litr
-                            <span ng-show="kluczSortowania == 'cena' && !odwrotneSortowanie"
-                                  class="glyphicon glyphicon-triangle-bottom"></span>
-                            <span ng-show="kluczSortowania == 'cena' && odwrotneSortowanie"
-                                  class="glyphicon glyphicon-triangle-top"></span>
+                            <span ng-show="kluczSortowania == 'cena' && !odwrotneSortowanie" class="glyphicon glyphicon-triangle-bottom"></span>
+                            <span ng-show="kluczSortowania == 'cena' && odwrotneSortowanie" class="glyphicon glyphicon-triangle-top"></span>
                         </a>
                     </th>
 
                     <th class="text-center">
-                        <a href="#"
-                           ng-click="kluczSortowania = 'waluta';odwrotneSortowanie = !odwrotneSortowanie">
+                        <a href="#" ng-click="kluczSortowania = 'waluta';odwrotneSortowanie = !odwrotneSortowanie">
                             Waluta
-                            <span ng-show="kluczSortowania == 'waluta' && !odwrotneSortowanie"
-                                  class="glyphicon glyphicon-triangle-bottom"></span>
-                            <span ng-show="kluczSortowania == 'waluta' && odwrotneSortowanie"
-                                  class="glyphicon glyphicon-triangle-top"></span>
+                            <span ng-show="kluczSortowania == 'waluta' && !odwrotneSortowanie" class="glyphicon glyphicon-triangle-bottom"></span>
+                            <span ng-show="kluczSortowania == 'waluta' && odwrotneSortowanie" class="glyphicon glyphicon-triangle-top"></span>
                         </a>
                     </th>
 
                     <th class="text-center">
                         <a href="#" ng-click="kluczSortowania = 'dostawca';odwrotneSortowanie = !odwrotneSortowanie">
                             Dostawca
-                            <span ng-show="kluczSortowania == 'dostawca' && !odwrotneSortowanie"
-                                  class="glyphicon glyphicon-triangle-bottom"></span>
-                            <span ng-show="kluczSortowania == 'dostawca' && odwrotneSortowanie"
-                                  class="glyphicon glyphicon-triangle-top"></span>
+                            <span ng-show="kluczSortowania == 'dostawca' && !odwrotneSortowanie" class="glyphicon glyphicon-triangle-bottom"></span>
+                            <span ng-show="kluczSortowania == 'dostawca' && odwrotneSortowanie" class="glyphicon glyphicon-triangle-top"></span>
                         </a>
                     </th>
 
@@ -688,18 +695,16 @@
                 <tbody>
                 <tr ng-repeat="wiersz in tankowania | filter:{pojazd: filtrPojazd, dostawca:filtrDostawca}| orderBy:kluczSortowania:odwrotneSortowanie">
                     <td>{{wiersz.pojazd}}</td>
-                    <td>{{wiersz.data}}</td>
-                    <td>{{wiersz.ilosc}}</td>
-                    <td>{{wiersz.cena}}</td>
+                    <td>{{wiersz.data | date : 'dd.MM.yyyy'}}</td>
+                    <td>{{wiersz.ilosc | number : 2}}</td>
+                    <td>{{wiersz.cena | number : 2}}</td>
                     <td>{{wiersz.waluta}}</td>
                     <td>{{wiersz.dostawca}}</td>
                     <td>
-                        <button type="button"
-                                class="btn-xs btn-warning btn-group-justified glyphicon glyphicon-edit"></button>
+                        <button type="button" class="btn-xs btn-warning btn-group-justified glyphicon glyphicon-edit"></button>
                     </td>
                     <td>
-                        <button type="button"
-                                class="btn-xs btn-danger btn-group-justified glyphicon glyphicon-remove"></button>
+                        <button type="button" class="btn-xs btn-danger btn-group-justified glyphicon glyphicon-remove"></button>
                     </td>
                 </tr>
                 </tbody>
@@ -707,12 +712,9 @@
 
         </div>
 
-
     </div>
 
-
 </div>
-
 
 </body>
 
