@@ -3,7 +3,6 @@ app.controller('tankowaniaKontroler', ['$rootScope', '$scope', function ($rootSc
     $scope.odwrotneSortowanie = false;
     $scope.pokazFiltry = false;
 
-
     $rootScope.tankowania =
         [
             {

@@ -96,7 +96,7 @@
         <li><a data-toggle="tab" href="#stacje">Stacje</a></li>
         <li><a data-toggle="tab" href="#pojazdy">Pojazdy</a></li>
         <li><a data-toggle="tab" href="#dostawcy">Dostawcy</a></li>
-        <li ng-hide="sprawdzUprawnienia()==='administrator'"><a data-toggle="tab" href="#uzytkownicy">Użytkownicy</a>
+        <li ng-show="sprawdzUprawnienia()==='administrator'"><a data-toggle="tab" href="#uzytkownicy">Użytkownicy</a>
         </li>
     </ul>
 </div>
@@ -140,24 +140,25 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close glyphicon glyphicon-remove" data-dismiss="modal"></button>
-                <h4 class="modal-title">Dodaj trasę</h4>
+                <h4 class="modal-title">Szczegóły trasy</h4>
             </div>
 
             <div class="modal-body">
+                {{tytulOkna}}
                 <div class="row">
                     <div class="col-md-6">
                         <form class="form-horizontal">
                             <div class="form-group">
                                 <label class="control-label col-md-2">Kierowca</label>
                                 <div class="col-md-10">
-                                    <input type="text" class="form-control" placeholder="Podaj email">
+                                    <input type="text" class="form-control">
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <label class="control-label col-md-2">Pojazd</label>
                                 <div class="col-md-10">
-                                    <input type="text" class="form-control" placeholder="Podaj email">
+                                    <input type="text" class="form-control">
                                 </div>
                             </div>
 
@@ -165,11 +166,11 @@
                             <div class="form-group">
                                 <label class="control-label col-md-1">Data</label>
                                 <div class="col-md-5">
-                                    <input type="date" class="form-control" placeholder="Podaj email">
+                                    <input type="date" class="form-control">
                                 </div>
                                 <label class="control-label col-md-2">Godzina</label>
                                 <div class="col-md-4">
-                                    <input type="time" class="form-control" placeholder="Podaj email">
+                                    <input type="time" class="form-control">
                                 </div>
                             </div>
 
@@ -177,32 +178,32 @@
                             <div class="form-group">
                                 <label class="control-label col-md-1">Data</label>
                                 <div class="col-md-5">
-                                    <input type="date" class="form-control" placeholder="Podaj email">
+                                    <input type="date" class="form-control">
                                 </div>
                                 <label class="control-label col-md-2">Godzina</label>
                                 <div class="col-md-4">
-                                    <input type="time" class="form-control" placeholder="Podaj email">
+                                    <input type="time" class="form-control">
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <label class="control-label col-md-6">Przejechane kilometry</label>
                                 <div class="col-md-6">
-                                    <input type="text" class="form-control" placeholder="Podaj email">
+                                    <input type="text" class="form-control">
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <label class="control-label col-md-6">Zużyte paliwo - Webasto (L)</label>
                                 <div class="col-md-6">
-                                    <input type="text" class="form-control" placeholder="Podaj email">
+                                    <input type="text" class="form-control">
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <label class="control-label col-md-6">Zużyte paliwo - CAN (L)</label>
                                 <div class="col-md-6">
-                                    <input type="text" class="form-control" placeholder="Podaj email">
+                                    <input type="text" class="form-control">
                                 </div>
                             </div>
 
@@ -333,14 +334,14 @@
                     </div>
                 </div>
             </div>
-        </div>
 
-        <div class="modal-footer">
-            <button type="button" class="btn btn-success" data-dismiss="modal">Dodaj</button>
-            <button type="button" class="btn btn-danger" data-dismiss="modal">Anuluj</button>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" data-dismiss="modal">Dodaj</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Anuluj</button>
+            </div>
         </div>
     </div>
-
 </div>
 
 
@@ -356,77 +357,68 @@
             </div>
 
             <div class="modal-body">
-                <form class="form-horizontal">
-                    <div class="form-group">
-                        <label class="control-label col-md-2">Kierowca</label>
-                        <div class="col-md-10">
-                            <input type="text" class="form-control" placeholder="Podaj email">
-                        </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <form class="form-horizontal">
+                            <div class="form-group">
+                                <label class="control-label col-md-2">Pojazd</label>
+                                <div class="col-md-10">
+                                    <input type="text" class="form-control">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-md-2">Data</label>
+                                <div class="col-md-4">
+                                    <input type="date" class="form-control">
+                                </div>
+                                <label class="control-label col-md-2">Godzina</label>
+                                <div class="col-md-4">
+                                    <input type="time" class="form-control">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-md-2">Ilość</label>
+                                <div class="col-md-10">
+                                    <input type="text" class="form-control">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-md-2">Cena/litr</label>
+                                <div class="col-md-10">
+                                    <input type="text" class="form-control">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-md-2">Waluta</label>
+                                <div class="col-md-10">
+                                    <input type="text" class="form-control">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-md-2">Dostawca</label>
+                                <div class="col-md-10">
+                                    <input type="text" class="form-control">
+                                </div>
+                            </div>
+
+                        </form>
                     </div>
-
-                    <div class="form-group">
-                        <label class="control-label col-md-2">Pojazd</label>
-                        <div class="col-md-10">
-                            <input type="text" class="form-control" placeholder="Podaj email">
-                        </div>
-                    </div>
-
-                    <label>Rozpoczęcie trasy</label>
-                    <div class="form-group">
-                        <label class="control-label col-md-1">Data</label>
-                        <div class="col-md-5">
-                            <input type="date" class="form-control" placeholder="Podaj email">
-                        </div>
-                        <label class="control-label col-md-2">Godzina</label>
-                        <div class="col-md-4">
-                            <input type="time" class="form-control" placeholder="Podaj email">
-                        </div>
-                    </div>
-
-                    <label>Zakończenie trasy</label>
-                    <div class="form-group">
-                        <label class="control-label col-md-1">Data</label>
-                        <div class="col-md-5">
-                            <input type="date" class="form-control" placeholder="Podaj email">
-                        </div>
-                        <label class="control-label col-md-2">Godzina</label>
-                        <div class="col-md-4">
-                            <input type="time" class="form-control" placeholder="Podaj email">
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="control-label col-md-6">Przejechane kilometry</label>
-                        <div class="col-md-6">
-                            <input type="text" class="form-control" placeholder="Podaj email">
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="control-label col-md-6">Zużyte paliwo - Webasto (L)</label>
-                        <div class="col-md-6">
-                            <input type="text" class="form-control" placeholder="Podaj email">
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="control-label col-md-6">Zużyte paliwo - CAN (L)</label>
-                        <div class="col-md-6">
-                            <input type="text" class="form-control" placeholder="Podaj email">
-                        </div>
-                    </div>
-
-                </form>
-
+                </div>
 
             </div>
-        </div>
 
-        <div class="modal-footer">
-            <button type="button" class="btn btn-success" data-dismiss="modal">Dodaj</button>
-            <button type="button" class="btn btn-danger" data-dismiss="modal">Anuluj</button>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" data-dismiss="modal">Dodaj</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Anuluj</button>
+            </div>
         </div>
     </div>
+
 
 </div>
 
@@ -572,7 +564,7 @@
                     <td>{{wiersz.roznica | number : 2}}</td>
                     <td>{{wiersz.dystans | number : 2}}</td>
                     <td>
-                        <button type="button" class="btn-xs btn-warning btn-group-justified glyphicon glyphicon-edit"></button>
+                        <button type="button" class="btn-xs btn-warning btn-group-justified glyphicon glyphicon-edit" data-toggle="modal" data-target="#nowaTrasa"></button>
                     </td>
                     <td>
                         <button type="button" class="btn-xs btn-danger btn-group-justified glyphicon glyphicon-remove"></button>
@@ -701,7 +693,7 @@
                     <td>{{wiersz.waluta}}</td>
                     <td>{{wiersz.dostawca}}</td>
                     <td>
-                        <button type="button" class="btn-xs btn-warning btn-group-justified glyphicon glyphicon-edit"></button>
+                        <button type="button" class="btn-xs btn-warning btn-group-justified glyphicon glyphicon-edit" data-toggle="modal" data-target="#noweTankowanie"></button>
                     </td>
                     <td>
                         <button type="button" class="btn-xs btn-danger btn-group-justified glyphicon glyphicon-remove"></button>
