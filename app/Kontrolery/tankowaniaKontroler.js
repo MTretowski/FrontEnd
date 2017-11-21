@@ -15,11 +15,11 @@ app.controller('tankowaniaKontroler', ['$rootScope', '$scope', function ($rootSc
             },
             {
                 'pojazd': 'WPR74906',
-                'data': new Date("2017-01-02"),
+                'data': new Date("2017-01-07"),
                 'ilosc': 150.10,
                 'cena': 1.01,
                 'waluta': 'EUR',
                 'dostawca': 'E100'
             }
         ]
-}])
+}]);

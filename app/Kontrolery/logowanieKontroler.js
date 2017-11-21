@@ -24,4 +24,4 @@ app.controller('logowanieKontroler', ['$cookieStore','$rootScope', '$scope', fun
         $cookieStore.remove('rolaUzytkownika');
     }
 
-}])
+}]);

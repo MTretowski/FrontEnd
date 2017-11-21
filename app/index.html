@@ -18,6 +18,7 @@
     <script src="Kontrolery/logowanieKontroler.js"></script>
     <script src="Kontrolery/trasyKontroler.js"></script>
     <script src="Kontrolery/tankowaniaKontroler.js"></script>
+    <script src="Kontrolery/pomiaryKontroler.js"></script>
 
     <title>FrontEnd</title>
 
@@ -91,7 +92,7 @@
     <ul class="nav nav-tabs nav-justified">
         <li class="active"><a data-toggle="tab" href="#trasy">Trasy</a></li>
         <li><a data-toggle="tab" href="#tankowania">Tankowania</a></li>
-        <li><a data-toggle="tab" href="#uzytkownik">Pomiary</a></li>
+        <li><a data-toggle="tab" href="#pomiary">Pomiary</a></li>
         <li><a data-toggle="tab" href="#kierowcy">Kierowcy</a></li>
         <li><a data-toggle="tab" href="#stacje">Stacje</a></li>
         <li><a data-toggle="tab" href="#pojazdy">Pojazdy</a></li>
@@ -275,10 +276,10 @@
                                 <td>28.02.2017</td>
                                 <td>1200,00</td>
                                 <td>
-                                    <button type="button" class="btn-xs btn-warning btn-group-justified glyphicon glyphicon-edit"></button>
+                                    <button type="button" class="btn-xs btn-warning glyphicon glyphicon-edit center-block"></button>
                                 </td>
                                 <td>
-                                    <button type="button" class="btn-xs btn-danger btn-group-justified glyphicon glyphicon-remove"></button>
+                                    <button type="button" class="btn-xs btn-danger glyphicon glyphicon-remove center-block"></button>
                                 </td>
                             </tr>
                             <tr>
@@ -286,10 +287,10 @@
                                 <td>23.03.2017</td>
                                 <td>999,99</td>
                                 <td>
-                                    <button type="button" class="btn-xs btn-warning btn-group-justified glyphicon glyphicon-edit"></button>
+                                    <button type="button" class="btn-xs btn-warning glyphicon glyphicon-edit center-block"></button>
                                 </td>
                                 <td>
-                                    <button type="button" class="btn-xs btn-danger btn-group-justified glyphicon glyphicon-remove"></button>
+                                    <button type="button" class="btn-xs btn-danger glyphicon glyphicon-remove center-block"></button>
                                 </td>
                             </tr>
                             </tbody>
@@ -315,13 +316,13 @@
                             <tbody>
                             <tr ng-repeat="wierszTankowania in tankowania">
                                 <td>{{wierszTankowania.data | date : 'dd.MM.yyyy'}}</td>
-                                <td>{{wierszTankowania.ilosc}}</td>
+                                <td>{{wierszTankowania.ilosc | number : 2}}</td>
                                 <td>{{wierszTankowania.dostawca}}</td>
                                 <td>
-                                    <button type="button" class="btn-xs btn-warning btn-group-justified glyphicon glyphicon-edit"></button>
+                                    <button type="button" class="btn-xs btn-warning glyphicon glyphicon-edit center-block"></button>
                                 </td>
                                 <td>
-                                    <button type="button" class="btn-xs btn-danger btn-group-justified glyphicon glyphicon-remove"></button>
+                                    <button type="button" class="btn-xs btn-danger glyphicon glyphicon-remove center-block"></button>
                                 </td>
                             </tr>
                             </tbody>
@@ -357,58 +358,48 @@
             </div>
 
             <div class="modal-body">
-                <div class="row">
-                    <div class="col-md-12">
-                        <form class="form-horizontal">
-                            <div class="form-group">
-                                <label class="control-label col-md-2">Pojazd</label>
-                                <div class="col-md-10">
-                                    <input type="text" class="form-control">
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="control-label col-md-2">Data</label>
-                                <div class="col-md-4">
-                                    <input type="date" class="form-control">
-                                </div>
-                                <label class="control-label col-md-2">Godzina</label>
-                                <div class="col-md-4">
-                                    <input type="time" class="form-control">
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="control-label col-md-2">Ilość</label>
-                                <div class="col-md-10">
-                                    <input type="text" class="form-control">
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="control-label col-md-2">Cena/litr</label>
-                                <div class="col-md-10">
-                                    <input type="text" class="form-control">
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="control-label col-md-2">Waluta</label>
-                                <div class="col-md-10">
-                                    <input type="text" class="form-control">
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="control-label col-md-2">Dostawca</label>
-                                <div class="col-md-10">
-                                    <input type="text" class="form-control">
-                                </div>
-                            </div>
-
-                        </form>
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label class="control-label col-md-2">Pojazd</label>
+                        <div class="col-md-4">
+                            <input type="text" class="form-control">
+                        </div>
+                        <label class="control-label col-md-2">Dostawca</label>
+                        <div class="col-md-4">
+                            <input type="text" class="form-control">
+                        </div>
                     </div>
-                </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-2">Data</label>
+                        <div class="col-md-4">
+                            <input type="date" class="form-control">
+                        </div>
+                        <label class="control-label col-md-2">Godzina</label>
+                        <div class="col-md-4">
+                            <input type="time" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-2">Ilość</label>
+                        <div class="col-md-4">
+                            <input type="text" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-3">Cena netto / litr</label>
+                        <div class="col-md-3">
+                            <input type="text" class="form-control">
+                        </div>
+                        <label class="control-label col-md-2">Waluta</label>
+                        <div class="col-md-4">
+                            <input type="text" class="form-control">
+                        </div>
+                    </div>
+
+                </form>
 
             </div>
 
@@ -419,6 +410,86 @@
         </div>
     </div>
 
+</div>
+
+
+<!----------------------------  Okno dodania pomiaru  ---------------------------->
+
+<div id="nowyPomiar" class="modal fade" role="dialog" ng-controller="tankowaniaKontroler">
+    <div class="modal-dialog">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close glyphicon glyphicon-remove" data-dismiss="modal"></button>
+                <h4 class="modal-title">Dodaj pomiar</h4>
+            </div>
+
+            <div class="modal-body">
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label class="control-label col-md-2">Pojazd</label>
+                        <div class="col-md-10">
+                            <input type="text" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-2">Data</label>
+                        <div class="col-md-4">
+                            <input type="date" class="form-control">
+                        </div>
+                        <label class="control-label col-md-2">Godzina</label>
+                        <div class="col-md-4">
+                            <input type="time" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-3">Sposób pomiaru</label>
+                        <div class="col-md-9">
+                            <input type="text" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-4">Zbiornik lewy (pomiar)</label>
+                        <div class="col-md-2">
+                            <input type="text" class="form-control">
+                        </div>
+                        <label class="control-label col-md-4">Zbiornik prawy (pomiar)</label>
+                        <div class="col-md-2">
+                            <input type="text" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-4">Zbiornik lewy (litry)</label>
+                        <div class="col-md-2">
+                            <input type="text" class="form-control">
+                        </div>
+                        <label class="control-label col-md-4">Zbiornik prawy (litry)</label>
+                        <div class="col-md-2">
+                            <input type="text" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-3">Litry łącznie</label>
+                        <div class="col-md-3">
+                            <input type="text" class="form-control">
+                        </div>
+                    </div>
+
+                </form>
+
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" data-dismiss="modal">Dodaj</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Anuluj</button>
+            </div>
+        </div>
+    </div>
 
 </div>
 
@@ -555,19 +626,19 @@
                 </thead>
                 <tbody>
                 <tr ng-repeat="wiersz in trasy | filter:{pojazd: filtrPojazd, kierowca:filtrKierowca}| orderBy:kluczSortowania:odwrotneSortowanie">
-                    <td>{{wiersz.pojazd}}</td>
-                    <td>{{wiersz.kierowca}}</td>
-                    <td>{{wiersz.dataRozpoczecia | date : 'dd.MM.yyyy'}}</td>
-                    <td>{{wiersz.dataZakonczenia | date : 'dd.MM.yyyy'}}</td>
-                    <td>{{wiersz.spalanieFakt | number : 2}}</td>
-                    <td>{{wiersz.spalanieGPS | number : 2}}</td>
-                    <td>{{wiersz.roznica | number : 2}}</td>
-                    <td>{{wiersz.dystans | number : 2}}</td>
+                    <td class="text-center">{{wiersz.pojazd}}</td>
+                    <td class="text-center">{{wiersz.kierowca}}</td>
+                    <td class="text-center">{{wiersz.dataRozpoczecia | date : 'dd.MM.yyyy'}}</td>
+                    <td class="text-center">{{wiersz.dataZakonczenia | date : 'dd.MM.yyyy'}}</td>
+                    <td class="text-right">{{wiersz.spalanieFakt | number : 2}}</td>
+                    <td class="text-right">{{wiersz.spalanieGPS | number : 2}}</td>
+                    <td class="text-right">{{wiersz.roznica | number : 2}}</td>
+                    <td class="text-right">{{wiersz.dystans | number : 2}}</td>
                     <td>
-                        <button type="button" class="btn-xs btn-warning btn-group-justified glyphicon glyphicon-edit" data-toggle="modal" data-target="#nowaTrasa"></button>
+                        <button type="button" class="btn-xs btn-warning glyphicon glyphicon-edit center-block" data-toggle="modal" data-target="#nowaTrasa"></button>
                     </td>
                     <td>
-                        <button type="button" class="btn-xs btn-danger btn-group-justified glyphicon glyphicon-remove"></button>
+                        <button type="button" class="btn-xs btn-danger glyphicon glyphicon-remove center-block"></button>
                     </td>
                 </tr>
                 </tbody>
@@ -686,17 +757,17 @@
                 </thead>
                 <tbody>
                 <tr ng-repeat="wiersz in tankowania | filter:{pojazd: filtrPojazd, dostawca:filtrDostawca}| orderBy:kluczSortowania:odwrotneSortowanie">
-                    <td>{{wiersz.pojazd}}</td>
-                    <td>{{wiersz.data | date : 'dd.MM.yyyy'}}</td>
-                    <td>{{wiersz.ilosc | number : 2}}</td>
-                    <td>{{wiersz.cena | number : 2}}</td>
-                    <td>{{wiersz.waluta}}</td>
-                    <td>{{wiersz.dostawca}}</td>
+                    <td class="text-center">{{wiersz.pojazd}}</td>
+                    <td class="text-center">{{wiersz.data | date : 'dd.MM.yyyy'}}</td>
+                    <td class="text-right">{{wiersz.ilosc | number : 2}}</td>
+                    <td class="text-right">{{wiersz.cena | number : 2}}</td>
+                    <td class="text-center">{{wiersz.waluta}}</td>
+                    <td class="text-center">{{wiersz.dostawca}}</td>
                     <td>
-                        <button type="button" class="btn-xs btn-warning btn-group-justified glyphicon glyphicon-edit" data-toggle="modal" data-target="#noweTankowanie"></button>
+                        <button type="button" class="btn-xs btn-warning glyphicon glyphicon-edit center-block" data-toggle="modal" data-target="#noweTankowanie"></button>
                     </td>
                     <td>
-                        <button type="button" class="btn-xs btn-danger btn-group-justified glyphicon glyphicon-remove"></button>
+                        <button type="button" class="btn-xs btn-danger glyphicon glyphicon-remove center-block"></button>
                     </td>
                 </tr>
                 </tbody>
@@ -705,6 +776,120 @@
         </div>
 
     </div>
+
+
+    <!----------------------------  Zakładka Pomiary  ---------------------------->
+
+    <div id="pomiary" class="tab-pane fade" ng-controller="pomiaryKontroler">
+
+        <div class="container">
+
+            <br>
+
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <div class="btn-group">
+                        <a class="btn btn-info" ng-click="pokazFiltry = !pokazFiltry">{{pokazFiltry ? 'Ukryj filtry' : 'Pokaż filtry'}}</a>
+                        <a class="btn btn-success" data-toggle="modal" data-target="#nowyPomiar">Dodaj pomiar</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" ng-show="pokazFiltry">
+                <br>
+                <div class="col-md-offset- col-md-4">
+                    <div class="input-group">
+                        <span class="input-group-addon">Data od: </span>
+                        <input type="date" class="form-control" ng-model="filtrDataOd">
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="input-group">
+                        <span class="input-group-addon">Data do: </span>
+                        <input type="date" class="form-control" ng-model="filtrDataDo">
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="input-group">
+                        <span class="input-group-addon">Pojazd: </span>
+                        <input type="text" class="form-control" ng-model="filtrPojazd">
+                    </div>
+                </div>
+            </div>
+
+            <br>
+
+            <table class="table table-condensed table-responsive table-hover table-bordered table-striped">
+                <thead>
+                <tr>
+                    <th class="text-center">
+                        <a href="#" ng-click="kluczSortowania = 'pojazd';odwrotneSortowanie = !odwrotneSortowanie">
+                            Pojazd
+                            <span ng-show="kluczSortowania == 'pojazd' && !odwrotneSortowanie" class="glyphicon glyphicon-triangle-bottom"></span>
+                            <span ng-show="kluczSortowania == 'pojazd' && odwrotneSortowanie" class="glyphicon glyphicon-triangle-top"></span>
+                        </a>
+                    </th>
+
+                    <th class="text-center">
+                        <a href="#" ng-click="kluczSortowania = 'data';odwrotneSortowanie = !odwrotneSortowanie">
+                            Data
+                            <span ng-show="kluczSortowania == 'data' && !odwrotneSortowanie" class="glyphicon glyphicon-triangle-bottom"></span>
+                            <span ng-show="kluczSortowania == 'data' && odwrotneSortowanie" class="glyphicon glyphicon-triangle-top"></span>
+                        </a>
+                    </th>
+
+                    <th class="text-center">
+                        <a href="#" ng-click="kluczSortowania = 'sposob';odwrotneSortowanie = !odwrotneSortowanie">
+                            Sposób pomiaru
+                            <span ng-show="kluczSortowania == 'sposob' && !odwrotneSortowanie" class="glyphicon glyphicon-triangle-bottom"></span>
+                            <span ng-show="kluczSortowania == 'sposob' && odwrotneSortowanie" class="glyphicon glyphicon-triangle-top"></span>
+                        </a>
+                    </th>
+
+                    <th class="text-center">
+                        <a href="#" ng-click="kluczSortowania = 'lewy';odwrotneSortowanie = !odwrotneSortowanie">
+                            Zbiornik lewy
+                            <span ng-show="kluczSortowania == 'lewy' && !odwrotneSortowanie" class="glyphicon glyphicon-triangle-bottom"></span>
+                            <span ng-show="kluczSortowania == 'lewy' && odwrotneSortowanie" class="glyphicon glyphicon-triangle-top"></span>
+                        </a>
+                    </th>
+
+                    <th class="text-center">
+                        <a href="#" ng-click="kluczSortowania = 'prawy';odwrotneSortowanie = !odwrotneSortowanie">
+                            Zbiornik prawy
+                            <span ng-show="kluczSortowania == 'prawy' && !odwrotneSortowanie" class="glyphicon glyphicon-triangle-bottom"></span>
+                            <span ng-show="kluczSortowania == 'prawy' && odwrotneSortowanie" class="glyphicon glyphicon-triangle-top"></span>
+                        </a>
+                    </th>
+
+                    <th class="text-center">Edytuj</th>
+                    <th class="text-center">Usuń</th>
+                </tr>
+
+                </thead>
+                <tbody>
+                <tr ng-repeat="wiersz in pomiary | filter:{pojazd: filtrPojazd}| orderBy:kluczSortowania:odwrotneSortowanie">
+                    <td class="text-center">{{wiersz.pojazd}}</td>
+                    <td class="text-center">{{wiersz.data | date : 'dd.MM.yyyy'}}</td>
+                    <td class="text-center">{{wiersz.sposob}}</td>
+                    <td class="text-right">{{wiersz.lewy | number : 2}}</td>
+                    <td class="text-right">{{wiersz.prawy | number : 2}}</td>
+                    <td>
+                        <button type="button" class="btn-xs btn-warning glyphicon glyphicon-edit center-block" data-toggle="modal" data-target="#nowyPomiar"></button>
+                    </td>
+                    <td>
+                        <button type="button" class="btn-xs btn-danger glyphicon glyphicon-remove center-block"></button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+        </div>
+
+    </div>
+
 
 </div>
 

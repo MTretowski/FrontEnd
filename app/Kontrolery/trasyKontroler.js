@@ -2,11 +2,6 @@ app.controller('trasyKontroler', ['$cookieStore','$rootScope', '$scope', functio
     $scope.kluczSortowania;
     $scope.odwrotneSortowanie = false;
     $scope.pokazFiltry = false;
-    $scope.tytulOkna = '';
-
-    $scope.zmienTytulOkna = function(tytul){
-        tytulOkna = tytul;
-    }
 
     $scope.sprawdzUprawnienia = function () {
         if ( $cookieStore.get('rolaUzytkownika') ) {
@@ -39,5 +34,4 @@ app.controller('trasyKontroler', ['$cookieStore','$rootScope', '$scope', functio
                 'dystans': 38235
             }
         ]
-}
-]);
+}]);
