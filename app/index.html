@@ -19,6 +19,7 @@
     <script src="Kontrolery/trasyKontroler.js"></script>
     <script src="Kontrolery/tankowaniaKontroler.js"></script>
     <script src="Kontrolery/pomiaryKontroler.js"></script>
+    <script src="Kontrolery/kierowcyKontroler.js"></script>
 
     <title>FrontEnd</title>
 
@@ -494,6 +495,44 @@
 </div>
 
 
+
+<!----------------------------  Okno dodania kierowcy  ---------------------------->
+
+<div id="nowyKierowca" class="modal fade" role="dialog" ng-controller="tankowaniaKontroler">
+    <div class="modal-dialog">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close glyphicon glyphicon-remove" data-dismiss="modal"></button>
+                <h4 class="modal-title">Dodaj kierowcę</h4>
+            </div>
+
+            <div class="modal-body">
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label class="control-label col-md-2">Imię</label>
+                        <div class="col-md-4">
+                            <input type="text" class="form-control">
+                        </div>
+                        <label class="control-label col-md-2">Nazwisko</label>
+                        <div class="col-md-4">
+                            <input type="text" class="form-control">
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" data-dismiss="modal">Dodaj</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Anuluj</button>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
 <!----------------------------  Zawartość zakładek  ---------------------------->
 
 
@@ -797,7 +836,7 @@
 
             <div class="row" ng-show="pokazFiltry">
                 <br>
-                <div class="col-md-offset- col-md-4">
+                <div class="col-md-4">
                     <div class="input-group">
                         <span class="input-group-addon">Data od: </span>
                         <input type="date" class="form-control" ng-model="filtrDataOd">
@@ -889,6 +928,85 @@
         </div>
 
     </div>
+
+    <!----------------------------  Zakładka Kierowcy  ---------------------------->
+
+    <div id="kierowcy" class="tab-pane fade" ng-controller="kierowcyKontroler">
+
+        <div class="container">
+
+            <br>
+
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <div class="btn-group">
+                        <a class="btn btn-info" ng-click="pokazFiltry = !pokazFiltry">{{pokazFiltry ? 'Ukryj filtry' : 'Pokaż filtry'}}</a>
+                        <a class="btn btn-success" data-toggle="modal" data-target="#nowyKierowca">Dodaj kierowcę</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" ng-show="pokazFiltry">
+                <br>
+                <div class="col-md-offset-2 col-md-4">
+                    <div class="input-group">
+                        <span class="input-group-addon">Imię: </span>
+                        <input type="text" class="form-control" ng-model="filtrImie">
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="input-group">
+                        <span class="input-group-addon">Nazwisko: </span>
+                        <input type="text" class="form-control" ng-model="filtrNazwisko">
+                    </div>
+                </div>
+            </div>
+
+            <br>
+
+            <table class="table table-condensed table-responsive table-hover table-bordered table-striped">
+                <thead>
+                <tr>
+                    <th class="text-center">
+                        <a href="#" ng-click="kluczSortowania = 'imie';odwrotneSortowanie = !odwrotneSortowanie">
+                            Imię
+                            <span ng-show="kluczSortowania == 'imie' && !odwrotneSortowanie" class="glyphicon glyphicon-triangle-bottom"></span>
+                            <span ng-show="kluczSortowania == 'imie' && odwrotneSortowanie" class="glyphicon glyphicon-triangle-top"></span>
+                        </a>
+                    </th>
+
+                    <th class="text-center">
+                        <a href="#" ng-click="kluczSortowania = 'nazwisko';odwrotneSortowanie = !odwrotneSortowanie">
+                            Nazwisko
+                            <span ng-show="kluczSortowania == 'nazwisko' && !odwrotneSortowanie" class="glyphicon glyphicon-triangle-bottom"></span>
+                            <span ng-show="kluczSortowania == 'nazwisko' && odwrotneSortowanie" class="glyphicon glyphicon-triangle-top"></span>
+                        </a>
+                    </th>
+
+                    <th class="text-center">Edytuj</th>
+                    <th class="text-center">Usuń</th>
+                </tr>
+
+                </thead>
+                <tbody>
+                <tr ng-repeat="wiersz in kierowcy | filter:{imie: filtrImie, nazwisko:filtrNazwisko}| orderBy:kluczSortowania:odwrotneSortowanie">
+                    <td class="text-center">{{wiersz.imie}}</td>
+                    <td class="text-center">{{wiersz.nazwisko}}</td>
+                    <td>
+                        <button type="button" class="btn-xs btn-warning glyphicon glyphicon-edit center-block" data-toggle="modal" data-target="#nowyKierowca"></button>
+                    </td>
+                    <td>
+                        <button type="button" class="btn-xs btn-danger glyphicon glyphicon-remove center-block"></button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+        </div>
+
+    </div>
+
 
 
 </div>
