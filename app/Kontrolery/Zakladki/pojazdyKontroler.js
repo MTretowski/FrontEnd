@@ -1,8 +1,23 @@
-app.controller('pojazdyKontroler', ['$rootScope', '$scope', function ($rootScope, $scope) {
+app.controller('pojazdyKontroler', ['$rootScope', '$scope', '$uibModal', function ($rootScope, $scope, $uibModal) {
     $scope.kluczSortowania;
     $scope.odwrotneSortowanie = false;
     $scope.pokazFiltry = false;
     $scope.zbiornikiTakieSame = false;
+
+    $scope.dodajPojazd = function () {
+        $uibModal.open({
+            templateUrl: 'Widoki/Okna/oknoPojazd.html',
+            controller: 'dodajPojazdKontroler'
+        });
+    };
+
+    $scope.edytujPojazd = function () {
+        $uibModal.open({
+            templateUrl: 'Widoki/Okna/oknoPojazd.html',
+            controller: 'edytujPojazdKontroler'
+        });
+    };
+
 
     $rootScope.pojazdy =
         [

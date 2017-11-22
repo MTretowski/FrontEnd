@@ -1,0 +1,203 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <button type="button" class="close glyphicon glyphicon-remove" ng-click="zamknij()"></button>
+        <h4 class="modal-title">{{tytul}}</h4>
+    </div>
+
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-md-6">
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label class="control-label col-md-2">Kierowca</label>
+                        <div class="col-md-10">
+                            <input type="text" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-2">Pojazd</label>
+                        <div class="col-md-10">
+                            <input type="text" class="form-control">
+                        </div>
+                    </div>
+
+                    <label>Rozpoczęcie trasy</label>
+                    <div class="form-group">
+                        <label class="control-label col-md-1">Data</label>
+                        <div class="col-md-5">
+                            <input type="date" class="form-control">
+                        </div>
+                        <label class="control-label col-md-2">Godzina</label>
+                        <div class="col-md-4">
+                            <input type="time" class="form-control">
+                        </div>
+                    </div>
+
+                    <label>Zakończenie trasy</label>
+                    <div class="form-group">
+                        <label class="control-label col-md-1">Data</label>
+                        <div class="col-md-5">
+                            <input type="date" class="form-control">
+                        </div>
+                        <label class="control-label col-md-2">Godzina</label>
+                        <div class="col-md-4">
+                            <input type="time" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-6">Przejechane kilometry</label>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-6">Zużyte paliwo - Webasto (L)</label>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-6">Zużyte paliwo - CAN (L)</label>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control">
+                        </div>
+                    </div>
+
+                </form>
+
+                <table class="table table-condensed table-responsive table-hover table-bordered table-striped">
+                    <tbody>
+                    <tr>
+                        <th>Zużyte paliwo - Webasto + CAN (L)</th>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <th>Paliwo przed wyjazdem (L)</th>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <th>Paliwo dotankowane (L)</th>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <th>Paliwo po powrocie (L)</th>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <th>Zużyte paliwo (L)</th>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <th>Srednie spalanie wg GPS (L/100 km)</th>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <th>Srednie spalanie faktyczne (L/100 km)</th>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <th>Różnica w spalaniu (L/100 km)</th>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <th>Różnica w zużyciu paliwa (L)</th>
+                        <td></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="col-md-6">
+                <h4 class="text-center">Pomiary</h4>
+
+                <div class="col-md-12 text-center">
+                    <div class="btn"><a class="btn btn-success" data-toggle="modal" data-target=""> Dodaj pomiar</a></div>
+                </div>
+
+                <table class="table table-condensed table-responsive table-hover table-bordered table-striped">
+                    <thead>
+                    <tr>
+                        <th class="text-center">Rodzaj</th>
+                        <th class="text-center">Data</th>
+                        <th class="text-center">Paliwo w zbiornikach</th>
+                        <th class="text-center">Edytuj</th>
+                        <th class="text-center">Usuń</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    <tr>
+                        <td>Początkowy</td>
+                        <td>28.02.2017</td>
+                        <td>1200,00</td>
+                        <td>
+                            <button type="button" class="btn-xs btn-warning glyphicon glyphicon-edit center-block"></button>
+                        </td>
+                        <td>
+                            <button type="button" class="btn-xs btn-danger glyphicon glyphicon-remove center-block"></button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Końcowy</td>
+                        <td>23.03.2017</td>
+                        <td>999,99</td>
+                        <td>
+                            <button type="button" class="btn-xs btn-warning glyphicon glyphicon-edit center-block"></button>
+                        </td>
+                        <td>
+                            <button type="button" class="btn-xs btn-danger glyphicon glyphicon-remove center-block"></button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <h4 class="text-center">Tankowania</h4>
+
+                <div class="col-md-12 text-center">
+                    <div class="btn"><a class="btn btn-success" data-toggle="modal" data-target="">Dodaj tankowanie</a></div>
+                </div>
+
+                <table class="table table-condensed table-responsive table-hover table-bordered table-striped">
+                    <thead>
+                    <tr>
+                        <th class="text-center">Data</th>
+                        <th class="text-center">Ilość</th>
+                        <th class="text-center">Dostawca</th>
+                        <th class="text-center">Edytuj</th>
+                        <th class="text-center">Usuń</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    <tr ng-repeat="wierszTankowania in tankowania">
+                        <td>{{wierszTankowania.data | date : 'dd.MM.yyyy'}}</td>
+                        <td>{{wierszTankowania.ilosc | number : 2}}</td>
+                        <td>{{wierszTankowania.dostawca}}</td>
+                        <td>
+                            <button type="button" class="btn-xs btn-warning glyphicon glyphicon-edit center-block"></button>
+                        </td>
+                        <td>
+                            <button type="button" class="btn-xs btn-danger glyphicon glyphicon-remove center-block"></button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <div class="form-group">
+                    <label>Komentarz</label>
+                    <textarea class="form-control" rows="4"></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal-footer">
+        <button type="button" class="btn btn-success" data-dismiss="modal">{{akceptuj}}</button>
+        <button type="button" class="btn btn-danger" ng-click="zamknij()">Anuluj</button>
+    </div>
+</div>

@@ -1,7 +1,22 @@
-app.controller('tankowaniaKontroler', ['$rootScope', '$scope', function ($rootScope, $scope) {
+app.controller('tankowaniaKontroler', ['$rootScope', '$scope', '$uibModal', function ($rootScope, $scope, $uibModal) {
     $scope.kluczSortowania;
     $scope.odwrotneSortowanie = false;
     $scope.pokazFiltry = false;
+
+    $scope.dodajTankowanie = function () {
+        $uibModal.open({
+            templateUrl: 'Widoki/Okna/oknoTankowanie.html',
+            controller: 'dodajTankowanieKontroler'
+        });
+    };
+
+    $scope.edytujTankowanie = function () {
+        $uibModal.open({
+            templateUrl: 'Widoki/Okna/oknoTankowanie.html',
+            controller: 'edytujTankowanieKontroler'
+        });
+    };
+
 
     $rootScope.tankowania =
         [

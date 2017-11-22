@@ -1,7 +1,24 @@
-app.controller('trasyKontroler', ['$cookieStore','$rootScope', '$scope', function ($cookieStore,$rootScope, $scope) {
+app.controller('trasyKontroler', ['$cookieStore', '$rootScope', '$scope', '$uibModal', function ($cookieStore, $rootScope, $scope, $uibModal) {
     $scope.kluczSortowania;
     $scope.odwrotneSortowanie = false;
     $scope.pokazFiltry = false;
+
+    $scope.dodajTrase = function () {
+        $uibModal.open({
+            templateUrl: 'Widoki/Okna/oknoTrasa.html',
+            controller: 'dodajTraseKontroler',
+            size: 'lg'
+        });
+    };
+
+    $scope.edytujTrase = function () {
+        $uibModal.open({
+            templateUrl: 'Widoki/Okna/oknoTrasa.html',
+            controller: 'edytujTraseKontroler',
+            size: 'lg'
+        });
+    };
+
 
     $scope.sprawdzUprawnienia = function () {
         if ( $cookieStore.get('rolaUzytkownika') ) {

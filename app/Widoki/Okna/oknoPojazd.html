@@ -1,0 +1,84 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <button type="button" class="close glyphicon glyphicon-remove" ng-click="zamknij()"></button>
+        <h4 class="modal-title">{{tytul}}</h4>
+    </div>
+
+    <div class="modal-body">
+        <form class="form-horizontal">
+            <div class="form-group">
+                <label class="control-label col-md-4">Numer rejestracyjny</label>
+                <div class="col-md-8">
+                    <input type="text" class="form-control">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-4">Marka i model</label>
+                <div class="col-md-8">
+                    <input type="text" class="form-control">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-6">Norma spalania (L / 100 km)</label>
+                <div class="col-md-6">
+                    <input type="text" class="form-control">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-6">Dopuszczalne odchylenie (L / 100 km)</label>
+                <div class="col-md-6">
+                    <input type="text" class="form-control">
+                </div>
+            </div>
+
+            <br>
+
+            <div class="col-md-12 text-center">
+                <label>Przeliczniki (L / cm)</label>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-md-3">Zbiornik lewy</label>
+                <div class="col-md-3">
+                    <input type="text" class="form-control">
+                </div>
+                <label class="control-label col-md-3">Zbiornik prawy</label>
+                <div class="col-md-3">
+                    <input type="text" class="form-control">
+                </div>
+            </div>
+
+            <div class="col-md-12 text-center">
+                <label>Pojemności zbiorników (L)</label>
+                <div class="input-group center-block"><input type="checkbox" ng-model="zbiornikiTakieSame"> Zbiorniki takie same</div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-3">Zbiornik lewy</label>
+                <div class="col-md-3">
+                    <input type="text" class="form-control" ng-disabled="zbiornikiTakieSame">
+                </div>
+                <label class="control-label col-md-3">Zbiornik prawy</label>
+                <div class="col-md-3">
+                    <input type="text" class="form-control" ng-disabled="zbiornikiTakieSame">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-3">Suma</label>
+                <div class="col-md-3">
+                    <input type="text" class="form-control" ng-disabled="!zbiornikiTakieSame">
+                </div>
+            </div>
+
+        </form>
+
+    </div>
+
+    <div class="modal-footer">
+        <button type="button" class="btn btn-success" data-dismiss="modal">{{akceptuj}}</button>
+        <button type="button" class="btn btn-danger" ng-click="zamknij()">Anuluj</button>
+    </div>
+</div>

@@ -5,8 +5,9 @@
 
     <meta charset="utf-8">
 
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular-cookies.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.6/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.6/angular-cookies.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/2.5.0/ui-bootstrap-tpls.min.js"></script>
 
     <script src="js/jquery-1.11.2.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
@@ -15,13 +16,31 @@
     <link rel="stylesheet" href="Style/style.css">
 
     <script src="app.js"></script>
-    <script src="Kontrolery/logowanieKontroler.js"></script>
-    <script src="Kontrolery/trasyKontroler.js"></script>
-    <script src="Kontrolery/tankowaniaKontroler.js"></script>
-    <script src="Kontrolery/pomiaryKontroler.js"></script>
-    <script src="Kontrolery/kierowcyKontroler.js"></script>
-    <script src="Kontrolery/pojazdyKontroler.js"></script>
-    <script src="Kontrolery/uzytkownicyKontroler.js"></script>
+    <script src="Kontrolery/glownyKontroler.js"></script>
+
+    <script src="Kontrolery/Zakladki/trasyKontroler.js"></script>
+    <script src="Kontrolery/Zakladki/tankowaniaKontroler.js"></script>
+    <script src="Kontrolery/Zakladki/pomiaryKontroler.js"></script>
+    <script src="Kontrolery/Zakladki/kierowcyKontroler.js"></script>
+    <script src="Kontrolery/Zakladki/pojazdyKontroler.js"></script>
+    <script src="Kontrolery/Zakladki/uzytkownicyKontroler.js"></script>
+
+    <script src="Kontrolery/Okna/Kierowca/dodajKierowceKontroler.js"></script>
+    <script src="Kontrolery/Okna/Pojazd/dodajPojazdKontroler.js"></script>
+    <script src="Kontrolery/Okna/Pomiar/dodajPomiarKontroler.js"></script>
+    <script src="Kontrolery/Okna/Tankowanie/dodajTankowanieKontroler.js"></script>
+    <script src="Kontrolery/Okna/Trasa/dodajTraseKontroler.js"></script>
+    <script src="Kontrolery/Okna/Uzytkownik/dodajUzytkownikaKontroler.js"></script>
+
+    <script src="Kontrolery/Okna/Kierowca/edytujKierowceKontroler.js"></script>
+    <script src="Kontrolery/Okna/Pojazd/edytujPojazdKontroler.js"></script>
+    <script src="Kontrolery/Okna/Pomiar/edytujPomiarKontroler.js"></script>
+    <script src="Kontrolery/Okna/Tankowanie/edytujTankowanieKontroler.js"></script>
+    <script src="Kontrolery/Okna/Trasa/edytujTraseKontroler.js"></script>
+    <script src="Kontrolery/Okna/Uzytkownik/edytujUzytkownikaKontroler.js"></script>
+
+    <script src="Kontrolery/Okna/Haslo/zmienHasloKontroler.js"></script>
+    <script src="Kontrolery/Okna/Haslo/resetujHasloKontroler.js"></script>
 
     <title>FrontEnd</title>
 
@@ -29,15 +48,18 @@
 
 <body>
 
-<!----------------------------  Niezalogowany użytkownik  ---------------------------->
+<!----------------------------  Pasek nawigacyjny - Niezalogowany użytkownik  ---------------------------->
 
-<nav ng-show="sprawdzUprawnienia()===''" class="navbar navbar-default" role="navigation" ng-controller="logowanieKontroler">
+<nav ng-show="sprawdzUprawnienia()===''" class="navbar navbar-default" role="navigation" ng-controller="glownyKontroler">
     <div class="navbar-header">
         <a class="navbar-brand">Mateusz Trętowski - Praca inżynierska</a>
     </div>
 </nav>
 
-<div ng-show="sprawdzUprawnienia()===''" class="container" ng-controller="logowanieKontroler">
+
+<!----------------------------  Panel logowania  ---------------------------->
+
+<div ng-show="sprawdzUprawnienia()===''" class="container" ng-controller="glownyKontroler">
 
     <br>
 
@@ -65,9 +87,9 @@
 </div>
 
 
-<!----------------------------  Zalogowany użytkownik  ---------------------------->
+<!----------------------------  Pasek nawigacyjny - Zalogowany użytkownik  ---------------------------->
 
-<nav ng-hide="sprawdzUprawnienia()===''" class="navbar navbar-default" role="navigation" ng-controller="logowanieKontroler">
+<nav ng-hide="sprawdzUprawnienia()===''" class="navbar navbar-default" role="navigation" ng-controller="glownyKontroler">
     <div class="navbar-header">
         <a class="navbar-brand">Mateusz Trętowski - Praca inżynierska</a>
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -81,9 +103,9 @@
             <li class="dropdown">
                 <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Zalogowano jako: <span class="caret"></span></a>
                 <ul class="dropdown-menu">
-                    <li data-toggle="modal" data-target="#zmianaHasla"><a href="#">Zmień hasło</a></li>
+                    <li><a href="" ng-click="zmienHaslo()">Zmień hasło</a></li>
                     <li role="separator" class="divider"></li>
-                    <li><a href="/" ng-click="wyloguj()">Wyloguj się</a></li>
+                    <li><a href="" ng-click="wyloguj()">Wyloguj się</a></li>
                 </ul>
             </li>
         </ul>
@@ -91,7 +113,9 @@
 </nav>
 
 
-<div ng-hide="sprawdzUprawnienia()===''" class="container" ng-controller="logowanieKontroler">
+<!----------------------------  Zakładki  ---------------------------->
+
+<div ng-hide="sprawdzUprawnienia()===''" class="container" ng-controller="glownyKontroler">
     <ul class="nav nav-tabs nav-justified">
         <li class="active"><a data-toggle="tab" href="#trasy">Trasy</a></li>
         <li><a data-toggle="tab" href="#tankowania">Tankowania</a></li>
@@ -102,582 +126,6 @@
         </li>
     </ul>
 </div>
-
-
-<!----------------------------  Okno zmiany hasła  ---------------------------->
-
-<div id="zmianaHasla" class="modal fade" role="dialog">
-    <div class="modal-dialog modal-sm">
-
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close glyphicon glyphicon-remove" data-dismiss="modal"></button>
-                <h4 class="modal-title">Zmiana hasła</h4>
-            </div>
-            <div class="modal-body">
-
-                <label>Stare hasło:</label>
-                <input type="email" class="form-control" placeholder="Podaj stare hasło">
-
-                <br>
-
-                <label>Nowe hasło:</label>
-                <input type="password" class="form-control" placeholder="Podaj nowe hasło">
-
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-success" data-dismiss="modal">Zmień hasło</button>
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Anuluj</button>
-
-            </div>
-        </div>
-    </div>
-</div>
-
-
-<!----------------------------  Okno dodania trasy  ---------------------------->
-
-<div id="nowaTrasa" class="modal fade" role="dialog" ng-controller="trasyKontroler">
-    <div class="modal-dialog modal-lg">
-
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close glyphicon glyphicon-remove" data-dismiss="modal"></button>
-                <h4 class="modal-title">Szczegóły trasy</h4>
-            </div>
-
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-md-6">
-                        <form class="form-horizontal">
-                            <div class="form-group">
-                                <label class="control-label col-md-2">Kierowca</label>
-                                <div class="col-md-10">
-                                    <input type="text" class="form-control">
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="control-label col-md-2">Pojazd</label>
-                                <div class="col-md-10">
-                                    <input type="text" class="form-control">
-                                </div>
-                            </div>
-
-                            <label>Rozpoczęcie trasy</label>
-                            <div class="form-group">
-                                <label class="control-label col-md-1">Data</label>
-                                <div class="col-md-5">
-                                    <input type="date" class="form-control">
-                                </div>
-                                <label class="control-label col-md-2">Godzina</label>
-                                <div class="col-md-4">
-                                    <input type="time" class="form-control">
-                                </div>
-                            </div>
-
-                            <label>Zakończenie trasy</label>
-                            <div class="form-group">
-                                <label class="control-label col-md-1">Data</label>
-                                <div class="col-md-5">
-                                    <input type="date" class="form-control">
-                                </div>
-                                <label class="control-label col-md-2">Godzina</label>
-                                <div class="col-md-4">
-                                    <input type="time" class="form-control">
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="control-label col-md-6">Przejechane kilometry</label>
-                                <div class="col-md-6">
-                                    <input type="text" class="form-control">
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="control-label col-md-6">Zużyte paliwo - Webasto (L)</label>
-                                <div class="col-md-6">
-                                    <input type="text" class="form-control">
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="control-label col-md-6">Zużyte paliwo - CAN (L)</label>
-                                <div class="col-md-6">
-                                    <input type="text" class="form-control">
-                                </div>
-                            </div>
-
-                        </form>
-
-                        <table class="table table-condensed table-responsive table-hover table-bordered table-striped">
-                            <tbody>
-                            <tr>
-                                <th>Zużyte paliwo - Webasto + CAN (L)</th>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <th>Paliwo przed wyjazdem (L)</th>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <th>Paliwo dotankowane (L)</th>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <th>Paliwo po powrocie (L)</th>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <th>Zużyte paliwo (L)</th>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <th>Srednie spalanie wg GPS (L/100 km)</th>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <th>Srednie spalanie faktyczne (L/100 km)</th>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <th>Różnica w spalaniu (L/100 km)</th>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <th>Różnica w zużyciu paliwa (L)</th>
-                                <td></td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <div class="col-md-6">
-                        <h4 class="text-center">Pomiary</h4>
-
-                        <div class="col-md-12 text-center">
-                            <div class="btn"><a class="btn btn-success" data-toggle="modal" data-target=""> Dodaj pomiar</a></div>
-                        </div>
-
-                        <table class="table table-condensed table-responsive table-hover table-bordered table-striped">
-                            <thead>
-                            <tr>
-                                <th class="text-center">Rodzaj</th>
-                                <th class="text-center">Data</th>
-                                <th class="text-center">Paliwo w zbiornikach</th>
-                                <th class="text-center">Edytuj</th>
-                                <th class="text-center">Usuń</th>
-                            </tr>
-                            </thead>
-
-                            <tbody>
-                            <tr>
-                                <td>Początkowy</td>
-                                <td>28.02.2017</td>
-                                <td>1200,00</td>
-                                <td>
-                                    <button type="button" class="btn-xs btn-warning glyphicon glyphicon-edit center-block"></button>
-                                </td>
-                                <td>
-                                    <button type="button" class="btn-xs btn-danger glyphicon glyphicon-remove center-block"></button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Końcowy</td>
-                                <td>23.03.2017</td>
-                                <td>999,99</td>
-                                <td>
-                                    <button type="button" class="btn-xs btn-warning glyphicon glyphicon-edit center-block"></button>
-                                </td>
-                                <td>
-                                    <button type="button" class="btn-xs btn-danger glyphicon glyphicon-remove center-block"></button>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
-
-                        <h4 class="text-center">Tankowania</h4>
-
-                        <div class="col-md-12 text-center">
-                            <div class="btn"><a class="btn btn-success" data-toggle="modal" data-target="">Dodaj tankowanie</a></div>
-                        </div>
-
-                        <table class="table table-condensed table-responsive table-hover table-bordered table-striped">
-                            <thead>
-                            <tr>
-                                <th class="text-center">Data</th>
-                                <th class="text-center">Ilość</th>
-                                <th class="text-center">Dostawca</th>
-                                <th class="text-center">Edytuj</th>
-                                <th class="text-center">Usuń</th>
-                            </tr>
-                            </thead>
-
-                            <tbody>
-                            <tr ng-repeat="wierszTankowania in tankowania">
-                                <td>{{wierszTankowania.data | date : 'dd.MM.yyyy'}}</td>
-                                <td>{{wierszTankowania.ilosc | number : 2}}</td>
-                                <td>{{wierszTankowania.dostawca}}</td>
-                                <td>
-                                    <button type="button" class="btn-xs btn-warning glyphicon glyphicon-edit center-block"></button>
-                                </td>
-                                <td>
-                                    <button type="button" class="btn-xs btn-danger glyphicon glyphicon-remove center-block"></button>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
-
-                        <div class="form-group">
-                            <label>Komentarz</label>
-                            <textarea class="form-control" rows="4"></textarea>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
-            <div class="modal-footer">
-                <button type="button" class="btn btn-success" data-dismiss="modal">Dodaj</button>
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Anuluj</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-<!----------------------------  Okno dodania tankowania  ---------------------------->
-
-<div id="noweTankowanie" class="modal fade" role="dialog" ng-controller="tankowaniaKontroler">
-    <div class="modal-dialog">
-
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close glyphicon glyphicon-remove" data-dismiss="modal"></button>
-                <h4 class="modal-title">Dodaj tankowanie</h4>
-            </div>
-
-            <div class="modal-body">
-                <form class="form-horizontal">
-                    <div class="form-group">
-                        <label class="control-label col-md-2">Pojazd</label>
-                        <div class="col-md-4">
-                            <input type="text" class="form-control">
-                        </div>
-                        <label class="control-label col-md-2">Dostawca</label>
-                        <div class="col-md-4">
-                            <input type="text" class="form-control">
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="control-label col-md-2">Data</label>
-                        <div class="col-md-4">
-                            <input type="date" class="form-control">
-                        </div>
-                        <label class="control-label col-md-2">Godzina</label>
-                        <div class="col-md-4">
-                            <input type="time" class="form-control">
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="control-label col-md-2">Ilość</label>
-                        <div class="col-md-4">
-                            <input type="text" class="form-control">
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="control-label col-md-3">Cena netto / litr</label>
-                        <div class="col-md-3">
-                            <input type="text" class="form-control">
-                        </div>
-                        <label class="control-label col-md-2">Waluta</label>
-                        <div class="col-md-4">
-                            <input type="text" class="form-control">
-                        </div>
-                    </div>
-
-                </form>
-
-            </div>
-
-            <div class="modal-footer">
-                <button type="button" class="btn btn-success" data-dismiss="modal">Dodaj</button>
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Anuluj</button>
-            </div>
-        </div>
-    </div>
-
-</div>
-
-
-<!----------------------------  Okno dodania pomiaru  ---------------------------->
-
-<div id="nowyPomiar" class="modal fade" role="dialog" ng-controller="tankowaniaKontroler">
-    <div class="modal-dialog">
-
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close glyphicon glyphicon-remove" data-dismiss="modal"></button>
-                <h4 class="modal-title">Dodaj pomiar</h4>
-            </div>
-
-            <div class="modal-body">
-                <form class="form-horizontal">
-                    <div class="form-group">
-                        <label class="control-label col-md-2">Pojazd</label>
-                        <div class="col-md-10">
-                            <input type="text" class="form-control">
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="control-label col-md-2">Data</label>
-                        <div class="col-md-4">
-                            <input type="date" class="form-control">
-                        </div>
-                        <label class="control-label col-md-2">Godzina</label>
-                        <div class="col-md-4">
-                            <input type="time" class="form-control">
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="control-label col-md-3">Sposób pomiaru</label>
-                        <div class="col-md-9">
-                            <input type="text" class="form-control">
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="control-label col-md-4">Zbiornik lewy (pomiar)</label>
-                        <div class="col-md-2">
-                            <input type="text" class="form-control">
-                        </div>
-                        <label class="control-label col-md-4">Zbiornik prawy (pomiar)</label>
-                        <div class="col-md-2">
-                            <input type="text" class="form-control">
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="control-label col-md-4">Zbiornik lewy (litry)</label>
-                        <div class="col-md-2">
-                            <input type="text" class="form-control">
-                        </div>
-                        <label class="control-label col-md-4">Zbiornik prawy (litry)</label>
-                        <div class="col-md-2">
-                            <input type="text" class="form-control">
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="control-label col-md-3">Litry łącznie</label>
-                        <div class="col-md-3">
-                            <input type="text" class="form-control">
-                        </div>
-                    </div>
-
-                </form>
-
-            </div>
-
-            <div class="modal-footer">
-                <button type="button" class="btn btn-success" data-dismiss="modal">Dodaj</button>
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Anuluj</button>
-            </div>
-        </div>
-    </div>
-
-</div>
-
-
-<!----------------------------  Okno dodania kierowcy  ---------------------------->
-
-<div id="nowyKierowca" class="modal fade" role="dialog" ng-controller="tankowaniaKontroler">
-    <div class="modal-dialog">
-
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close glyphicon glyphicon-remove" data-dismiss="modal"></button>
-                <h4 class="modal-title">Dodaj kierowcę</h4>
-            </div>
-
-            <div class="modal-body">
-                <form class="form-horizontal">
-                    <div class="form-group">
-                        <label class="control-label col-md-2">Imię</label>
-                        <div class="col-md-4">
-                            <input type="text" class="form-control">
-                        </div>
-                        <label class="control-label col-md-2">Nazwisko</label>
-                        <div class="col-md-4">
-                            <input type="text" class="form-control">
-                        </div>
-                    </div>
-                </form>
-            </div>
-
-            <div class="modal-footer">
-                <button type="button" class="btn btn-success" data-dismiss="modal">Dodaj</button>
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Anuluj</button>
-            </div>
-        </div>
-    </div>
-
-</div>
-
-
-<!----------------------------  Okno dodania pojazdu  ---------------------------->
-
-<div id="nowyPojazd" class="modal fade" role="dialog" ng-controller="pojazdyKontroler">
-    <div class="modal-dialog">
-
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close glyphicon glyphicon-remove" data-dismiss="modal"></button>
-                <h4 class="modal-title">Dodaj pojazd</h4>
-            </div>
-
-            <div class="modal-body">
-                <form class="form-horizontal">
-                    <div class="form-group">
-                        <label class="control-label col-md-4">Numer rejestracyjny</label>
-                        <div class="col-md-8">
-                            <input type="text" class="form-control">
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="control-label col-md-4">Marka i model</label>
-                        <div class="col-md-8">
-                            <input type="text" class="form-control">
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="control-label col-md-6">Norma spalania (L / 100 km)</label>
-                        <div class="col-md-6">
-                            <input type="text" class="form-control">
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="control-label col-md-6">Dopuszczalne odchylenie (L / 100 km)</label>
-                        <div class="col-md-6">
-                            <input type="text" class="form-control">
-                        </div>
-                    </div>
-
-                    <br>
-
-                    <div class="col-md-12 text-center">
-                        <label>Przeliczniki (L / cm)</label>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-md-3">Zbiornik lewy</label>
-                        <div class="col-md-3">
-                            <input type="text" class="form-control">
-                        </div>
-                        <label class="control-label col-md-3">Zbiornik prawy</label>
-                        <div class="col-md-3">
-                            <input type="text" class="form-control">
-                        </div>
-                    </div>
-
-                    <div class="col-md-12 text-center">
-                        <label>Pojemności zbiorników (L)</label>
-                        <div class="input-group center-block"><input type="checkbox" ng-model="zbiornikiTakieSame"> Zbiorniki takie same</div>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="control-label col-md-3">Zbiornik lewy</label>
-                        <div class="col-md-3">
-                            <input type="text" class="form-control" ng-disabled="zbiornikiTakieSame">
-                        </div>
-                        <label class="control-label col-md-3">Zbiornik prawy</label>
-                        <div class="col-md-3">
-                            <input type="text" class="form-control" ng-disabled="zbiornikiTakieSame">
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="control-label col-md-3">Suma</label>
-                        <div class="col-md-3">
-                            <input type="text" class="form-control" ng-disabled="!zbiornikiTakieSame">
-                        </div>
-                    </div>
-
-                </form>
-
-            </div>
-
-            <div class="modal-footer">
-                <button type="button" class="btn btn-success" data-dismiss="modal">Dodaj</button>
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Anuluj</button>
-            </div>
-        </div>
-    </div>
-
-</div>
-
-
-<!----------------------------  Okno dodania użytkownika  ---------------------------->
-
-<div id="nowyUzytkownik" class="modal fade" role="dialog" ng-controller="tankowaniaKontroler">
-    <div class="modal-dialog">
-
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close glyphicon glyphicon-remove" data-dismiss="modal"></button>
-                <h4 class="modal-title">Dodaj kierowcę</h4>
-            </div>
-
-            <div class="modal-body">
-                <form class="form-horizontal">
-                    <div class="form-group">
-                        <label class="control-label col-md-2">Imię</label>
-                        <div class="col-md-4">
-                            <input type="text" class="form-control">
-                        </div>
-                        <label class="control-label col-md-2">Nazwisko</label>
-                        <div class="col-md-4">
-                            <input type="text" class="form-control">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-md-2">Email:</label>
-                        <div class="col-md-4">
-                            <input type="text" class="form-control">
-                        </div>
-                        <label class="control-label col-md-2">Rola:</label>
-                        <div class="col-md-4">
-                            <input type="text" class="form-control">
-                        </div>
-                    </div>
-                    <button type="button" class="btn btn-danger center-block" ng-click="resetHasla = !resetHasla">Rest hasła</button>
-                    <div ng-show="resetHasla" class="form-group">
-                        <br>
-                        <label class="control-label col-md-3">Nowe hasło: </label>
-                        <div class="col-md-3">
-                            <input type="password" class="form-control">
-                        </div>
-                    </div>
-                </form>
-            </div>
-
-            <div class="modal-footer">
-                <button type="button" class="btn btn-success" data-dismiss="modal">Dodaj</button>
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Anuluj</button>
-            </div>
-        </div>
-    </div>
-
-</div>
-
 
 
 <!----------------------------  Zawartość zakładek  ---------------------------->
@@ -697,7 +145,7 @@
                 <div class="col-md-12 text-center">
                     <div class="btn-group">
                         <a class="btn btn-info" ng-click="pokazFiltry = !pokazFiltry">{{pokazFiltry ? 'Ukryj filtry' : 'Pokaż filtry'}}</a>
-                        <a class="btn btn-success" data-toggle="modal" data-target="#nowaTrasa">Dodaj trasę</a>
+                        <a class="btn btn-success" ng-click="dodajTrase()">Dodaj trasę</a>
                     </div>
                 </div>
             </div>
@@ -821,7 +269,7 @@
                     <td class="text-right">{{wiersz.roznica | number : 2}}</td>
                     <td class="text-right">{{wiersz.dystans | number : 2}}</td>
                     <td>
-                        <button type="button" class="btn-xs btn-warning glyphicon glyphicon-edit center-block" data-toggle="modal" data-target="#nowaTrasa"></button>
+                        <button type="button" class="btn-xs btn-warning glyphicon glyphicon-edit center-block" ng-click="edytujTrase()"></button>
                     </td>
                     <td>
                         <button type="button" class="btn-xs btn-danger glyphicon glyphicon-remove center-block"></button>
@@ -836,7 +284,7 @@
 
     <!----------------------------  Zakładka Tankowania  ---------------------------->
 
-    <div id="tankowania" class="tab-pane fade" ng-controller="tankowaniaKontroler">
+    <div ng-hide="sprawdzUprawnienia()===''" id="tankowania" class="tab-pane fade" ng-controller="tankowaniaKontroler">
 
         <div class="container">
 
@@ -846,7 +294,7 @@
                 <div class="col-md-12 text-center">
                     <div class="btn-group">
                         <a class="btn btn-info" ng-click="pokazFiltry = !pokazFiltry">{{pokazFiltry ? 'Ukryj filtry' : 'Pokaż filtry'}}</a>
-                        <a class="btn btn-success" data-toggle="modal" data-target="#noweTankowanie">Dodaj tankowanie</a>
+                        <a class="btn btn-success" ng-click="dodajTankowanie()">Dodaj tankowanie</a>
                     </div>
                 </div>
             </div>
@@ -950,7 +398,7 @@
                     <td class="text-center">{{wiersz.waluta}}</td>
                     <td class="text-center">{{wiersz.dostawca}}</td>
                     <td>
-                        <button type="button" class="btn-xs btn-warning glyphicon glyphicon-edit center-block" data-toggle="modal" data-target="#noweTankowanie"></button>
+                        <button type="button" class="btn-xs btn-warning glyphicon glyphicon-edit center-block" ng-click="edytujTankowanie()"></button>
                     </td>
                     <td>
                         <button type="button" class="btn-xs btn-danger glyphicon glyphicon-remove center-block"></button>
@@ -966,7 +414,7 @@
 
     <!----------------------------  Zakładka Pomiary  ---------------------------->
 
-    <div id="pomiary" class="tab-pane fade" ng-controller="pomiaryKontroler">
+    <div ng-hide="sprawdzUprawnienia()===''" id="pomiary" class="tab-pane fade" ng-controller="pomiaryKontroler">
 
         <div class="container">
 
@@ -976,7 +424,7 @@
                 <div class="col-md-12 text-center">
                     <div class="btn-group">
                         <a class="btn btn-info" ng-click="pokazFiltry = !pokazFiltry">{{pokazFiltry ? 'Ukryj filtry' : 'Pokaż filtry'}}</a>
-                        <a class="btn btn-success" data-toggle="modal" data-target="#nowyPomiar">Dodaj pomiar</a>
+                        <a class="btn btn-success" ng-click="dodajPomiar()">Dodaj pomiar</a>
                     </div>
                 </div>
             </div>
@@ -1063,7 +511,7 @@
                     <td class="text-right">{{wiersz.lewy | number : 2}}</td>
                     <td class="text-right">{{wiersz.prawy | number : 2}}</td>
                     <td>
-                        <button type="button" class="btn-xs btn-warning glyphicon glyphicon-edit center-block" data-toggle="modal" data-target="#nowyPomiar"></button>
+                        <button type="button" class="btn-xs btn-warning glyphicon glyphicon-edit center-block" ng-click="edytujPomiar()"></button>
                     </td>
                     <td>
                         <button type="button" class="btn-xs btn-danger glyphicon glyphicon-remove center-block"></button>
@@ -1078,7 +526,7 @@
 
     <!----------------------------  Zakładka Kierowcy  ---------------------------->
 
-    <div id="kierowcy" class="tab-pane fade" ng-controller="kierowcyKontroler">
+    <div ng-hide="sprawdzUprawnienia()===''" id="kierowcy" class="tab-pane fade" ng-controller="kierowcyKontroler">
 
         <div class="container">
 
@@ -1088,7 +536,7 @@
                 <div class="col-md-12 text-center">
                     <div class="btn-group">
                         <a class="btn btn-info" ng-click="pokazFiltry = !pokazFiltry">{{pokazFiltry ? 'Ukryj filtry' : 'Pokaż filtry'}}</a>
-                        <a class="btn btn-success" data-toggle="modal" data-target="#nowyKierowca">Dodaj kierowcę</a>
+                        <a class="btn btn-success" ng-click="dodajKierowce()">Dodaj kierowcę</a>
                     </div>
                 </div>
             </div>
@@ -1141,7 +589,7 @@
                     <td class="text-center">{{wiersz.imie}}</td>
                     <td class="text-center">{{wiersz.nazwisko}}</td>
                     <td>
-                        <button type="button" class="btn-xs btn-warning glyphicon glyphicon-edit center-block" data-toggle="modal" data-target="#nowyKierowca"></button>
+                        <button type="button" class="btn-xs btn-warning glyphicon glyphicon-edit center-block" ng-click="edytujKierowce()"></button>
                     </td>
                     <td>
                         <button type="button" class="btn-xs btn-danger glyphicon glyphicon-remove center-block"></button>
@@ -1157,7 +605,7 @@
 
     <!----------------------------  Zakładka Pojazdy  ---------------------------->
 
-    <div id="pojazdy" class="tab-pane fade" ng-controller="pojazdyKontroler">
+    <div ng-hide="sprawdzUprawnienia()===''" id="pojazdy" class="tab-pane fade" ng-controller="pojazdyKontroler">
 
         <div class="container">
 
@@ -1167,7 +615,7 @@
                 <div class="col-md-12 text-center">
                     <div class="btn-group">
                         <a class="btn btn-info" ng-click="pokazFiltry = !pokazFiltry">{{pokazFiltry ? 'Ukryj filtry' : 'Pokaż filtry'}}</a>
-                        <a class="btn btn-success" data-toggle="modal" data-target="#nowyPojazd">Dodaj pojazd</a>
+                        <a class="btn btn-success" ng-click="dodajPojazd()">Dodaj pojazd</a>
                     </div>
                 </div>
             </div>
@@ -1238,7 +686,7 @@
                     <td class="text-right">{{wiersz.norma | number : 2}}</td>
                     <td class="text-right">{{wiersz.odchylenie | number : 2}}</td>
                     <td>
-                        <button type="button" class="btn-xs btn-warning glyphicon glyphicon-edit center-block" data-toggle="modal" data-target="#nowyPojazd"></button>
+                        <button type="button" class="btn-xs btn-warning glyphicon glyphicon-edit center-block" ng-click="edytujPojazd()"></button>
                     </td>
                     <td>
                         <button type="button" class="btn-xs btn-danger glyphicon glyphicon-remove center-block"></button>
@@ -1252,10 +700,9 @@
     </div>
 
 
-
     <!----------------------------  Zakładka Uzytkownicy  ---------------------------->
 
-    <div id="uzytkownicy" class="tab-pane fade" ng-controller="uzytkownicyKontroler">
+    <div ng-hide="sprawdzUprawnienia()===''" id="uzytkownicy" class="tab-pane fade" ng-controller="uzytkownicyKontroler">
 
         <div class="container">
 
@@ -1265,7 +712,7 @@
                 <div class="col-md-12 text-center">
                     <div class="btn-group">
                         <a class="btn btn-info" ng-click="pokazFiltry = !pokazFiltry">{{pokazFiltry ? 'Ukryj filtry' : 'Pokaż filtry'}}</a>
-                        <a class="btn btn-success" data-toggle="modal" data-target="#nowyUzytkownik">Dodaj użytkownika</a>
+                        <a class="btn btn-success" ng-click="dodajUzytkownika()">Dodaj użytkownika</a>
                     </div>
                 </div>
             </div>
@@ -1343,7 +790,7 @@
                     <td class="text-center">{{wiersz.email}}</td>
                     <td class="text-center">{{wiersz.rola}}</td>
                     <td>
-                        <button type="button" class="btn-xs btn-warning glyphicon glyphicon-edit center-block" data-toggle="modal" data-target="#nowyUzytkownik"></button>
+                        <button type="button" class="btn-xs btn-warning glyphicon glyphicon-edit center-block" ng-click="edytujUzytkownika()"></button>
                     </td>
                     <td>
                         <button type="button" class="btn-xs btn-danger glyphicon glyphicon-remove center-block"></button>
@@ -1356,9 +803,11 @@
 
     </div>
 
-
 </div>
+
 
 </body>
 
 </html>
+
+

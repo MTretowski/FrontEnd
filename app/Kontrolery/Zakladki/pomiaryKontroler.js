@@ -1,7 +1,22 @@
-app.controller('pomiaryKontroler', ['$rootScope', '$scope', function ($rootScope, $scope) {
+app.controller('pomiaryKontroler', ['$rootScope', '$scope', '$uibModal', function ($rootScope, $scope, $uibModal) {
     $scope.kluczSortowania;
     $scope.odwrotneSortowanie = false;
     $scope.pokazFiltry = false;
+
+    $scope.dodajPomiar = function () {
+        $uibModal.open({
+            templateUrl: 'Widoki/Okna/oknoPomiar.html',
+            controller: 'dodajPomiarKontroler'
+        });
+    };
+
+    $scope.edytujPomiar = function () {
+        $uibModal.open({
+            templateUrl: 'Widoki/Okna/oknoPomiar.html',
+            controller: 'edytujPomiarKontroler'
+        });
+    };
+
 
     $rootScope.pomiary =
         [

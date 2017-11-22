@@ -1,8 +1,21 @@
-app.controller('uzytkownicyKontroler', ['$rootScope', '$scope', function ($rootScope, $scope) {
+app.controller('uzytkownicyKontroler', ['$rootScope', '$scope', '$uibModal', function ($rootScope, $scope, $uibModal) {
     $scope.kluczSortowania;
     $scope.odwrotneSortowanie = false;
     $scope.pokazFiltry = false;
-    $scope.resetHasla = false;
+
+    $scope.dodajUzytkownika = function () {
+        $uibModal.open({
+            templateUrl: 'Widoki/Okna/oknoUzytkownik.html',
+            controller: 'dodajUzytkownikaKontroler'
+        });
+    };
+
+    $scope.edytujUzytkownika = function () {
+        $uibModal.open({
+            templateUrl: 'Widoki/Okna/oknoUzytkownik.html',
+            controller: 'edytujUzytkownikaKontroler'
+        });
+    };
 
     $scope.uzytkownicy =
         [
