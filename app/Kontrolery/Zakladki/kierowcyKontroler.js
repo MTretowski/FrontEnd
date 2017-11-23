@@ -10,12 +10,16 @@ app.controller('kierowcyKontroler', ['$rootScope', '$scope', '$uibModal', functi
         });
     };
 
-    $scope.edytujKierowce = function () {
+    $scope.edytujKierowce = function (indeks) {
         $uibModal.open({
             templateUrl: 'Widoki/Okna/oknoKierowca.html',
             controller: 'edytujKierowceKontroler'
         });
     };
+
+    $scope.usunKierowce = function(indeks){
+        alert('usuwam kierowce o numerze ' + indeks);
+    }
 
     $rootScope.kierowcy =
         [

@@ -1,6 +1,6 @@
-app.controller('glownyKontroler', ['$cookieStore', '$scope', '$uibModal', function ($cookieStore, $scope, $uibModal) {
+app.controller('glownyKontroler', ['$cookieStore', '$rootScope', '$scope', '$uibModal', function ($cookieStore, $rootScope, $scope, $uibModal) {
 
-    $scope.email;
+    $scope.login;
     $scope.haslo;
 
     $scope.zmienHaslo = function () {
@@ -11,21 +11,23 @@ app.controller('glownyKontroler', ['$cookieStore', '$scope', '$uibModal', functi
         });
     };
 
-    $scope.zaloguj = function () {
-        if ($scope.email === "uzytkownik" && $scope.haslo === "uzytkownik") {
-            $cookieStore.put('rolaUzytkownika', 'uzytkownik');
-        }
-        else if ($scope.email === "admin" && $scope.haslo === "admin") {
-            $cookieStore.put('rolaUzytkownika', 'administrator');
-        }
-    }
-
-    $scope.sprawdzUprawnienia = function () {
+    $rootScope.sprawdzUprawnienia = function () {
         if ($cookieStore.get('rolaUzytkownika')) {
             return $cookieStore.get('rolaUzytkownika')
         } else {
             return '';
         }
+    }
+
+    $scope.zaloguj = function () {
+        if ($scope.login === "uzytkownik" && $scope.haslo === "uzytkownik") {
+            $cookieStore.put('rolaUzytkownika', 'uzytkownik');
+        }
+        else if ($scope.login === "admin" && $scope.haslo === "admin") {
+            $cookieStore.put('rolaUzytkownika', 'administrator');
+        }
+        $scope.login = '';
+        $scope.haslo = ''
     }
 
     $scope.wyloguj = function () {

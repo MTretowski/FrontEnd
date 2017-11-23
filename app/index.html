@@ -61,13 +61,11 @@
 
 <div ng-show="sprawdzUprawnienia()===''" class="container" ng-controller="glownyKontroler">
 
-    <br>
-
     <form class="form-horizontal">
         <div class="form-group">
-            <label class="control-label col-sm-4">Email:</label>
+            <label class="control-label col-sm-4">Login:</label>
             <div class="col-sm-4">
-                <input type="text" class="form-control" ng-model="email">
+                <input type="text" class="form-control" ng-model="login">
             </div>
         </div>
 
@@ -154,34 +152,47 @@
                 <br>
                 <div class="col-md-offset-2 col-md-4">
                     <div class="input-group">
-                        <span class="input-group-addon">Data rozpoczęcia: </span>
-                        <input type="date" class="form-control" ng-model="filtrDataOd">
+                        <span class="input-group-addon">Data rozpoczęcia od: </span>
+                        <input type="date" class="form-control" ng-model-options="{ timezone: 'UTC' }" ng-model="filtrDataRozpoczeciaOd">
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="input-group">
-                        <span class="input-group-addon">Data zakończenia: </span>
-                        <input type="date" class="form-control" ng-model="filtrDataDo">
+                        <span class="input-group-addon">Data rozpoczęcia do: </span>
+                        <input type="date" class="form-control" ng-model-options="{ timezone: 'UTC' }" ng-model="filtrDataRozpoczeciaDo">
                     </div>
                 </div>
             </div>
 
             <div class="row" ng-show="pokazFiltry">
                 <br>
-                <div class="col-md-offset-2 col-md-3">
+                <div class="col-md-offset-2 col-md-4">
+                    <div class="input-group">
+                        <span class="input-group-addon">Data zakończenia od: </span>
+                        <input type="date" class="form-control" ng-model-options="{ timezone: 'UTC' }" ng-model="filtrDataZakonczeniaOd">
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="input-group">
+                        <span class="input-group-addon">Data zakończenia do: </span>
+                        <input type="date" class="form-control" ng-model-options="{ timezone: 'UTC' }" ng-model="filtrDataZakonczeniaDo">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" ng-show="pokazFiltry">
+                <br>
+                <div class="col-md-offset-2 col-md-4">
                     <div class="input-group">
                         <span class="input-group-addon">Kierowca: </span>
                         <input type="text" class="form-control" ng-model="filtrKierowca">
                     </div>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-4">
                     <div class="input-group">
                         <span class="input-group-addon">Pojazd: </span>
                         <input type="text" class="form-control" ng-model="filtrPojazd">
                     </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="input-group"><input type="checkbox">Pokaż tylko podejrzane</div>
                 </div>
             </div>
 
@@ -256,23 +267,23 @@
                     <th class="text-center">Edytuj</th>
                     <th class="text-center">Usuń</th>
                 </tr>
-
                 </thead>
                 <tbody>
-                <tr ng-repeat="wiersz in trasy | filter:{pojazd: filtrPojazd, kierowca:filtrKierowca}| orderBy:kluczSortowania:odwrotneSortowanie">
-                    <td class="text-center">{{wiersz.pojazd}}</td>
-                    <td class="text-center">{{wiersz.kierowca}}</td>
-                    <td class="text-center">{{wiersz.dataRozpoczecia | date : 'dd.MM.yyyy'}}</td>
-                    <td class="text-center">{{wiersz.dataZakonczenia | date : 'dd.MM.yyyy'}}</td>
-                    <td class="text-right">{{wiersz.spalanieFakt | number : 2}}</td>
-                    <td class="text-right">{{wiersz.spalanieGPS | number : 2}}</td>
-                    <td class="text-right">{{wiersz.roznica | number : 2}}</td>
-                    <td class="text-right">{{wiersz.dystans | number : 2}}</td>
+                <tr ng-repeat="trasa in trasy | filter:{pojazd: filtrPojazd, kierowca:filtrKierowca}| orderBy:kluczSortowania:odwrotneSortowanie"
+                    ng-if="trasa.dataRozpoczecia >= filtrDataRozpoczeciaOd && trasa.dataRozpoczecia <= filtrDataRozpoczeciaDo && trasa.dataZakonczenia >= filtrDataZakonczeniaOd && trasa.dataZakonczenia <= filtrDataZakonczeniaDo">
+                    <td class="text-center">{{trasa.pojazd}}</td>
+                    <td class="text-center">{{trasa.kierowca}}</td>
+                    <td class="text-center">{{trasa.dataRozpoczecia | date : 'dd.MM.yyyy'}}</td>
+                    <td class="text-center">{{trasa.dataZakonczenia | date : 'dd.MM.yyyy'}}</td>
+                    <td class="text-right">{{trasa.spalanieFakt | number : 2}}</td>
+                    <td class="text-right">{{trasa.spalanieGPS | number : 2}}</td>
+                    <td class="text-right">{{trasa.roznica | number : 2}}</td>
+                    <td class="text-right">{{trasa.dystans | number : 2}}</td>
                     <td>
-                        <button type="button" class="btn-xs btn-warning glyphicon glyphicon-edit center-block" ng-click="edytujTrase()"></button>
+                        <button type="button" class="btn-xs btn-warning glyphicon glyphicon-edit center-block" ng-click="edytujTrase(trasy.indexOf(trasa))"></button>
                     </td>
                     <td>
-                        <button type="button" class="btn-xs btn-danger glyphicon glyphicon-remove center-block"></button>
+                        <button type="button" class="btn-xs btn-danger glyphicon glyphicon-remove center-block" ng-click="usunTrase(trasy.indexOf(trasa))"></button>
                     </td>
                 </tr>
                 </tbody>
@@ -304,13 +315,13 @@
                 <div class="col-md-offset-2 col-md-4">
                     <div class="input-group">
                         <span class="input-group-addon">Data od: </span>
-                        <input type="date" class="form-control" ng-model="filtrDataOd">
+                        <input type="date" class="form-control" ng-model-options="{ timezone: 'UTC' }" ng-model="filtrDataOd">
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="input-group">
                         <span class="input-group-addon">Data do: </span>
-                        <input type="date" class="form-control" ng-model="filtrDataDo">
+                        <input type="date" class="form-control" ng-model-options="{ timezone: 'UTC' }" ng-model="filtrDataDo">
                     </div>
                 </div>
             </div>
@@ -390,18 +401,18 @@
 
                 </thead>
                 <tbody>
-                <tr ng-repeat="wiersz in tankowania | filter:{pojazd: filtrPojazd, dostawca:filtrDostawca}| orderBy:kluczSortowania:odwrotneSortowanie">
-                    <td class="text-center">{{wiersz.pojazd}}</td>
-                    <td class="text-center">{{wiersz.data | date : 'dd.MM.yyyy'}}</td>
-                    <td class="text-right">{{wiersz.ilosc | number : 2}}</td>
-                    <td class="text-right">{{wiersz.cena | number : 2}}</td>
-                    <td class="text-center">{{wiersz.waluta}}</td>
-                    <td class="text-center">{{wiersz.dostawca}}</td>
+                <tr ng-repeat="tankowanie in tankowania | filter:{pojazd: filtrPojazd, dostawca:filtrDostawca}| orderBy:kluczSortowania:odwrotneSortowanie" ng-if="tankowanie.data >= filtrDataOd && tankowanie.data <= filtrDataDo">
+                    <td class="text-center">{{tankowanie.pojazd}}</td>
+                    <td class="text-center">{{tankowanie.data | date : 'dd.MM.yyyy'}}</td>
+                    <td class="text-right">{{tankowanie.ilosc | number : 2}}</td>
+                    <td class="text-right">{{tankowanie.cena | number : 2}}</td>
+                    <td class="text-center">{{tankowanie.waluta}}</td>
+                    <td class="text-center">{{tankowanie.dostawca}}</td>
                     <td>
-                        <button type="button" class="btn-xs btn-warning glyphicon glyphicon-edit center-block" ng-click="edytujTankowanie()"></button>
+                        <button type="button" class="btn-xs btn-warning glyphicon glyphicon-edit center-block" ng-click="edytujTankowanie(tankowania.indexOf(tankowanie))"></button>
                     </td>
                     <td>
-                        <button type="button" class="btn-xs btn-danger glyphicon glyphicon-remove center-block"></button>
+                        <button type="button" class="btn-xs btn-danger glyphicon glyphicon-remove center-block" ng-click="usunTankowanie(tankowania.indexOf(tankowanie))"></button>
                     </td>
                 </tr>
                 </tbody>
@@ -434,14 +445,14 @@
                 <div class="col-md-4">
                     <div class="input-group">
                         <span class="input-group-addon">Data od: </span>
-                        <input type="date" class="form-control" ng-model="filtrDataOd">
+                        <input type="date" class="form-control" ng-model-options="{ timezone: 'UTC' }" ng-model="filtrDataOd">
                     </div>
                 </div>
 
                 <div class="col-md-4">
                     <div class="input-group">
                         <span class="input-group-addon">Data do: </span>
-                        <input type="date" class="form-control" ng-model="filtrDataDo">
+                        <input type="date" class="form-control" ng-model-options="{ timezone: 'UTC' }" ng-model="filtrDataDo">
                     </div>
                 </div>
 
@@ -504,17 +515,17 @@
 
                 </thead>
                 <tbody>
-                <tr ng-repeat="wiersz in pomiary | filter:{pojazd: filtrPojazd}| orderBy:kluczSortowania:odwrotneSortowanie">
-                    <td class="text-center">{{wiersz.pojazd}}</td>
-                    <td class="text-center">{{wiersz.data | date : 'dd.MM.yyyy'}}</td>
-                    <td class="text-center">{{wiersz.sposob}}</td>
-                    <td class="text-right">{{wiersz.lewy | number : 2}}</td>
-                    <td class="text-right">{{wiersz.prawy | number : 2}}</td>
+                <tr ng-repeat="pomiar in pomiary | filter:{pojazd: filtrPojazd}| orderBy:kluczSortowania:odwrotneSortowanie" ng-if="pomiar.data >= filtrDataOd && pomiar.data <= filtrDataDo">
+                    <td class="text-center">{{pomiar.pojazd}}</td>
+                    <td class="text-center">{{pomiar.data | date : 'dd.MM.yyyy'}}</td>
+                    <td class="text-center">{{pomiar.sposob}}</td>
+                    <td class="text-right">{{pomiar.lewy | number : 2}}</td>
+                    <td class="text-right">{{pomiar.prawy | number : 2}}</td>
                     <td>
-                        <button type="button" class="btn-xs btn-warning glyphicon glyphicon-edit center-block" ng-click="edytujPomiar()"></button>
+                        <button type="button" class="btn-xs btn-warning glyphicon glyphicon-edit center-block" ng-click="edytujPomiar(pomiary.indexOf(pomiar))"></button>
                     </td>
                     <td>
-                        <button type="button" class="btn-xs btn-danger glyphicon glyphicon-remove center-block"></button>
+                        <button type="button" class="btn-xs btn-danger glyphicon glyphicon-remove center-block" ng-click="usunPomiar(pomiary.indexOf(pomiar))"></button>
                     </td>
                 </tr>
                 </tbody>
@@ -585,14 +596,14 @@
 
                 </thead>
                 <tbody>
-                <tr ng-repeat="wiersz in kierowcy | filter:{imie: filtrImie, nazwisko:filtrNazwisko}| orderBy:kluczSortowania:odwrotneSortowanie">
-                    <td class="text-center">{{wiersz.imie}}</td>
-                    <td class="text-center">{{wiersz.nazwisko}}</td>
+                <tr ng-repeat="kierowca in kierowcy | filter:{imie: filtrImie, nazwisko:filtrNazwisko}| orderBy:kluczSortowania:odwrotneSortowanie">
+                    <td class="text-center">{{kierowca.imie}}</td>
+                    <td class="text-center">{{kierowca.nazwisko}}</td>
                     <td>
-                        <button type="button" class="btn-xs btn-warning glyphicon glyphicon-edit center-block" ng-click="edytujKierowce()"></button>
+                        <button type="button" class="btn-xs btn-warning glyphicon glyphicon-edit center-block" ng-click="edytujKierowce(kierowcy.indexOf(kierowca))"></button>
                     </td>
                     <td>
-                        <button type="button" class="btn-xs btn-danger glyphicon glyphicon-remove center-block"></button>
+                        <button type="button" class="btn-xs btn-danger glyphicon glyphicon-remove center-block" ng-click="usunKierowce(kierowcy.indexOf(kierowca))"></button>
                     </td>
                 </tr>
                 </tbody>
@@ -680,16 +691,16 @@
 
                 </thead>
                 <tbody>
-                <tr ng-repeat="wiersz in pojazdy | filter:{imie: filtrImie, nazwisko:filtrNazwisko}| orderBy:kluczSortowania:odwrotneSortowanie">
-                    <td class="text-center">{{wiersz.numerRejestracyjny}}</td>
-                    <td class="text-center">{{wiersz.marka}}</td>
-                    <td class="text-right">{{wiersz.norma | number : 2}}</td>
-                    <td class="text-right">{{wiersz.odchylenie | number : 2}}</td>
+                <tr ng-repeat="pojazd in pojazdy | filter:{imie: filtrImie, nazwisko:filtrNazwisko}| orderBy:kluczSortowania:odwrotneSortowanie">
+                    <td class="text-center">{{pojazd.numerRejestracyjny}}</td>
+                    <td class="text-center">{{pojazd.marka}}</td>
+                    <td class="text-right">{{pojazd.norma | number : 2}}</td>
+                    <td class="text-right">{{pojazd.odchylenie | number : 2}}</td>
                     <td>
-                        <button type="button" class="btn-xs btn-warning glyphicon glyphicon-edit center-block" ng-click="edytujPojazd()"></button>
+                        <button type="button" class="btn-xs btn-warning glyphicon glyphicon-edit center-block" ng-click="edytujPojazd(pojazdy.indexOf(pojazd))"></button>
                     </td>
                     <td>
-                        <button type="button" class="btn-xs btn-danger glyphicon glyphicon-remove center-block"></button>
+                        <button type="button" class="btn-xs btn-danger glyphicon glyphicon-remove center-block" ng-click="usunPojazd(pojazdy.indexOf(pojazd))"></button>
                     </td>
                 </tr>
                 </tbody>
@@ -763,10 +774,10 @@
                     </th>
 
                     <th class="text-center">
-                        <a href="#" ng-click="kluczSortowania = 'email';odwrotneSortowanie = !odwrotneSortowanie">
-                            Email
-                            <span ng-show="kluczSortowania == 'email' && !odwrotneSortowanie" class="glyphicon glyphicon-triangle-bottom"></span>
-                            <span ng-show="kluczSortowania == 'email' && odwrotneSortowanie" class="glyphicon glyphicon-triangle-top"></span>
+                        <a href="#" ng-click="kluczSortowania = 'login';odwrotneSortowanie = !odwrotneSortowanie">
+                            Login
+                            <span ng-show="kluczSortowania == 'login' && !odwrotneSortowanie" class="glyphicon glyphicon-triangle-bottom"></span>
+                            <span ng-show="kluczSortowania == 'login' && odwrotneSortowanie" class="glyphicon glyphicon-triangle-top"></span>
                         </a>
                     </th>
 
@@ -784,16 +795,16 @@
 
                 </thead>
                 <tbody>
-                <tr ng-repeat="wiersz in uzytkownicy | filter:{imie: filtrImie, nazwisko:filtrNazwisko, rola:filtrRola}| orderBy:kluczSortowania:odwrotneSortowanie">
-                    <td class="text-center">{{wiersz.imie}}</td>
-                    <td class="text-center">{{wiersz.nazwisko}}</td>
-                    <td class="text-center">{{wiersz.email}}</td>
-                    <td class="text-center">{{wiersz.rola}}</td>
+                <tr ng-repeat="uzytkownik in uzytkownicy | filter:{imie: filtrImie, nazwisko:filtrNazwisko, rola:filtrRola}| orderBy:kluczSortowania:odwrotneSortowanie">
+                    <td class="text-center">{{uzytkownik.imie}}</td>
+                    <td class="text-center">{{uzytkownik.nazwisko}}</td>
+                    <td class="text-center">{{uzytkownik.login}}</td>
+                    <td class="text-center">{{uzytkownik.rola}}</td>
                     <td>
-                        <button type="button" class="btn-xs btn-warning glyphicon glyphicon-edit center-block" ng-click="edytujUzytkownika()"></button>
+                        <button type="button" class="btn-xs btn-warning glyphicon glyphicon-edit center-block" ng-click="edytujUzytkownika(uzytkownicy.indexOf(uzytkownik))"></button>
                     </td>
                     <td>
-                        <button type="button" class="btn-xs btn-danger glyphicon glyphicon-remove center-block"></button>
+                        <button type="button" class="btn-xs btn-danger glyphicon glyphicon-remove center-block" ng-click = "usunUzytkownika(uzytkownicy.indexOf(uzytkownik))"></button>
                     </td>
                 </tr>
                 </tbody>

@@ -18,6 +18,9 @@ app.controller('pojazdyKontroler', ['$rootScope', '$scope', '$uibModal', functio
         });
     };
 
+    $scope.usunPojazd = function(indeks){
+        alert('usuwam pojazd o numerze ' + indeks);
+    }
 
     $rootScope.pojazdy =
         [

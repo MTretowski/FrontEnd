@@ -3,6 +3,14 @@ app.controller('tankowaniaKontroler', ['$rootScope', '$scope', '$uibModal', func
     $scope.odwrotneSortowanie = false;
     $scope.pokazFiltry = false;
 
+    var teraz = new Date();
+    var dzisiaj = new Date(teraz.getUTCFullYear(), teraz.getUTCMonth(), teraz.getUTCDate(),  teraz.getUTCHours(), teraz.getUTCMinutes(), teraz.getUTCSeconds());
+    var rokTemu = new Date(teraz.getUTCFullYear()-1, teraz.getUTCMonth(), teraz.getUTCDate(),  teraz.getUTCHours(), teraz.getUTCMinutes(), teraz.getUTCSeconds());
+    dzisiaj.setUTCHours(23,59,59);
+    rokTemu.setUTCHours(00,00,00);
+    $scope.filtrDataOd = rokTemu;
+    $scope.filtrDataDo = dzisiaj;
+
     $scope.dodajTankowanie = function () {
         $uibModal.open({
             templateUrl: 'Widoki/Okna/oknoTankowanie.html',
@@ -17,6 +25,9 @@ app.controller('tankowaniaKontroler', ['$rootScope', '$scope', '$uibModal', func
         });
     };
 
+    $scope.usunTankowanie = function(indeks){
+        alert('usuwam tankowanie o numerze ' + indeks);
+    }
 
     $rootScope.tankowania =
         [

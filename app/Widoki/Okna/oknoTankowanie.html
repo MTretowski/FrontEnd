@@ -4,6 +4,8 @@
         <h4 class="modal-title">{{tytul}}</h4>
     </div>
 
+    {{data}}
+    {{godzina}}
     <div class="modal-body">
         <form class="form-horizontal">
             <div class="form-group">
@@ -20,11 +22,11 @@
             <div class="form-group">
                 <label class="control-label col-md-2">Data</label>
                 <div class="col-md-4">
-                    <input type="date" class="form-control">
+                    <input type="date" class="form-control" ng-model-options="{ timezone: 'UTC' }" ng-model = "data">
                 </div>
                 <label class="control-label col-md-2">Godzina</label>
                 <div class="col-md-4">
-                    <input type="time" class="form-control">
+                    <input type="time" class="form-control" ng-model-options="{ timezone: 'UTC' }" ng-model = "godzina">
                 </div>
             </div>
 

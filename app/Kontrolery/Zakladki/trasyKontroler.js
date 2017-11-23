@@ -2,6 +2,17 @@ app.controller('trasyKontroler', ['$cookieStore', '$rootScope', '$scope', '$uibM
     $scope.kluczSortowania;
     $scope.odwrotneSortowanie = false;
     $scope.pokazFiltry = false;
+    
+    var teraz = new Date();
+    var dzisiaj = new Date(teraz.getUTCFullYear(), teraz.getUTCMonth(), teraz.getUTCDate(),  teraz.getUTCHours(), teraz.getUTCMinutes(), teraz.getUTCSeconds());
+    var rokTemu = new Date(teraz.getUTCFullYear()-1, teraz.getUTCMonth(), teraz.getUTCDate(),  teraz.getUTCHours(), teraz.getUTCMinutes(), teraz.getUTCSeconds());
+    dzisiaj.setUTCHours(23,59,59);
+    rokTemu.setUTCHours(00,00,00);
+    $scope.filtrDataRozpoczeciaOd = rokTemu;
+    $scope.filtrDataRozpoczeciaDo = dzisiaj;
+    $scope.filtrDataZakonczeniaOd = rokTemu;
+    $scope.filtrDataZakonczeniaDo = dzisiaj;
+
 
     $scope.dodajTrase = function () {
         $uibModal.open({
@@ -19,13 +30,8 @@ app.controller('trasyKontroler', ['$cookieStore', '$rootScope', '$scope', '$uibM
         });
     };
 
-
-    $scope.sprawdzUprawnienia = function () {
-        if ( $cookieStore.get('rolaUzytkownika') ) {
-            return $cookieStore.get('rolaUzytkownika')
-        } else {
-            return '';
-        }
+    $scope.usunTrase = function(indeks){
+        alert('usuwam trase o numerze ' + indeks);
     }
 
     $rootScope.trasy =
@@ -42,8 +48,8 @@ app.controller('trasyKontroler', ['$cookieStore', '$rootScope', '$scope', '$uibM
             },
             {
                 'pojazd': 'WPR74905',
-                'kierowca': 'Adam Nowak',
-                'dataRozpoczecia': new Date("2017-04-06"),
+                'kierowca': 'Adam terazak',
+                'dataRozpoczecia': new Date("2017-04-06T23:59"),
                 'dataZakonczenia': new Date("2017-07-29"),
                 'spalanieFakt': 30,
                 'spalanieGPS': 28.30,

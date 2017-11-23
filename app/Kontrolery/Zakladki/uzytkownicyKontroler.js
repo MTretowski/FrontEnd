@@ -1,4 +1,4 @@
-app.controller('uzytkownicyKontroler', ['$rootScope', '$scope', '$uibModal', function ($rootScope, $scope, $uibModal) {
+app.controller('uzytkownicyKontroler', ['$scope', '$uibModal', function ($scope, $uibModal) {
     $scope.kluczSortowania;
     $scope.odwrotneSortowanie = false;
     $scope.pokazFiltry = false;
@@ -17,18 +17,22 @@ app.controller('uzytkownicyKontroler', ['$rootScope', '$scope', '$uibModal', fun
         });
     };
 
+    $scope.usunUzytkownika = function(indeks){
+        alert('usuwam uzytkownika o numerze ' + indeks);
+    }
+
     $scope.uzytkownicy =
         [
             {
                 'imie': 'Admin',
                 'nazwisko': 'Administracyjny',
-                'email':'admin@admin.pl',
+                'login':'admin@admin.pl',
                 'rola':'Administrator'
             },
             {
                 'imie': 'Użytkownik',
                 'nazwisko': 'Użykownikowy',
-                'email':'uzytkownik@uzytkownik.pl',
+                'login':'uzytkownik@uzytkownik.pl',
                 'rola':'Użytkownik'
             }
         ]
