@@ -1,8 +1,10 @@
-app.controller('pojazdyKontroler', ['$rootScope', '$scope', '$uibModal', function ($rootScope, $scope, $uibModal) {
+app.controller('pojazdyKontroler', function ($scope, $uibModal, pojazdySerwis) {
     $scope.kluczSortowania;
     $scope.odwrotneSortowanie = false;
     $scope.pokazFiltry = false;
     $scope.zbiornikiTakieSame = false;
+
+    $scope.pojazdy = pojazdySerwis.dajPojazdy();
 
     $scope.dodajPojazd = function () {
         $uibModal.open({
@@ -18,23 +20,8 @@ app.controller('pojazdyKontroler', ['$rootScope', '$scope', '$uibModal', functio
         });
     };
 
-    $scope.usunPojazd = function(indeks){
+    $scope.usunPojazd = function (indeks) {
         alert('usuwam pojazd o numerze ' + indeks);
     }
 
-    $rootScope.pojazdy =
-        [
-            {
-                'numerRejestracyjny': 'WPR 2699M',
-                'marka': 'Scania R450',
-                'norma': 27.9,
-                'odchylenie': 1.5
-            },
-            {
-                'numerRejestracyjny': 'WWY 55119',
-                'marka': 'DAF XF 105',
-                'norma': 29.4,
-                'odchylenie': 0.8
-            }
-        ]
-}]);
+});

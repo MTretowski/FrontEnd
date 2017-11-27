@@ -1,4 +1,4 @@
-app.controller('glownyKontroler', ['$cookieStore', '$rootScope', '$scope', '$uibModal', function ($cookieStore, $rootScope, $scope, $uibModal) {
+app.controller('glownyKontroler', function ($cookieStore, $rootScope, $scope, $uibModal) {
 
     $scope.login;
     $scope.haslo;
@@ -20,18 +20,20 @@ app.controller('glownyKontroler', ['$cookieStore', '$rootScope', '$scope', '$uib
     }
 
     $scope.zaloguj = function () {
-        if ($scope.login === "uzytkownik" && $scope.haslo === "uzytkownik") {
+        if ($scope.login == "uzytkownik" && $scope.haslo == "uzytkownik") {
             $cookieStore.put('rolaUzytkownika', 'uzytkownik');
+            $scope.login = '';
         }
-        else if ($scope.login === "admin" && $scope.haslo === "admin") {
+        else if ($scope.login == "admin" && $scope.haslo == "admin") {
             $cookieStore.put('rolaUzytkownika', 'administrator');
+            $scope.login = '';
         }
-        $scope.login = '';
-        $scope.haslo = ''
+        $scope.haslo = '';
+
     }
 
     $scope.wyloguj = function () {
         $cookieStore.remove('rolaUzytkownika');
     }
 
-}]);
+});

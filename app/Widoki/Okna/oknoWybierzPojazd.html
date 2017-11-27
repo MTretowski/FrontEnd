@@ -1,0 +1,74 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <button type="button" class="close glyphicon glyphicon-remove" ng-click="zamknij()"></button>
+        <h4 class="modal-title">Wybierz pojazd</h4>
+    </div>
+    <div class="modal-body">
+
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <div class="btn-group">
+                    <a class="btn btn-info" ng-click="pokazFiltry = !pokazFiltry">{{pokazFiltry ? 'Ukryj filtry' : 'Pokaż filtry'}}</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="row" ng-show="pokazFiltry">
+            <br>
+            <div class="col-md-6">
+                <div class="input-group">
+                    <span class="input-group-addon">Numer rejestracyjny: </span>
+                    <input type="text" class="form-control" ng-model="filtrNumerRejestracyjny">
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="input-group">
+                    <span class="input-group-addon">Marka i model: </span>
+                    <input type="text" class="form-control" ng-model="filtrMarka">
+                </div>
+            </div>
+        </div>
+
+        <br>
+
+        <table class="table table-condensed table-responsive table-hover table-bordered table-striped">
+            <thead>
+            <tr>
+                <th class="text-center">
+                    <a href="#" ng-click="kluczSortowania = 'numerRejestracyjny';odwrotneSortowanie = !odwrotneSortowanie">
+                        Numer rejestracyjny
+                        <span ng-show="kluczSortowania == 'numerRejestracyjny' && !odwrotneSortowanie" class="glyphicon glyphicon-triangle-bottom"></span>
+                        <span ng-show="kluczSortowania == 'numerRejestracyjny' && odwrotneSortowanie" class="glyphicon glyphicon-triangle-top"></span>
+                    </a>
+                </th>
+
+                <th class="text-center">
+                    <a href="#" ng-click="kluczSortowania = 'markaIModel';odwrotneSortowanie = !odwrotneSortowanie">
+                        Marka i model
+                        <span ng-show="kluczSortowania == 'markaIModel' && !odwrotneSortowanie" class="glyphicon glyphicon-triangle-bottom"></span>
+                        <span ng-show="kluczSortowania == 'markaIModel' && odwrotneSortowanie" class="glyphicon glyphicon-triangle-top"></span>
+                    </a>
+                </th>
+
+                <th class="text-center">Wybierz</th>
+            </tr>
+
+            </thead>
+            <tbody>
+            <tr ng-repeat="pojazd in pojazdy | filter:{numerRejestracyjny: filtrNumerRejestracyjny, markaIModel:filtrMarka}| orderBy:kluczSortowania:odwrotneSortowanie" ng-if="pojazd.czyAktywny==true">
+                <td class="text-center">{{pojazd.numerRejestracyjny}}</td>
+                <td class="text-center">{{pojazd.markaIModel}}</td>
+                <td>
+                    <button type="button" class="btn-xs btn-success glyphicon glyphicon-ok center-block" ng-click="wybrano(pojazdy.indexOf(pojazd))"></button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+    </div>
+
+    <div class="modal-footer">
+        <button type="button" class="btn btn-danger" ng-click="zamknij()">Anuluj</button>
+    </div>
+</div>

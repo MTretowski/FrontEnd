@@ -8,17 +8,44 @@
         <div class="row">
             <div class="col-md-6">
                 <form class="form-horizontal">
+
+                    <label>Kierowcy</label>
                     <div class="form-group">
-                        <label class="control-label col-md-2">Kierowca</label>
-                        <div class="col-md-10">
-                            <input type="text" class="form-control">
+                        <label class="control-label col-md-2">Kier. 1</label>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" ng-model="kierowca1" disabled>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="btn-group-sm">
+                                <a class="btn btn-info" ng-click="wybierzKierowce(1)">Wybierz</a>
+                                <a class="btn btn-danger" ng-click="usunKierowce(1)">Usuń</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-2">Kier. 2</label>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" ng-model="kierowca2" disabled>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="btn-group-sm">
+                                <a class="btn btn-info" ng-click="wybierzKierowce(2)">Wybierz</a>
+                                <a class="btn btn-danger" ng-click="usunKierowce(2)">Usuń</a>
+                            </div>
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label class="control-label col-md-2">Pojazd</label>
-                        <div class="col-md-10">
-                            <input type="text" class="form-control">
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" ng-model="pojazd" disabled>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="btn-group-sm">
+                                <a class="btn btn-info" ng-click="wybierzPojazd()">Wybierz</a>
+                                <a class="btn btn-danger" ng-click="usunPojazd()">Usuń</a>
+                            </div>
                         </div>
                     </div>
 
@@ -26,11 +53,11 @@
                     <div class="form-group">
                         <label class="control-label col-md-1">Data</label>
                         <div class="col-md-5">
-                            <input type="date" class="form-control">
+                            <input type="date" class="form-control" ng-model-options="{ timezone: 'UTC' }" ng-model="dataRozpoczecia" ng-change="aktualizujDane()">
                         </div>
                         <label class="control-label col-md-2">Godzina</label>
                         <div class="col-md-4">
-                            <input type="time" class="form-control">
+                            <input type="time" class="form-control" ng-model-options="{ timezone: 'UTC' }" ng-model="dataRozpoczecia" ng-change="aktualizujDane()">
                         </div>
                     </div>
 
@@ -38,32 +65,32 @@
                     <div class="form-group">
                         <label class="control-label col-md-1">Data</label>
                         <div class="col-md-5">
-                            <input type="date" class="form-control">
+                            <input type="date" class="form-control" ng-model-options="{ timezone: 'UTC' }" ng-model="dataZakonczenia" ng-change="aktualizujDane()">
                         </div>
                         <label class="control-label col-md-2">Godzina</label>
                         <div class="col-md-4">
-                            <input type="time" class="form-control">
+                            <input type="time" class="form-control" ng-model-options="{ timezone: 'UTC' }" ng-model="dataZakonczenia" ng-change="aktualizujDane()">
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label class="control-label col-md-6">Przejechane kilometry</label>
+                        <label class="control-label col-md-6">Przejechany dystans [km]</label>
                         <div class="col-md-6">
-                            <input type="text" class="form-control">
+                            <input type="number" class="form-control" ng-model="przejechaneKilometry">
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label class="control-label col-md-6">Zużyte paliwo - Webasto (L)</label>
+                        <label class="control-label col-md-6">Zużyte paliwo - Webasto [L]</label>
                         <div class="col-md-6">
-                            <input type="text" class="form-control">
+                            <input type="number" class="form-control" ng-model='webasto'>
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label class="control-label col-md-6">Zużyte paliwo - CAN (L)</label>
+                        <label class="control-label col-md-6">Zużyte paliwo - CAN [L]</label>
                         <div class="col-md-6">
-                            <input type="text" class="form-control">
+                            <input type="number" class="form-control" ng-model="can">
                         </div>
                     </div>
 
@@ -72,40 +99,40 @@
                 <table class="table table-condensed table-responsive table-hover table-bordered table-striped">
                     <tbody>
                     <tr>
-                        <th>Zużyte paliwo - Webasto + CAN (L)</th>
-                        <td></td>
+                        <th>Zużyte paliwo - Webasto + CAN [L]</th>
+                        <td class="text-right">{{webasto+can | number : 2}}</td>
                     </tr>
                     <tr>
-                        <th>Paliwo przed wyjazdem (L)</th>
-                        <td></td>
+                        <th>Paliwo przed wyjazdem [L]</th>
+                        <td class="text-right">{{paliwoPrzedWyjazdem | number : 2}}</td>
                     </tr>
                     <tr>
-                        <th>Paliwo dotankowane (L)</th>
-                        <td></td>
+                        <th>Paliwo dotankowane [L]</th>
+                        <td class="text-right">{{paliwoDotankowane | number : 2}}</td>
                     </tr>
                     <tr>
-                        <th>Paliwo po powrocie (L)</th>
-                        <td></td>
+                        <th>Paliwo po powrocie [L]</th>
+                        <td class="text-right">{{paliwoPoPowrocie | number : 2}}</td>
                     </tr>
                     <tr>
-                        <th>Zużyte paliwo (L)</th>
-                        <td></td>
+                        <th>Zużyte paliwo [L]</th>
+                        <td class="text-right">{{paliwoPrzedWyjazdem+paliwoDotankowane-paliwoPoPowrocie | number : 2}}</td>
                     </tr>
                     <tr>
-                        <th>Srednie spalanie wg GPS (L/100 km)</th>
-                        <td></td>
+                        <th>Srednie spalanie wg GPS [L/100 km]</th>
+                        <td class="text-right">{{(can+webasto)/przejechaneKilometry*100 | number : 2}}</td>
                     </tr>
                     <tr>
-                        <th>Srednie spalanie faktyczne (L/100 km)</th>
-                        <td></td>
+                        <th>Srednie spalanie faktyczne [L/100 km]</th>
+                        <td class="text-right">{{(paliwoPrzedWyjazdem+paliwoDotankowane-paliwoPoPowrocie)/przejechaneKilometry*100 | number : 2}}</td>
                     </tr>
                     <tr>
-                        <th>Różnica w spalaniu (L/100 km)</th>
-                        <td></td>
+                        <th>Różnica w spalaniu [L/100 km]</th>
+                        <td class="text-right">{{(can+webasto)-(paliwoPrzedWyjazdem+paliwoDotankowane-paliwoPoPowrocie) | number : 2}}</td>
                     </tr>
                     <tr>
-                        <th>Różnica w zużyciu paliwa (L)</th>
-                        <td></td>
+                        <th>Różnica w zużyciu paliwa [L]</th>
+                        <td class="text-right">{{((can+webasto)/przejechaneKilometry*100)-((paliwoPrzedWyjazdem+paliwoDotankowane-paliwoPoPowrocie)/przejechaneKilometry*100) | number : 2}}</td>
                     </tr>
                     </tbody>
                 </table>
@@ -115,7 +142,7 @@
                 <h4 class="text-center">Pomiary</h4>
 
                 <div class="col-md-12 text-center">
-                    <div class="btn"><a class="btn btn-success" data-toggle="modal" data-target=""> Dodaj pomiar</a></div>
+                    <div class="btn"><a class="btn btn-success" ng-click="trasaDodajPomiar()"> Dodaj pomiar</a></div>
                 </div>
 
                 <table class="table table-condensed table-responsive table-hover table-bordered table-striped">
@@ -123,7 +150,7 @@
                     <tr>
                         <th class="text-center">Rodzaj</th>
                         <th class="text-center">Data</th>
-                        <th class="text-center">Paliwo w zbiornikach</th>
+                        <th class="text-center">Paliwo [L]</th>
                         <th class="text-center">Edytuj</th>
                         <th class="text-center">Usuń</th>
                     </tr>
@@ -131,25 +158,25 @@
 
                     <tbody>
                     <tr>
-                        <td>Początkowy</td>
-                        <td>28.02.2017</td>
-                        <td>1200,00</td>
+                        <td class="text-center">Początkowy</td>
+                        <td class="text-center">{{pomiarPoczatkowy.data | date : 'dd.MM.yyyy'}}</td>
+                        <td class="text-right">{{pomiarPoczatkowy.ilosc | number: 2}}</td>
                         <td>
-                            <button type="button" class="btn-xs btn-warning glyphicon glyphicon-edit center-block"></button>
+                            <button type="button" class="btn-xs btn-warning glyphicon glyphicon-edit center-block" ng-click="wybierzPomiar(1)"></button>
                         </td>
                         <td>
-                            <button type="button" class="btn-xs btn-danger glyphicon glyphicon-remove center-block"></button>
+                            <button type="button" class="btn-xs btn-danger glyphicon glyphicon-remove center-block" ng-click="usunPomiar(1)"></button>
                         </td>
                     </tr>
                     <tr>
-                        <td>Końcowy</td>
-                        <td>23.03.2017</td>
-                        <td>999,99</td>
+                        <td class="text-center">Końcowy</td>
+                        <td class="text-center">{{pomiarKoncowy.data | date : 'dd.MM.yyyy'}}</td>
+                        <td class="text-right">{{pomiarKoncowy.ilosc | number: 2}}</td>
                         <td>
-                            <button type="button" class="btn-xs btn-warning glyphicon glyphicon-edit center-block"></button>
+                            <button type="button" class="btn-xs btn-warning glyphicon glyphicon-edit center-block" ng-click="wybierzPomiar(2)"></button>
                         </td>
                         <td>
-                            <button type="button" class="btn-xs btn-danger glyphicon glyphicon-remove center-block"></button>
+                            <button type="button" class="btn-xs btn-danger glyphicon glyphicon-remove center-block" ng-click="usunPomiar(2)"></button>
                         </td>
                     </tr>
                     </tbody>
@@ -158,7 +185,7 @@
                 <h4 class="text-center">Tankowania</h4>
 
                 <div class="col-md-12 text-center">
-                    <div class="btn"><a class="btn btn-success" data-toggle="modal" data-target="">Dodaj tankowanie</a></div>
+                    <div class="btn"><a class="btn btn-success" ng-click="trasaDodajTankowanie()">Dodaj tankowanie</a></div>
                 </div>
 
                 <table class="table table-condensed table-responsive table-hover table-bordered table-striped">
@@ -173,10 +200,10 @@
                     </thead>
 
                     <tbody>
-                    <tr ng-repeat="wierszTankowania in tankowania">
-                        <td>{{wierszTankowania.data | date : 'dd.MM.yyyy'}}</td>
-                        <td>{{wierszTankowania.ilosc | number : 2}}</td>
-                        <td>{{wierszTankowania.dostawca}}</td>
+                    <tr ng-repeat="tankowanie in tankowania" ng-if="tankowanie.data <= dataZakonczenia && tankowanie.data >= dataRozpoczecia && tankowanie.idPojazdu == idPojazdu">
+                        <td>{{tankowanie.data | date : 'dd.MM.yyyy'}}</td>
+                        <td>{{tankowanie.ilosc | number : 2}}</td>
+                        <td>{{tankowanie.dostawca}}</td>
                         <td>
                             <button type="button" class="btn-xs btn-warning glyphicon glyphicon-edit center-block"></button>
                         </td>
@@ -189,7 +216,7 @@
 
                 <div class="form-group">
                     <label>Komentarz</label>
-                    <textarea class="form-control" rows="4"></textarea>
+                    <textarea class="form-control" rows="4" ng-model="komentarz"></textarea>
                 </div>
             </div>
         </div>

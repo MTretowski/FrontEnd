@@ -1,0 +1,103 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <button type="button" class="close glyphicon glyphicon-remove" ng-click="zamknij()"></button>
+        <h4 class="modal-title">Wybierz pomiar</h4>
+    </div>
+
+    <div class="modal-body">
+
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <div class="btn-group">
+                    <a class="btn btn-info" ng-click="pokazFiltry = !pokazFiltry">{{pokazFiltry ? 'Ukryj filtry' : 'Pokaż filtry'}}</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="row" ng-show="pokazFiltry">
+            <br>
+            <div class="col-md-6">
+                <div class="input-group">
+                    <span class="input-group-addon">Data od: </span>
+                    <input type="date" class="form-control" ng-model-options="{ timezone: 'UTC' }" ng-model="filtrDataOd">
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="input-group">
+                    <span class="input-group-addon">Data do: </span>
+                    <input type="date" class="form-control" ng-model-options="{ timezone: 'UTC' }" ng-model="filtrDataDo">
+                </div>
+            </div>
+
+        </div>
+
+        <br>
+
+        <table class="table table-condensed table-responsive table-hover table-bordered table-striped">
+            <thead>
+            <tr>
+                <th class="text-center">
+                    <a href="#" ng-click="kluczSortowania = 'dataPomiaru';odwrotneSortowanie = !odwrotneSortowanie">
+                        Data
+                        <span ng-show="kluczSortowania == 'dataPomiaru' && !odwrotneSortowanie" class="glyphicon glyphicon-triangle-bottom"></span>
+                        <span ng-show="kluczSortowania == 'dataPomiaru' && odwrotneSortowanie" class="glyphicon glyphicon-triangle-top"></span>
+                    </a>
+                </th>
+
+                <th class="text-center">
+                    <a href="#" ng-click="kluczSortowania = 'sposobPomiaru';odwrotneSortowanie = !odwrotneSortowanie">
+                        Sposób pomiaru
+                        <span ng-show="kluczSortowania == 'sposobPomiaru' && !odwrotneSortowanie" class="glyphicon glyphicon-triangle-bottom"></span>
+                        <span ng-show="kluczSortowania == 'sposobPomiaru' && odwrotneSortowanie" class="glyphicon glyphicon-triangle-top"></span>
+                    </a>
+                </th>
+
+                <th class="text-center">
+                    <a href="#" ng-click="kluczSortowania = 'lewy';odwrotneSortowanie = !odwrotneSortowanie">
+                        Zbiornik lewy
+                        <span ng-show="kluczSortowania == 'lewy' && !odwrotneSortowanie" class="glyphicon glyphicon-triangle-bottom"></span>
+                        <span ng-show="kluczSortowania == 'lewy' && odwrotneSortowanie" class="glyphicon glyphicon-triangle-top"></span>
+                    </a>
+                </th>
+
+                <th class="text-center">
+                    <a href="#" ng-click="kluczSortowania = 'prawy';odwrotneSortowanie = !odwrotneSortowanie">
+                        Zbiornik prawy
+                        <span ng-show="kluczSortowania == 'prawy' && !odwrotneSortowanie" class="glyphicon glyphicon-triangle-bottom"></span>
+                        <span ng-show="kluczSortowania == 'prawy' && odwrotneSortowanie" class="glyphicon glyphicon-triangle-top"></span>
+                    </a>
+                </th>
+
+                <th class="text-center">
+                    <a href="#" ng-click="kluczSortowania = 'lacznie';odwrotneSortowanie = !odwrotneSortowanie">
+                        Łącznie [L]
+                        <span ng-show="kluczSortowania == 'lacznie' && !odwrotneSortowanie" class="glyphicon glyphicon-triangle-bottom"></span>
+                        <span ng-show="kluczSortowania == 'lacznie' && odwrotneSortowanie" class="glyphicon glyphicon-triangle-top"></span>
+                    </a>
+                </th>
+
+                <th class="text-center">Wybierz</th>
+            </tr>
+
+            </thead>
+            <tbody>
+            <tr ng-repeat="pomiar in pomiary | orderBy:kluczSortowania:odwrotneSortowanie" ng-if="pomiar.dataPomiaru >= filtrDataOd && pomiar.dataPomiaru <= filtrDataDo && pomiar.idPojazdu == idPojazdu">
+                <td class="text-center">{{pomiar.dataPomiaru | date : 'dd.MM.yyyy'}}</td>
+                <td class="text-center">{{pomiar.sposobPomiaru}}</td>
+                <td class="text-right">{{pomiar.lewy | number : 2}}</td>
+                <td class="text-right">{{pomiar.prawy | number : 2}}</td>
+                <td class="text-right">{{pomiar.lacznie | number : 2}}</td>
+                <td>
+                    <button type="button" class="btn-xs btn-success glyphicon glyphicon-ok center-block" ng-click="wybrano(pomiary.indexOf(pomiar))"></button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+    </div>
+
+    <div class="modal-footer">
+        <button type="button" class="btn btn-danger" ng-click="zamknij()">Anuluj</button>
+    </div>
+</div>

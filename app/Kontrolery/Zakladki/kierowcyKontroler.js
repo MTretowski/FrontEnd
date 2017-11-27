@@ -1,7 +1,9 @@
-app.controller('kierowcyKontroler', ['$rootScope', '$scope', '$uibModal', function ($rootScope, $scope, $uibModal) {
+app.controller('kierowcyKontroler', function ($scope, $uibModal, kierowcySerwis) {
     $scope.kluczSortowania;
     $scope.odwrotneSortowanie = false;
     $scope.pokazFiltry = false;
+
+    $scope.kierowcy = kierowcySerwis.dajKierowcow();
 
     $scope.dodajKierowce = function () {
         $uibModal.open({
@@ -21,15 +23,5 @@ app.controller('kierowcyKontroler', ['$rootScope', '$scope', '$uibModal', functi
         alert('usuwam kierowce o numerze ' + indeks);
     }
 
-    $rootScope.kierowcy =
-        [
-            {
-                'imie': 'Test',
-                'nazwisko': 'Testowy'
-            },
-            {
-                'imie': 'Adam',
-                'nazwisko': 'Nowak'
-            }
-        ]
-}]);
+
+});

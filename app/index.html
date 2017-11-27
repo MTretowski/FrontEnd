@@ -42,6 +42,18 @@
     <script src="Kontrolery/Okna/Haslo/zmienHasloKontroler.js"></script>
     <script src="Kontrolery/Okna/Haslo/resetujHasloKontroler.js"></script>
 
+    <script src="Kontrolery/Okna/Kierowca/wybierzKierowceKontroler.js"></script>
+    <script src="Kontrolery/Okna/Pojazd/wybierzPojazdKontroler.js"></script>
+    <script src="Kontrolery/Okna/Pomiar/wybierzPomiarKontroler.js"></script>
+
+    <script src="Serwisy/kierowcySerwis.js"></script>
+    <script src="Serwisy/pojazdySerwis.js"></script>
+    <script src="Serwisy/pomiarySerwis.js"></script>
+    <script src="Serwisy/tankowaniaSerwis.js"></script>
+    <script src="Serwisy/trasySerwis.js"></script>
+    <script src="Serwisy/uzytkownicySerwis.js"></script>
+
+
     <title>FrontEnd</title>
 
 </head>
@@ -182,16 +194,28 @@
 
             <div class="row" ng-show="pokazFiltry">
                 <br>
-                <div class="col-md-offset-2 col-md-4">
+                <div class="col-md-3">
                     <div class="input-group">
-                        <span class="input-group-addon">Kierowca: </span>
-                        <input type="text" class="form-control" ng-model="filtrKierowca">
+                        <span class="input-group-addon">Kierowca 1: </span>
+                        <input type="text" class="form-control" ng-model="filtrKierowca1">
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-3">
+                    <div class="input-group">
+                        <span class="input-group-addon">Kierowca 2: </span>
+                        <input type="text" class="form-control" ng-model="filtrKierowca2">
+                    </div>
+                </div>
+                <div class="col-md-3">
                     <div class="input-group">
                         <span class="input-group-addon">Pojazd: </span>
                         <input type="text" class="form-control" ng-model="filtrPojazd">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="input-group">
+                        <span class="input-group-addon">Numer trasy: </span>
+                        <input type="text" class="form-control" ng-model="filtrNumerTrasy">
                     </div>
                 </div>
             </div>
@@ -202,24 +226,41 @@
                 <thead>
                 <tr>
                     <th class="text-center">
-                        <a href="#" ng-click="kluczSortowania = 'pojazd';odwrotneSortowanie = !odwrotneSortowanie">
+                        <a href="#" ng-click="kluczSortowania = 'numerTrasy';odwrotneSortowanie = !odwrotneSortowanie">
+                            Numer
+                            <span ng-show="kluczSortowania == 'numerTrasy' && !odwrotneSortowanie" class="glyphicon glyphicon-triangle-bottom"></span>
+                            <span ng-show="kluczSortowania == 'numerTrasy' && odwrotneSortowanie" class="glyphicon glyphicon-triangle-top"></span>
+                        </a>
+                    </th>
+
+
+                    <th class="text-center">
+                        <a href="#" ng-click="kluczSortowania = 'numerRejestracyjnyPojazdu';odwrotneSortowanie = !odwrotneSortowanie">
                             Pojazd
-                            <span ng-show="kluczSortowania == 'pojazd' && !odwrotneSortowanie" class="glyphicon glyphicon-triangle-bottom"></span>
-                            <span ng-show="kluczSortowania == 'pojazd' && odwrotneSortowanie" class="glyphicon glyphicon-triangle-top"></span>
+                            <span ng-show="kluczSortowania == 'numerRejestracyjnyPojazdu' && !odwrotneSortowanie" class="glyphicon glyphicon-triangle-bottom"></span>
+                            <span ng-show="kluczSortowania == 'numerRejestracyjnyPojazdu' && odwrotneSortowanie" class="glyphicon glyphicon-triangle-top"></span>
                         </a>
                     </th>
 
                     <th class="text-center">
-                        <a href="#" ng-click="kluczSortowania = 'kierowca';odwrotneSortowanie = !odwrotneSortowanie">
-                            Kierowca
-                            <span ng-show="kluczSortowania == 'kierowca' && !odwrotneSortowanie" class="glyphicon glyphicon-triangle-bottom"></span>
-                            <span ng-show="kluczSortowania == 'kierowca' && odwrotneSortowanie" class="glyphicon glyphicon-triangle-top"></span>
+                        <a href="#" ng-click="kluczSortowania = 'kierowca1';odwrotneSortowanie = !odwrotneSortowanie">
+                            Kierowca 1
+                            <span ng-show="kluczSortowania == 'kierowca1' && !odwrotneSortowanie" class="glyphicon glyphicon-triangle-bottom"></span>
+                            <span ng-show="kluczSortowania == 'kierowca1' && odwrotneSortowanie" class="glyphicon glyphicon-triangle-top"></span>
+                        </a>
+                    </th>
+
+                    <th class="text-center">
+                        <a href="#" ng-click="kluczSortowania = 'kierowca2';odwrotneSortowanie = !odwrotneSortowanie">
+                            Kierowca 2
+                            <span ng-show="kluczSortowania == 'kierowca2' && !odwrotneSortowanie" class="glyphicon glyphicon-triangle-bottom"></span>
+                            <span ng-show="kluczSortowania == 'kierowca2' && odwrotneSortowanie" class="glyphicon glyphicon-triangle-top"></span>
                         </a>
                     </th>
 
                     <th class="text-center">
                         <a href="#" ng-click="kluczSortowania = 'dataRozpoczecia';odwrotneSortowanie = !odwrotneSortowanie">
-                            Data rozpoczęcia
+                            Data <br> rozpoczęcia
                             <span ng-show="kluczSortowania == 'dataRozpoczecia' && !odwrotneSortowanie" class="glyphicon glyphicon-triangle-bottom"></span>
                             <span ng-show="kluczSortowania == 'dataRozpoczecia' && odwrotneSortowanie" class="glyphicon glyphicon-triangle-top"></span>
                         </a>
@@ -227,41 +268,41 @@
 
                     <th class="text-center">
                         <a href="#" ng-click="kluczSortowania = 'dataZakonczenia';odwrotneSortowanie = !odwrotneSortowanie">
-                            Data zakończenia
+                            Data <br> zakończenia
                             <span ng-show="kluczSortowania == 'dataZakonczenia' && !odwrotneSortowanie" class="glyphicon glyphicon-triangle-bottom"></span>
                             <span ng-show="kluczSortowania == 'dataZakonczenia' && odwrotneSortowanie" class="glyphicon glyphicon-triangle-top"></span>
                         </a>
                     </th>
 
                     <th class="text-center">
-                        <a href="#" ng-click="kluczSortowania = 'spalanieFakt';odwrotneSortowanie = !odwrotneSortowanie">
-                            Sr. spal. fakt.
-                            <span ng-show="kluczSortowania == 'spalanieFakt' && !odwrotneSortowanie" class="glyphicon glyphicon-triangle-bottom"></span>
-                            <span ng-show="kluczSortowania == 'spalanieFakt' && odwrotneSortowanie" class="glyphicon glyphicon-triangle-top"></span>
+                        <a href="#" ng-click="kluczSortowania = 'srednieSpalanieFaktyczne';odwrotneSortowanie = !odwrotneSortowanie">
+                            Sr. spal. fakt. <br> [l / 100 km]
+                            <span ng-show="kluczSortowania == 'srednieSpalanieFaktyczne' && !odwrotneSortowanie" class="glyphicon glyphicon-triangle-bottom"></span>
+                            <span ng-show="kluczSortowania == 'srednieSpalanieFaktyczne' && odwrotneSortowanie" class="glyphicon glyphicon-triangle-top"></span>
                         </a>
                     </th>
 
                     <th class="text-center">
-                        <a href="#" ng-click="kluczSortowania = 'spalanieGPS';odwrotneSortowanie = !odwrotneSortowanie">
-                            Sr. spal. wg GPS
-                            <span ng-show="kluczSortowania == 'spalanieGPS' && !odwrotneSortowanie" class="glyphicon glyphicon-triangle-bottom"></span>
-                            <span ng-show="kluczSortowania == 'spalanieGPS' && odwrotneSortowanie" class="glyphicon glyphicon-triangle-top"></span>
+                        <a href="#" ng-click="kluczSortowania = 'srednieSpalanieGPS';odwrotneSortowanie = !odwrotneSortowanie">
+                            Sr. spal. wg GPS <br> [l / 100 km]
+                            <span ng-show="kluczSortowania == 'srednieSpalanieGPS' && !odwrotneSortowanie" class="glyphicon glyphicon-triangle-bottom"></span>
+                            <span ng-show="kluczSortowania == 'srednieSpalanieGPS' && odwrotneSortowanie" class="glyphicon glyphicon-triangle-top"></span>
                         </a>
                     </th>
 
                     <th class="text-center">
-                        <a href="#" ng-click="kluczSortowania = 'roznica';odwrotneSortowanie = !odwrotneSortowanie">
-                            Różnica w spalaniu
-                            <span ng-show="kluczSortowania == 'roznica' && !odwrotneSortowanie" class="glyphicon glyphicon-triangle-bottom"></span>
-                            <span ng-show="kluczSortowania == 'roznica' && odwrotneSortowanie" class="glyphicon glyphicon-triangle-top"></span>
+                        <a href="#" ng-click="kluczSortowania = 'odchylenieOdNormy';odwrotneSortowanie = !odwrotneSortowanie">
+                            Różnica w spalaniu <br> [l / 100 km]
+                            <span ng-show="kluczSortowania == 'odchylenieOdNormy' && !odwrotneSortowanie" class="glyphicon glyphicon-triangle-bottom"></span>
+                            <span ng-show="kluczSortowania == 'odchylenieOdNormy' && odwrotneSortowanie" class="glyphicon glyphicon-triangle-top"></span>
                         </a>
                     </th>
 
                     <th class="text-center">
-                        <a href="#" ng-click="kluczSortowania = 'dystans';odwrotneSortowanie = !odwrotneSortowanie">
-                            Dystans
-                            <span ng-show="kluczSortowania == 'dystans' && !odwrotneSortowanie" class="glyphicon glyphicon-triangle-bottom"></span>
-                            <span ng-show="kluczSortowania == 'dystans' && odwrotneSortowanie" class="glyphicon glyphicon-triangle-top"></span>
+                        <a href="#" ng-click="kluczSortowania = 'przejechaneKilometry';odwrotneSortowanie = !odwrotneSortowanie">
+                            Dystans <br> [km]
+                            <span ng-show="kluczSortowania == 'przejechaneKilometry' && !odwrotneSortowanie" class="glyphicon glyphicon-triangle-bottom"></span>
+                            <span ng-show="kluczSortowania == 'przejechaneKilometry' && odwrotneSortowanie" class="glyphicon glyphicon-triangle-top"></span>
                         </a>
                     </th>
                     <th class="text-center">Edytuj</th>
@@ -269,16 +310,19 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr ng-repeat="trasa in trasy | filter:{pojazd: filtrPojazd, kierowca:filtrKierowca}| orderBy:kluczSortowania:odwrotneSortowanie"
-                    ng-if="trasa.dataRozpoczecia >= filtrDataRozpoczeciaOd && trasa.dataRozpoczecia <= filtrDataRozpoczeciaDo && trasa.dataZakonczenia >= filtrDataZakonczeniaOd && trasa.dataZakonczenia <= filtrDataZakonczeniaDo">
-                    <td class="text-center">{{trasa.pojazd}}</td>
-                    <td class="text-center">{{trasa.kierowca}}</td>
+                <tr ng-repeat="trasa in trasy | filter:{numerRejestracyjnyPojazdu: filtrnumerRejestracyjnyPojazdu, kierowca1: filtrKierowca1, kierowca2: filtrKierowca2, numerTrasy: filtrNumerTrast}| orderBy:kluczSortowania:odwrotneSortowanie"
+                    ng-if="trasa.dataRozpoczecia >= filtrDataRozpoczeciaOd && trasa.dataRozpoczecia <= filtrDataRozpoczeciaDo &&
+                    trasa.dataZakonczenia >= filtrDataZakonczeniaOd && trasa.dataZakonczenia <= filtrDataZakonczeniaDo">
+                    <td class="text-center">{{trasa.numerTrasy}}</td>
+                    <td class="text-center">{{trasa.numerRejestracyjnyPojazdu}}</td>
+                    <td class="text-center">{{trasa.kierowca1}}</td>
+                    <td class="text-center">{{trasa.kierowca2}}</td>
                     <td class="text-center">{{trasa.dataRozpoczecia | date : 'dd.MM.yyyy'}}</td>
                     <td class="text-center">{{trasa.dataZakonczenia | date : 'dd.MM.yyyy'}}</td>
-                    <td class="text-right">{{trasa.spalanieFakt | number : 2}}</td>
-                    <td class="text-right">{{trasa.spalanieGPS | number : 2}}</td>
-                    <td class="text-right">{{trasa.roznica | number : 2}}</td>
-                    <td class="text-right">{{trasa.dystans | number : 2}}</td>
+                    <td class="text-right">{{trasa.srednieSpalanieFaktyczne | number : 2}}</td>
+                    <td class="text-right">{{trasa.srednieSpalanieGPS | number : 2}}</td>
+                    <td class="text-right">{{trasa.odchylenieOdNormy | number : 2}}</td>
+                    <td class="text-right">{{trasa.przejechaneKilometry | number : 2}}</td>
                     <td>
                         <button type="button" class="btn-xs btn-warning glyphicon glyphicon-edit center-block" ng-click="edytujTrase(trasy.indexOf(trasa))"></button>
                     </td>
@@ -365,7 +409,7 @@
 
                     <th class="text-center">
                         <a href="#" ng-click="kluczSortowania = 'ilosc';odwrotneSortowanie = !odwrotneSortowanie">
-                            Ilość
+                            Ilość [L]
                             <span ng-show="kluczSortowania == 'ilosc' && !odwrotneSortowanie" class="glyphicon glyphicon-triangle-bottom"></span>
                             <span ng-show="kluczSortowania == 'ilosc' && odwrotneSortowanie" class="glyphicon glyphicon-triangle-top"></span>
                         </a>
@@ -373,7 +417,7 @@
 
                     <th class="text-center">
                         <a href="#" ng-click="kluczSortowania = 'cena';odwrotneSortowanie = !odwrotneSortowanie">
-                            Cena/litr
+                            Cena za litr
                             <span ng-show="kluczSortowania == 'cena' && !odwrotneSortowanie" class="glyphicon glyphicon-triangle-bottom"></span>
                             <span ng-show="kluczSortowania == 'cena' && odwrotneSortowanie" class="glyphicon glyphicon-triangle-top"></span>
                         </a>
@@ -470,26 +514,42 @@
                 <thead>
                 <tr>
                     <th class="text-center">
-                        <a href="#" ng-click="kluczSortowania = 'pojazd';odwrotneSortowanie = !odwrotneSortowanie">
+                        <a href="#" ng-click="kluczSortowania = 'numerRejestracyjnyPojazdu';odwrotneSortowanie = !odwrotneSortowanie">
                             Pojazd
-                            <span ng-show="kluczSortowania == 'pojazd' && !odwrotneSortowanie" class="glyphicon glyphicon-triangle-bottom"></span>
-                            <span ng-show="kluczSortowania == 'pojazd' && odwrotneSortowanie" class="glyphicon glyphicon-triangle-top"></span>
+                            <span ng-show="kluczSortowania == 'numerRejestracyjnyPojazdu' && !odwrotneSortowanie" class="glyphicon glyphicon-triangle-bottom"></span>
+                            <span ng-show="kluczSortowania == 'numerRejestracyjnyPojazdu' && odwrotneSortowanie" class="glyphicon glyphicon-triangle-top"></span>
                         </a>
                     </th>
 
                     <th class="text-center">
-                        <a href="#" ng-click="kluczSortowania = 'data';odwrotneSortowanie = !odwrotneSortowanie">
+                        <a href="#" ng-click="kluczSortowania = 'dataPomiaru';odwrotneSortowanie = !odwrotneSortowanie">
                             Data
-                            <span ng-show="kluczSortowania == 'data' && !odwrotneSortowanie" class="glyphicon glyphicon-triangle-bottom"></span>
-                            <span ng-show="kluczSortowania == 'data' && odwrotneSortowanie" class="glyphicon glyphicon-triangle-top"></span>
+                            <span ng-show="kluczSortowania == 'dataPomiaru' && !odwrotneSortowanie" class="glyphicon glyphicon-triangle-bottom"></span>
+                            <span ng-show="kluczSortowania == 'dataPomiaru' && odwrotneSortowanie" class="glyphicon glyphicon-triangle-top"></span>
                         </a>
                     </th>
 
                     <th class="text-center">
-                        <a href="#" ng-click="kluczSortowania = 'sposob';odwrotneSortowanie = !odwrotneSortowanie">
+                        <a href="#" ng-click="kluczSortowania = 'trasaRozpoczynana';odwrotneSortowanie = !odwrotneSortowanie">
+                            Trasa rozpoczynana
+                            <span ng-show="kluczSortowania == 'trasaRozpoczynana' && !odwrotneSortowanie" class="glyphicon glyphicon-triangle-bottom"></span>
+                            <span ng-show="kluczSortowania == 'trasaRozpoczynana' && odwrotneSortowanie" class="glyphicon glyphicon-triangle-top"></span>
+                        </a>
+                    </th>
+
+                    <th class="text-center">
+                        <a href="#" ng-click="kluczSortowania = 'trasaKonczona';odwrotneSortowanie = !odwrotneSortowanie">
+                            Trasa kończona
+                            <span ng-show="kluczSortowania == 'trasaKonczona' && !odwrotneSortowanie" class="glyphicon glyphicon-triangle-bottom"></span>
+                            <span ng-show="kluczSortowania == 'trasaKonczona' && odwrotneSortowanie" class="glyphicon glyphicon-triangle-top"></span>
+                        </a>
+                    </th>
+
+                    <th class="text-center">
+                        <a href="#" ng-click="kluczSortowania = 'sposobPomiaru';odwrotneSortowanie = !odwrotneSortowanie">
                             Sposób pomiaru
-                            <span ng-show="kluczSortowania == 'sposob' && !odwrotneSortowanie" class="glyphicon glyphicon-triangle-bottom"></span>
-                            <span ng-show="kluczSortowania == 'sposob' && odwrotneSortowanie" class="glyphicon glyphicon-triangle-top"></span>
+                            <span ng-show="kluczSortowania == 'sposobPomiaru' && !odwrotneSortowanie" class="glyphicon glyphicon-triangle-bottom"></span>
+                            <span ng-show="kluczSortowania == 'sposobPomiaru' && odwrotneSortowanie" class="glyphicon glyphicon-triangle-top"></span>
                         </a>
                     </th>
 
@@ -509,18 +569,27 @@
                         </a>
                     </th>
 
+                    <th class="text-center">
+                        <a href="#" ng-click="kluczSortowania = 'lacznie';odwrotneSortowanie = !odwrotneSortowanie">
+                            Łącznie [L]
+                            <span ng-show="kluczSortowania == 'lacznie' && !odwrotneSortowanie" class="glyphicon glyphicon-triangle-bottom"></span>
+                            <span ng-show="kluczSortowania == 'lacznie' && odwrotneSortowanie" class="glyphicon glyphicon-triangle-top"></span>
+                        </a>
+                    </th>
+
                     <th class="text-center">Edytuj</th>
                     <th class="text-center">Usuń</th>
                 </tr>
 
                 </thead>
                 <tbody>
-                <tr ng-repeat="pomiar in pomiary | filter:{pojazd: filtrPojazd}| orderBy:kluczSortowania:odwrotneSortowanie" ng-if="pomiar.data >= filtrDataOd && pomiar.data <= filtrDataDo">
-                    <td class="text-center">{{pomiar.pojazd}}</td>
-                    <td class="text-center">{{pomiar.data | date : 'dd.MM.yyyy'}}</td>
-                    <td class="text-center">{{pomiar.sposob}}</td>
+                <tr ng-repeat="pomiar in pomiary | filter:{numerRejestracyjnyPojazdu: filtrPojazd}| orderBy:kluczSortowania:odwrotneSortowanie" ng-if="pomiar.dataPomiaru >= filtrDataOd && pomiar.dataPomiaru <= filtrDataDo">
+                    <td class="text-center">{{pomiar.numerRejestracyjnyPojazdu}}</td>
+                    <td class="text-center">{{pomiar.dataPomiaru | date : 'dd.MM.yyyy'}}</td>
+                    <td class="text-center">{{pomiar.sposobPomiaru}}</td>
                     <td class="text-right">{{pomiar.lewy | number : 2}}</td>
                     <td class="text-right">{{pomiar.prawy | number : 2}}</td>
+                    <td class="text-right">{{pomiar.lacznie | number : 2}}</td>
                     <td>
                         <button type="button" class="btn-xs btn-warning glyphicon glyphicon-edit center-block" ng-click="edytujPomiar(pomiary.indexOf(pomiar))"></button>
                     </td>
@@ -554,7 +623,7 @@
 
             <div class="row" ng-show="pokazFiltry">
                 <br>
-                <div class="col-md-offset-2 col-md-4">
+                <div class="col-md-offset-1 col-md-4">
                     <div class="input-group">
                         <span class="input-group-addon">Imię: </span>
                         <input type="text" class="form-control" ng-model="filtrImie">
@@ -566,6 +635,10 @@
                         <span class="input-group-addon">Nazwisko: </span>
                         <input type="text" class="form-control" ng-model="filtrNazwisko">
                     </div>
+                </div>
+
+                <div class="col-md-2">
+                    <div class="input-group center-block"><input type="checkbox" ng-model="filtrPokazNieaktywnych">Pokaż niekatywnych</div>
                 </div>
             </div>
 
@@ -596,7 +669,7 @@
 
                 </thead>
                 <tbody>
-                <tr ng-repeat="kierowca in kierowcy | filter:{imie: filtrImie, nazwisko:filtrNazwisko}| orderBy:kluczSortowania:odwrotneSortowanie">
+                <tr ng-repeat="kierowca in kierowcy | filter:{imie: filtrImie, nazwisko:filtrNazwisko}| orderBy:kluczSortowania:odwrotneSortowanie"  ng-if="kierowca.czyAktywny === true || (kierowca.czyAktywny === false && filtrPokazNieaktywnych === true)">
                     <td class="text-center">{{kierowca.imie}}</td>
                     <td class="text-center">{{kierowca.nazwisko}}</td>
                     <td>
@@ -633,7 +706,8 @@
 
             <div class="row" ng-show="pokazFiltry">
                 <br>
-                <div class="col-md-offset-2 col-md-4">
+
+                <div class="col-md-offset-1 col-md-4">
                     <div class="input-group">
                         <span class="input-group-addon">Numer rejestracyjny: </span>
                         <input type="text" class="form-control" ng-model="filtrNumerRejestracyjny">
@@ -646,6 +720,11 @@
                         <input type="text" class="form-control" ng-model="filtrMarka">
                     </div>
                 </div>
+
+                <div class="col-md-2">
+                    <div class="input-group center-block"><input type="checkbox" ng-model="filtrPokazNieaktywne">Pokaż niekatywne</div>
+                </div>
+
             </div>
 
             <br>
@@ -662,26 +741,26 @@
                     </th>
 
                     <th class="text-center">
-                        <a href="#" ng-click="kluczSortowania = 'marka';odwrotneSortowanie = !odwrotneSortowanie">
+                        <a href="#" ng-click="kluczSortowania = 'markaIModel';odwrotneSortowanie = !odwrotneSortowanie">
                             Marka i model
-                            <span ng-show="kluczSortowania == 'marka' && !odwrotneSortowanie" class="glyphicon glyphicon-triangle-bottom"></span>
-                            <span ng-show="kluczSortowania == 'marka' && odwrotneSortowanie" class="glyphicon glyphicon-triangle-top"></span>
+                            <span ng-show="kluczSortowania == 'markaIModel' && !odwrotneSortowanie" class="glyphicon glyphicon-triangle-bottom"></span>
+                            <span ng-show="kluczSortowania == 'markaIModel' && odwrotneSortowanie" class="glyphicon glyphicon-triangle-top"></span>
                         </a>
                     </th>
 
                     <th class="text-center">
-                        <a href="#" ng-click="kluczSortowania = 'norma';odwrotneSortowanie = !odwrotneSortowanie">
-                            Norma spalania (L / 100 km)
-                            <span ng-show="kluczSortowania == 'norma' && !odwrotneSortowanie" class="glyphicon glyphicon-triangle-bottom"></span>
-                            <span ng-show="kluczSortowania == 'norma' && odwrotneSortowanie" class="glyphicon glyphicon-triangle-top"></span>
+                        <a href="#" ng-click="kluczSortowania = 'normaSpalania';odwrotneSortowanie = !odwrotneSortowanie">
+                            Norma spalania [L / 100 km]
+                            <span ng-show="kluczSortowania == 'normaSpalania' && !odwrotneSortowanie" class="glyphicon glyphicon-triangle-bottom"></span>
+                            <span ng-show="kluczSortowania == 'normaSpalania' && odwrotneSortowanie" class="glyphicon glyphicon-triangle-top"></span>
                         </a>
                     </th>
 
                     <th class="text-center">
-                        <a href="#" ng-click="kluczSortowania = 'odchylenie';odwrotneSortowanie = !odwrotneSortowanie">
-                            Dopuszczalne odchylenie (L / 100 km)
-                            <span ng-show="kluczSortowania == 'odchylenie' && !odwrotneSortowanie" class="glyphicon glyphicon-triangle-bottom"></span>
-                            <span ng-show="kluczSortowania == 'odchylenie' && odwrotneSortowanie" class="glyphicon glyphicon-triangle-top"></span>
+                        <a href="#" ng-click="kluczSortowania = 'dopuszczalneOdchylenie';odwrotneSortowanie = !odwrotneSortowanie">
+                            Dopuszczalne odchylenie [L / 100 km]
+                            <span ng-show="kluczSortowania == 'dopuszczalneOdchylenie' && !odwrotneSortowanie" class="glyphicon glyphicon-triangle-bottom"></span>
+                            <span ng-show="kluczSortowania == 'dopuszczalneOdchylenie' && odwrotneSortowanie" class="glyphicon glyphicon-triangle-top"></span>
                         </a>
                     </th>
 
@@ -691,11 +770,12 @@
 
                 </thead>
                 <tbody>
-                <tr ng-repeat="pojazd in pojazdy | filter:{imie: filtrImie, nazwisko:filtrNazwisko}| orderBy:kluczSortowania:odwrotneSortowanie">
+
+                <tr ng-repeat="pojazd in pojazdy | filter:{numerRejestracyjny: filtrNumerRejestracyjny, markaIModel:filtrMarka} | orderBy:kluczSortowania:odwrotneSortowanie" ng-if="pojazd.czyAktywny === true || (pojazd.czyAktywny === false && filtrPokazNieaktywne === true)">
                     <td class="text-center">{{pojazd.numerRejestracyjny}}</td>
-                    <td class="text-center">{{pojazd.marka}}</td>
-                    <td class="text-right">{{pojazd.norma | number : 2}}</td>
-                    <td class="text-right">{{pojazd.odchylenie | number : 2}}</td>
+                    <td class="text-center">{{pojazd.markaIModel}}</td>
+                    <td class="text-right">{{pojazd.normaSpalania | number : 2}}</td>
+                    <td class="text-right">{{pojazd.dopuszczalneOdchylenie | number : 2}}</td>
                     <td>
                         <button type="button" class="btn-xs btn-warning glyphicon glyphicon-edit center-block" ng-click="edytujPojazd(pojazdy.indexOf(pojazd))"></button>
                     </td>
@@ -752,6 +832,13 @@
                 </div>
             </div>
 
+            <div class="row" ng-show="pokazFiltry">
+                <br>
+                <div class="col-md-offset-5 col-md-2">
+                    <div class="input-group center-block"><input type="checkbox" ng-model="filtrPokazNieaktywnych">Pokaż niekatywnych</div>
+                </div>
+            </div>
+
             <br>
 
             <table class="table table-condensed table-responsive table-hover table-bordered table-striped">
@@ -795,16 +882,16 @@
 
                 </thead>
                 <tbody>
-                <tr ng-repeat="uzytkownik in uzytkownicy | filter:{imie: filtrImie, nazwisko:filtrNazwisko, rola:filtrRola}| orderBy:kluczSortowania:odwrotneSortowanie">
+                <tr ng-repeat="uzytkownik in uzytkownicy | filter:{imie: filtrImie, nazwisko:filtrNazwisko, rola:filtrRola}| orderBy:kluczSortowania:odwrotneSortowanie" ng-if="uzytkownik.czyAktywny === true || (uzytkownik.czyAktywny === false && filtrPokazNieaktywnych === true)">
                     <td class="text-center">{{uzytkownik.imie}}</td>
                     <td class="text-center">{{uzytkownik.nazwisko}}</td>
                     <td class="text-center">{{uzytkownik.login}}</td>
-                    <td class="text-center">{{uzytkownik.rola}}</td>
+                    <td class="text-center">{{uzytkownik.nazwaRoli}}</td>
                     <td>
                         <button type="button" class="btn-xs btn-warning glyphicon glyphicon-edit center-block" ng-click="edytujUzytkownika(uzytkownicy.indexOf(uzytkownik))"></button>
                     </td>
                     <td>
-                        <button type="button" class="btn-xs btn-danger glyphicon glyphicon-remove center-block" ng-click = "usunUzytkownika(uzytkownicy.indexOf(uzytkownik))"></button>
+                        <button type="button" class="btn-xs btn-danger glyphicon glyphicon-remove center-block" ng-click="usunUzytkownika(uzytkownicy.indexOf(uzytkownik))"></button>
                     </td>
                 </tr>
                 </tbody>

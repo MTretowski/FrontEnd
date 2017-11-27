@@ -1,13 +1,15 @@
-app.controller('pomiaryKontroler', ['$rootScope', '$scope', '$uibModal', function ($rootScope, $scope, $uibModal) {
+app.controller('pomiaryKontroler', function ($scope, $uibModal, pomiarySerwis) {
     $scope.kluczSortowania;
     $scope.odwrotneSortowanie = false;
     $scope.pokazFiltry = false;
+
+    $scope.pomiary = pomiarySerwis.dajPomiary();
 
     var teraz = new Date();
     var dzisiaj = new Date(teraz.getUTCFullYear(), teraz.getUTCMonth(), teraz.getUTCDate(),  teraz.getUTCHours(), teraz.getUTCMinutes(), teraz.getUTCSeconds());
     var rokTemu = new Date(teraz.getUTCFullYear()-1, teraz.getUTCMonth(), teraz.getUTCDate(),  teraz.getUTCHours(), teraz.getUTCMinutes(), teraz.getUTCSeconds());
     dzisiaj.setUTCHours(23,59,59);
-    rokTemu.setUTCHours(00,00,00);
+    rokTemu.setUTCHours(0,0,0);
     $scope.filtrDataOd = rokTemu;
     $scope.filtrDataDo = dzisiaj;
 
@@ -29,21 +31,5 @@ app.controller('pomiaryKontroler', ['$rootScope', '$scope', '$uibModal', functio
         alert('usuwam pomiar o numerze ' + indeks);
     }
 
-    $rootScope.pomiary =
-        [
-            {
-                'pojazd': 'WPR2694M',
-                'data': new Date("2017-02-13"),
-                'sposob': 'Ręcznie (miarka)',
-                'lewy': 10.00,
-                'prawy': 15.50
-            },
-            {
-                'pojazd': 'WPR2695M',
-                'data': new Date("2017-07-06"),
-                'sposob': 'Dotankowanie do pełna',
-                'lewy': 123.54,
-                'prawy': 423.15
-            }
-        ]
-}]);
+
+});
