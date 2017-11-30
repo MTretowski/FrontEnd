@@ -24,11 +24,16 @@ app.controller('trasyKontroler', function ($scope, $uibModal, trasySerwis) {
         });
     };
 
-    $scope.edytujTrase = function () {
+    $scope.edytujTrase = function (indeks) {
         $uibModal.open({
             templateUrl: 'Widoki/Okna/oknoTrasa.html',
             controller: 'edytujTraseKontroler',
-            size: 'lg'
+            size: 'lg',
+            resolve: {
+                edytowanaTrasaIndeks: function(){
+                    return indeks;
+                }
+            }
         });
     };
 

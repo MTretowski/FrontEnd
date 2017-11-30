@@ -83,14 +83,14 @@
                     <div class="form-group">
                         <label class="control-label col-md-6">Zużyte paliwo - Webasto [L]</label>
                         <div class="col-md-6">
-                            <input type="number" class="form-control" ng-model='webasto'>
+                            <input type="number" class="form-control" ng-model='paliwoZuzyteWebasto'>
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label class="control-label col-md-6">Zużyte paliwo - CAN [L]</label>
                         <div class="col-md-6">
-                            <input type="number" class="form-control" ng-model="can">
+                            <input type="number" class="form-control" ng-model="paliwoZuzyteCAN">
                         </div>
                     </div>
 
@@ -98,10 +98,6 @@
 
                 <table class="table table-condensed table-responsive table-hover table-bordered table-striped">
                     <tbody>
-                    <tr>
-                        <th>Zużyte paliwo - Webasto + CAN [L]</th>
-                        <td class="text-right">{{webasto+can | number : 2}}</td>
-                    </tr>
                     <tr>
                         <th>Paliwo przed wyjazdem [L]</th>
                         <td class="text-right">{{paliwoPrzedWyjazdem | number : 2}}</td>
@@ -115,12 +111,16 @@
                         <td class="text-right">{{paliwoPoPowrocie | number : 2}}</td>
                     </tr>
                     <tr>
-                        <th>Zużyte paliwo [L]</th>
+                        <th>Zużyte paliwo wg GPS (CAN + Webasto) [L]</th>
+                        <td class="text-right">{{paliwoZuzyteWebasto+paliwoZuzyteCAN | number : 2}}</td>
+                    </tr>
+                    <tr>
+                        <th>Zużyte paliwo faktycznie [L]</th>
                         <td class="text-right">{{paliwoPrzedWyjazdem+paliwoDotankowane-paliwoPoPowrocie | number : 2}}</td>
                     </tr>
                     <tr>
                         <th>Srednie spalanie wg GPS [L/100 km]</th>
-                        <td class="text-right">{{(can+webasto)/przejechaneKilometry*100 | number : 2}}</td>
+                        <td class="text-right">{{(paliwoZuzyteCAN+paliwoZuzyteWebasto)/przejechaneKilometry*100 | number : 2}}</td>
                     </tr>
                     <tr>
                         <th>Srednie spalanie faktyczne [L/100 km]</th>
@@ -128,14 +128,15 @@
                     </tr>
                     <tr>
                         <th>Różnica w spalaniu [L/100 km]</th>
-                        <td class="text-right">{{(can+webasto)-(paliwoPrzedWyjazdem+paliwoDotankowane-paliwoPoPowrocie) | number : 2}}</td>
+                        <td class="text-right">{{(paliwoZuzyteCAN+paliwoZuzyteWebasto)-(paliwoPrzedWyjazdem+paliwoDotankowane-paliwoPoPowrocie) | number : 2}}</td>
                     </tr>
                     <tr>
                         <th>Różnica w zużyciu paliwa [L]</th>
-                        <td class="text-right">{{((can+webasto)/przejechaneKilometry*100)-((paliwoPrzedWyjazdem+paliwoDotankowane-paliwoPoPowrocie)/przejechaneKilometry*100) | number : 2}}</td>
+                        <td class="text-right">{{((paliwoZuzyteCAN+paliwoZuzyteWebasto)/przejechaneKilometry*100)-((paliwoPrzedWyjazdem+paliwoDotankowane-paliwoPoPowrocie)/przejechaneKilometry*100) | number : 2}}</td>
                     </tr>
                     </tbody>
                 </table>
+                <h5 class="text-center">Jeżeli różnica jest ujemna, to oznacza że zyżuto więcej paliwa, niż wskazuje GPS</h5>
             </div>
 
             <div class="col-md-6">

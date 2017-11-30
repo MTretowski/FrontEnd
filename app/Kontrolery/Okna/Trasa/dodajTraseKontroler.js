@@ -12,9 +12,9 @@ app.controller('dodajTraseKontroler', function ($uibModal, $uibModalInstance, $r
     $scope.dataZakonczenia = new Date();
     $scope.dataZakonczenia.setUTCHours(23, 59, 0, 0);
     $scope.przejechaneKilometry = 0;
-    $scope.webasto = 0;
-    $scope.can = 0;
-    $scope.paliwoDotankowane = 0;
+    $scope.paliwoZuzyteWebasto = 0;
+    $scope.paliwoZuzyteCAN = 0;
+    $scope.komentarz = '';
     $scope.paliwoPrzedWyjazdem = 0;
     $scope.paliwoDotankowane = 0;
     $scope.paliwoPoPowrocie = 0;
@@ -134,7 +134,7 @@ app.controller('dodajTraseKontroler', function ($uibModal, $uibModalInstance, $r
 
     $scope.wybierzPomiar = function (numer) {
         if ($scope.idPojazdu == null) {
-            alert("Proszę najpierw wybrać pojazd");
+            alert("Uwaga!\nProszę najpierw wybrać pojazd.");
         }
         else {
             $uibModal.open({
@@ -155,26 +155,38 @@ app.controller('dodajTraseKontroler', function ($uibModal, $uibModalInstance, $r
 
     $scope.$on('wybranoPomiar', function (zdarzenie, rodzajPomiaru, idPomiaru, dataPomiaru, ilosc) {
         if (rodzajPomiaru == 1) {
-            $scope.pomiarPoczatkowy.idPomiaru = idPomiaru;
-            $scope.pomiarPoczatkowy.data = dataPomiaru;
-            $scope.pomiarPoczatkowy.ilosc = ilosc;
+            if(idPomiaru == $scope.pomiarKoncowy.idPomiaru){
+                alert('Błąd!\nJeden pomiar nie może być jednocześnie pomiarem począkowym i końcowym.')
+            }
+            else {
+                $scope.pomiarPoczatkowy.idPomiaru = idPomiaru;
+                $scope.pomiarPoczatkowy.data = dataPomiaru;
+                $scope.pomiarPoczatkowy.ilosc = ilosc;
+            }
         }
         else {
-            $scope.pomiarKoncowy.idPomiaru = idPomiaru;
-            $scope.pomiarKoncowy.data = dataPomiaru;
-            $scope.pomiarKoncowy.ilosc = ilosc;
+            if(idPomiaru == $scope.pomiarPoczatkowy.idPomiaru){
+                alert('Błąd!\nJeden pomiar nie może być jednocześnie pomiarem począkowym i końcowym.')
+            }
+            else {
+                $scope.pomiarKoncowy.idPomiaru = idPomiaru;
+                $scope.pomiarKoncowy.data = dataPomiaru;
+                $scope.pomiarKoncowy.ilosc = ilosc;
+            }
         }
         $scope.aktualizujDane();
     })
 
     $scope.usunPomiar = function (rodzajPomiaru) {
         if (rodzajPomiaru == 1) {
-            $scope.kierowca1 = null;
-            $scope.idKierowcy1 = null;
+            $scope.pomiarPoczatkowy.idPomiaru = null;
+            $scope.pomiarPoczatkowy.data = null;
+            $scope.pomiarPoczatkowy.ilosc = null;
         }
         else {
-            $scope.kierowca2 = null;
-            $scope.idKierowcy2 = null;
+            $scope.pomiarKoncowy.idPomiaru = null;
+            $scope.pomiarKoncowy.data = null;
+            $scope.pomiarKoncowy.ilosc = null;
         }
         $scope.aktualizujDane();
     }

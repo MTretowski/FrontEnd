@@ -209,13 +209,13 @@
                 <div class="col-md-3">
                     <div class="input-group">
                         <span class="input-group-addon">Pojazd: </span>
-                        <input type="text" class="form-control" ng-model="filtrPojazd">
+                        <input type="text" class="form-control" ng-model="filtrNumerRejestracyjny">
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="input-group">
                         <span class="input-group-addon">Numer trasy: </span>
-                        <input type="text" class="form-control" ng-model="filtrNumerTrasy">
+                        <input type="text" class="form-control" ng-model="filtrnumerPoleceniaWyjazdu">
                     </div>
                 </div>
             </div>
@@ -226,10 +226,10 @@
                 <thead>
                 <tr>
                     <th class="text-center">
-                        <a href="#" ng-click="kluczSortowania = 'numerTrasy';odwrotneSortowanie = !odwrotneSortowanie">
+                        <a href="#" ng-click="kluczSortowania = 'numerPoleceniaWyjazdu';odwrotneSortowanie = !odwrotneSortowanie">
                             Numer
-                            <span ng-show="kluczSortowania == 'numerTrasy' && !odwrotneSortowanie" class="glyphicon glyphicon-triangle-bottom"></span>
-                            <span ng-show="kluczSortowania == 'numerTrasy' && odwrotneSortowanie" class="glyphicon glyphicon-triangle-top"></span>
+                            <span ng-show="kluczSortowania == 'numerPoleceniaWyjazdu' && !odwrotneSortowanie" class="glyphicon glyphicon-triangle-bottom"></span>
+                            <span ng-show="kluczSortowania == 'numerPoleceniaWyjazdu' && odwrotneSortowanie" class="glyphicon glyphicon-triangle-top"></span>
                         </a>
                     </th>
 
@@ -283,10 +283,10 @@
                     </th>
 
                     <th class="text-center">
-                        <a href="#" ng-click="kluczSortowania = 'srednieSpalanieGPS';odwrotneSortowanie = !odwrotneSortowanie">
+                        <a href="#" ng-click="kluczSortowania = 'srednieSpalanieWgGPS';odwrotneSortowanie = !odwrotneSortowanie">
                             Sr. spal. wg GPS <br> [l / 100 km]
-                            <span ng-show="kluczSortowania == 'srednieSpalanieGPS' && !odwrotneSortowanie" class="glyphicon glyphicon-triangle-bottom"></span>
-                            <span ng-show="kluczSortowania == 'srednieSpalanieGPS' && odwrotneSortowanie" class="glyphicon glyphicon-triangle-top"></span>
+                            <span ng-show="kluczSortowania == 'srednieSpalanieWgGPS' && !odwrotneSortowanie" class="glyphicon glyphicon-triangle-bottom"></span>
+                            <span ng-show="kluczSortowania == 'srednieSpalanieWgGPS' && odwrotneSortowanie" class="glyphicon glyphicon-triangle-top"></span>
                         </a>
                     </th>
 
@@ -310,17 +310,17 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr ng-repeat="trasa in trasy | filter:{numerRejestracyjnyPojazdu: filtrnumerRejestracyjnyPojazdu, kierowca1: filtrKierowca1, kierowca2: filtrKierowca2, numerTrasy: filtrNumerTrast}| orderBy:kluczSortowania:odwrotneSortowanie"
+                <tr ng-repeat="trasa in trasy | filter:{numerRejestracyjnyPojazdu: filtrNumerRejestracyjny, kierowca1: filtrKierowca1, kierowca2: filtrKierowca2, numerPoleceniaWyjazdu: filtrNumerTrast}| orderBy:kluczSortowania:odwrotneSortowanie"
                     ng-if="trasa.dataRozpoczecia >= filtrDataRozpoczeciaOd && trasa.dataRozpoczecia <= filtrDataRozpoczeciaDo &&
                     trasa.dataZakonczenia >= filtrDataZakonczeniaOd && trasa.dataZakonczenia <= filtrDataZakonczeniaDo">
-                    <td class="text-center">{{trasa.numerTrasy}}</td>
+                    <td class="text-center">{{trasa.numerPoleceniaWyjazdu}}</td>
                     <td class="text-center">{{trasa.numerRejestracyjnyPojazdu}}</td>
                     <td class="text-center">{{trasa.kierowca1}}</td>
                     <td class="text-center">{{trasa.kierowca2}}</td>
                     <td class="text-center">{{trasa.dataRozpoczecia | date : 'dd.MM.yyyy'}}</td>
                     <td class="text-center">{{trasa.dataZakonczenia | date : 'dd.MM.yyyy'}}</td>
                     <td class="text-right">{{trasa.srednieSpalanieFaktyczne | number : 2}}</td>
-                    <td class="text-right">{{trasa.srednieSpalanieGPS | number : 2}}</td>
+                    <td class="text-right">{{trasa.srednieSpalanieWgGPS | number : 2}}</td>
                     <td class="text-right">{{trasa.odchylenieOdNormy | number : 2}}</td>
                     <td class="text-right">{{trasa.przejechaneKilometry | number : 2}}</td>
                     <td>
@@ -381,7 +381,7 @@
                 <div class="col-md-4">
                     <div class="input-group">
                         <span class="input-group-addon">Pojazd: </span>
-                        <input type="text" class="form-control" ng-model="filtrPojazd">
+                        <input type="text" class="form-control" ng-model="filtrNumerRejestracyjny">
                     </div>
                 </div>
             </div>
@@ -445,7 +445,7 @@
 
                 </thead>
                 <tbody>
-                <tr ng-repeat="tankowanie in tankowania | filter:{pojazd: filtrPojazd, dostawca:filtrDostawca}| orderBy:kluczSortowania:odwrotneSortowanie" ng-if="tankowanie.data >= filtrDataOd && tankowanie.data <= filtrDataDo">
+                <tr ng-repeat="tankowanie in tankowania | filter:{pojazd: filtrNumerRejestracyjny, dostawca:filtrDostawca}| orderBy:kluczSortowania:odwrotneSortowanie" ng-if="tankowanie.data >= filtrDataOd && tankowanie.data <= filtrDataDo">
                     <td class="text-center">{{tankowanie.pojazd}}</td>
                     <td class="text-center">{{tankowanie.data | date : 'dd.MM.yyyy'}}</td>
                     <td class="text-right">{{tankowanie.ilosc | number : 2}}</td>
@@ -503,7 +503,7 @@
                 <div class="col-md-4">
                     <div class="input-group">
                         <span class="input-group-addon">Pojazd: </span>
-                        <input type="text" class="form-control" ng-model="filtrPojazd">
+                        <input type="text" class="form-control" ng-model="filtrNumerRejestracyjny">
                     </div>
                 </div>
             </div>
@@ -583,9 +583,11 @@
 
                 </thead>
                 <tbody>
-                <tr ng-repeat="pomiar in pomiary | filter:{numerRejestracyjnyPojazdu: filtrPojazd}| orderBy:kluczSortowania:odwrotneSortowanie" ng-if="pomiar.dataPomiaru >= filtrDataOd && pomiar.dataPomiaru <= filtrDataDo">
+                <tr ng-repeat="pomiar in pomiary | filter:{numerRejestracyjnyPojazdu: filtrNumerRejestracyjny}| orderBy:kluczSortowania:odwrotneSortowanie" ng-if="pomiar.dataPomiaru >= filtrDataOd && pomiar.dataPomiaru <= filtrDataDo">
                     <td class="text-center">{{pomiar.numerRejestracyjnyPojazdu}}</td>
                     <td class="text-center">{{pomiar.dataPomiaru | date : 'dd.MM.yyyy'}}</td>
+                    <td class="text-center"> - </td>
+                    <td class="text-center"> - </td>
                     <td class="text-center">{{pomiar.sposobPomiaru}}</td>
                     <td class="text-right">{{pomiar.lewy | number : 2}}</td>
                     <td class="text-right">{{pomiar.prawy | number : 2}}</td>
