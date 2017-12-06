@@ -20,6 +20,7 @@ app.controller('trasyKontroler', function ($scope, $uibModal, trasySerwis) {
         $uibModal.open({
             templateUrl: 'Widoki/Okna/oknoTrasa.html',
             controller: 'dodajTraseKontroler',
+            backdrop  : 'static',
             size: 'lg'
         });
     };
@@ -28,6 +29,7 @@ app.controller('trasyKontroler', function ($scope, $uibModal, trasySerwis) {
         $uibModal.open({
             templateUrl: 'Widoki/Okna/oknoTrasa.html',
             controller: 'edytujTraseKontroler',
+            backdrop  : 'static',
             size: 'lg',
             resolve: {
                 edytowanaTrasaIndeks: function(){

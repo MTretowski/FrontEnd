@@ -6,44 +6,95 @@
 
     <div class="modal-body">
         <form class="form-horizontal">
+
             <div class="form-group">
                 <label class="control-label col-md-2">Pojazd</label>
-                <div class="col-md-4">
-                    <input type="text" class="form-control">
+                <div class="col-md-6">
+                    <input type="text" class="form-control" ng-model="pojazd" disabled>
                 </div>
-                <label class="control-label col-md-2">Dostawca</label>
                 <div class="col-md-4">
-                    <input type="text" class="form-control">
+                    <div class="btn-group-sm">
+                        <a class="btn btn-info" ng-click="wybierzPojazd()">Wybierz</a>
+                        <a class="btn btn-danger" ng-click="usunPojazd()">Usuń</a>
+                    </div>
                 </div>
             </div>
 
             <div class="form-group">
                 <label class="control-label col-md-2">Data</label>
                 <div class="col-md-4">
-                    <input type="date" class="form-control" ng-model-options="{ timezone: 'UTC' }" ng-model = "data">
+                    <input type="date" class="form-control" ng-model-options="{ timezone: 'UTC' }" ng-model="data">
                 </div>
                 <label class="control-label col-md-2">Godzina</label>
                 <div class="col-md-4">
-                    <input type="time" class="form-control" ng-model-options="{ timezone: 'UTC' }" ng-model = "godzina">
+                    <input type="time" class="form-control" ng-model-options="{ timezone: 'UTC' }" ng-model="data">
                 </div>
             </div>
 
             <div class="form-group">
+
+                <div ng-if="czyEdycjaImportowanego == false">
+                    <label class="control-label col-md-2">Dostawca</label>
+                    <div class="col-md-4">
+                        <select class="form-control" ng-model="dostawca">
+                            <option selected="selected" value="">-</option>
+                            <option value="E100">E100</option>
+                            <option value="DKV">DKV</option>
+                        </select>
+                    </div>
+                </div>
+
                 <label class="control-label col-md-2">Ilość</label>
                 <div class="col-md-4">
-                    <input type="text" class="form-control">
+                    <input type="text" class="form-control" ng-model="ilosc">
                 </div>
             </div>
 
             <div class="form-group">
-                <label class="control-label col-md-3">Cena netto / litr</label>
+                <label class="control-label col-md-3">Kwota brutto</label>
                 <div class="col-md-3">
-                    <input type="text" class="form-control">
+                    <input type="text" class="form-control" ng-model="kwota">
                 </div>
                 <label class="control-label col-md-2">Waluta</label>
                 <div class="col-md-4">
-                    <input type="text" class="form-control">
+                    <select class="form-control" ng-model="waluta">
+                        <option selected="selected" value="">-</option>
+                        <option value="PLN">PLN</option>
+                        <option value="EUR">EUR</option>
+                        <option value="GBP">GBP</option>
+                        <option value="HUF">HUF</option>
+                        <option value="RUB">CZK</option>
+                        <option value="CHF">CHF</option>
+                        <option value="RUB">RUB</option>
+                    </select>
                 </div>
+            </div>
+
+            <div ng-if="czyEdycjaImportowanego == true">
+                <div class="form-group">
+                    <label class="control-label col-md-2">Opis</label>
+                    <div class="col-md-10">
+                        <input type="text" class="form-control" ng-model="opis">
+                    </div>
+                </div>
+                <h5 class="text-center">
+                    <small>Slowa, dzięki którym system jednoznacznie rozpoznaje tankowania to: {{slownik}}</small>
+                </h5>
+                <h5 ng-if="dostawca == 'E100'" class="text-center">
+                    <small>Słowa kluczowe, których poszukuje system gdy nie znajdzie slow jednoznacznie wskazujących na tankowanie: {{slowaKluczowe}}</small>
+                </h5>
+            </div>
+
+            <div ng-if="dostawca == 'DKV' && czyEdycjaImportowanego == true">
+                <div class="form-group">
+                    <label class="control-label col-md-3">Dodatkowy opis</label>
+                    <div class="col-md-9">
+                        <input type="text" class="form-control" ng-model="dodatkowyOpis">
+                    </div>
+                </div>
+                <h5 class="text-center">
+                    <small>Słowa kluczowe, których poszukuje system gdy nie znajdzie slow jednoznacznie wskazujących na tankowanie: {{slowaKluczowe}}</small>
+                </h5>
             </div>
 
         </form>

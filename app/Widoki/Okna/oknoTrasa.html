@@ -16,10 +16,8 @@
                             <input type="text" class="form-control" ng-model="kierowca1" disabled>
                         </div>
                         <div class="col-md-4">
-                            <div class="btn-group-sm">
-                                <a class="btn btn-info" ng-click="wybierzKierowce(1)">Wybierz</a>
-                                <a class="btn btn-danger" ng-click="usunKierowce(1)">Usuń</a>
-                            </div>
+                            <a class="btn btn-sm btn-info" ng-click="wybierzKierowce(1)">Wybierz</a>
+                            <a class="btn btn-sm btn-danger" ng-click="usunKierowce(1)">Usuń</a>
                         </div>
                     </div>
 
@@ -29,10 +27,8 @@
                             <input type="text" class="form-control" ng-model="kierowca2" disabled>
                         </div>
                         <div class="col-md-4">
-                            <div class="btn-group-sm">
-                                <a class="btn btn-info" ng-click="wybierzKierowce(2)">Wybierz</a>
-                                <a class="btn btn-danger" ng-click="usunKierowce(2)">Usuń</a>
-                            </div>
+                            <a class="btn btn-sm btn-info" ng-click="wybierzKierowce(2)">Wybierz</a>
+                            <a class="btn btn-sm btn-danger" ng-click="usunKierowce(2)">Usuń</a>
                         </div>
                     </div>
 
@@ -42,10 +38,8 @@
                             <input type="text" class="form-control" ng-model="pojazd" disabled>
                         </div>
                         <div class="col-md-4">
-                            <div class="btn-group-sm">
-                                <a class="btn btn-info" ng-click="wybierzPojazd()">Wybierz</a>
-                                <a class="btn btn-danger" ng-click="usunPojazd()">Usuń</a>
-                            </div>
+                            <a class="btn btn-sm btn-info" ng-click="wybierzPojazd()">Wybierz</a>
+                            <a class="btn btn-sm btn-danger" ng-click="usunPojazd()">Usuń</a>
                         </div>
                     </div>
 
@@ -143,9 +137,11 @@
                 <h4 class="text-center">Pomiary</h4>
 
                 <div class="col-md-12 text-center">
-                    <div class="btn"><a class="btn btn-success" ng-click="trasaDodajPomiar()"> Dodaj pomiar</a></div>
+                    <a class="btn btn-sm btn-success" ng-click="trasaDodajPomiar()">Dodaj pomiar <span class="glyphicon glyphicon-plus"/></a>
                 </div>
 
+                <br>
+                <br>
                 <table class="table table-condensed table-responsive table-hover table-bordered table-striped">
                     <thead>
                     <tr>
@@ -160,7 +156,7 @@
                     <tbody>
                     <tr>
                         <td class="text-center">Początkowy</td>
-                        <td class="text-center">{{pomiarPoczatkowy.data | date : 'dd.MM.yyyy'}}</td>
+                        <td class="text-center">{{pomiarPoczatkowy.data | date : 'dd.MM.yyyy' : 'UTC'}}</td>
                         <td class="text-right">{{pomiarPoczatkowy.ilosc | number: 2}}</td>
                         <td>
                             <button type="button" class="btn-xs btn-warning glyphicon glyphicon-edit center-block" ng-click="wybierzPomiar(1)"></button>
@@ -171,7 +167,7 @@
                     </tr>
                     <tr>
                         <td class="text-center">Końcowy</td>
-                        <td class="text-center">{{pomiarKoncowy.data | date : 'dd.MM.yyyy'}}</td>
+                        <td class="text-center">{{pomiarKoncowy.data | date : 'dd.MM.yyyy' : 'UTC'}}</td>
                         <td class="text-right">{{pomiarKoncowy.ilosc | number: 2}}</td>
                         <td>
                             <button type="button" class="btn-xs btn-warning glyphicon glyphicon-edit center-block" ng-click="wybierzPomiar(2)"></button>
@@ -186,9 +182,13 @@
                 <h4 class="text-center">Tankowania</h4>
 
                 <div class="col-md-12 text-center">
-                    <div class="btn"><a class="btn btn-success" ng-click="trasaDodajTankowanie()">Dodaj tankowanie</a></div>
+                    <a class="btn btn-sm btn-success" ng-click="trasaDodajTankowanie()">Dodaj tankowanie ręcznie <span class="glyphicon glyphicon-plus"/></a>
+                    <a class="btn btn-sm btn-primary" ng-click="trasaImportujTankowania()">Importuj tankowania z pliku <span class="glyphicon glyphicon-save-file"/></a>
                 </div>
 
+
+                <br>
+                <br>
                 <table class="table table-condensed table-responsive table-hover table-bordered table-striped">
                     <thead>
                     <tr>
@@ -202,7 +202,7 @@
 
                     <tbody>
                     <tr ng-repeat="tankowanie in tankowania" ng-if="tankowanie.data <= dataZakonczenia && tankowanie.data >= dataRozpoczecia && tankowanie.idPojazdu == idPojazdu">
-                        <td>{{tankowanie.data | date : 'dd.MM.yyyy'}}</td>
+                        <td>{{tankowanie.data | date : 'dd.MM.yyyy' : 'UTC'}}</td>
                         <td>{{tankowanie.ilosc | number : 2}}</td>
                         <td>{{tankowanie.dostawca}}</td>
                         <td>

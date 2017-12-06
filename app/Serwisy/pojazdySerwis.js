@@ -4,7 +4,7 @@ app.service('pojazdySerwis', function () {
         [
             {
                 'idPojazdu': 1,
-                'numerRejestracyjny': 'WPR 2699M',
+                'numerRejestracyjny': 'WPR2699M',
                 'markaIModel': 'Scania R450',
                 'normaSpalania': 27.9,
                 'dopuszczalneOdchylenie': 1.5,
@@ -18,7 +18,7 @@ app.service('pojazdySerwis', function () {
             },
             {
                 'idPojazdu': 2,
-                'numerRejestracyjny': 'WWY 55119',
+                'numerRejestracyjny': 'WWY55119',
                 'markaIModel': 'DAF XF 105',
                 'normaSpalania': 28.7,
                 'dopuszczalneOdchylenie': 1.8,
@@ -32,7 +32,7 @@ app.service('pojazdySerwis', function () {
             },
             {
                 'idPojazdu': 3,
-                'numerRejestracyjny': 'WWY 37889',
+                'numerRejestracyjny': 'WWY37889',
                 'markaIModel': 'DAF XF 105',
                 'normaSpalania': 30.1,
                 'dopuszczalneOdchylenie': 1.95,

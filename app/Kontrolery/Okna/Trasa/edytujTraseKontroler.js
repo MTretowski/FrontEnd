@@ -83,6 +83,7 @@ app.controller('edytujTraseKontroler', function ($uibModalInstance, $uibModal, $
         $uibModal.open({
             templateUrl: 'Widoki/Okna/oknoWybierzKierowce.html',
             controller: 'wybierzKierowceKontroler',
+            backdrop  : 'static',
             resolve: {
                 numerKierowcyWZalodze: function () {
                     return numer;
@@ -116,7 +117,8 @@ app.controller('edytujTraseKontroler', function ($uibModalInstance, $uibModal, $
     $scope.wybierzPojazd = function () {
         $uibModal.open({
             templateUrl: 'Widoki/Okna/oknoWybierzPojazd.html',
-            controller: 'wybierzPojazdKontroler'
+            controller: 'wybierzPojazdKontroler',
+            backdrop  : 'static'
         });
     }
 
@@ -184,6 +186,7 @@ app.controller('edytujTraseKontroler', function ($uibModalInstance, $uibModal, $
             $uibModal.open({
                 templateUrl: 'Widoki/Okna/oknoWybierzPomiar.html',
                 controller: 'wybierzPomiarKontroler',
+                backdrop  : 'static',
                 resolve: {
                     rodzajPomiaru: function () {
                         return numer;
@@ -263,14 +266,25 @@ app.controller('edytujTraseKontroler', function ($uibModalInstance, $uibModal, $
     $scope.trasaDodajTankowanie = function () {
         $uibModal.open({
             templateUrl: 'Widoki/Okna/oknoTankowanie.html',
-            controller: 'dodajTankowanieKontroler'
+            controller: 'dodajTankowanieKontroler',
+            backdrop  : 'static'
         });
     }
+
+    $scope.trasaImportujTankowania = function () {
+        $uibModal.open({
+            templateUrl: 'Widoki/Okna/oknoTankowaniaZPliku.html',
+            controller: 'importujTankowaniaKontroler',
+            backdrop  : 'static',
+            size: 'sm'
+        });
+    };
 
     $scope.trasaDodajPomiar = function () {
         $uibModal.open({
             templateUrl: 'Widoki/Okna/oknoPomiar.html',
-            controller: 'dodajPomiarKontroler'
+            controller: 'dodajPomiarKontroler',
+            backdrop  : 'static'
         });
     }
 

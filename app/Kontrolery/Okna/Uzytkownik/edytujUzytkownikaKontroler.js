@@ -7,6 +7,7 @@ app.controller('edytujUzytkownikaKontroler', function ($uibModalInstance, $uibMo
         $uibModal.open({
             templateUrl: 'Widoki/Okna/oknoHaslo.html',
             controller: 'resetujHasloKontroler',
+            backdrop  : 'static',
             size: 'sm'
         });
     };

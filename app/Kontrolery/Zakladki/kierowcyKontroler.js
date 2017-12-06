@@ -8,14 +8,16 @@ app.controller('kierowcyKontroler', function ($scope, $uibModal, kierowcySerwis)
     $scope.dodajKierowce = function () {
         $uibModal.open({
             templateUrl: 'Widoki/Okna/oknoKierowca.html',
-            controller: 'dodajKierowceKontroler'
+            controller: 'dodajKierowceKontroler',
+            backdrop  : 'static'
         });
     };
 
     $scope.edytujKierowce = function (indeks) {
         $uibModal.open({
             templateUrl: 'Widoki/Okna/oknoKierowca.html',
-            controller: 'edytujKierowceKontroler'
+            controller: 'edytujKierowceKontroler',
+            backdrop  : 'static'
         });
     };
 

@@ -39,6 +39,7 @@ app.controller('dodajTraseKontroler', function ($uibModal, $uibModalInstance, $r
         $uibModal.open({
             templateUrl: 'Widoki/Okna/oknoWybierzKierowce.html',
             controller: 'wybierzKierowceKontroler',
+            backdrop  : 'static',
             resolve: {
                 numerKierowcyWZalodze: function () {
                     return numer;
@@ -72,7 +73,8 @@ app.controller('dodajTraseKontroler', function ($uibModal, $uibModalInstance, $r
     $scope.wybierzPojazd = function () {
         $uibModal.open({
             templateUrl: 'Widoki/Okna/oknoWybierzPojazd.html',
-            controller: 'wybierzPojazdKontroler'
+            controller: 'wybierzPojazdKontroler',
+            backdrop  : 'static',
         });
     }
 
@@ -140,6 +142,7 @@ app.controller('dodajTraseKontroler', function ($uibModal, $uibModalInstance, $r
             $uibModal.open({
                 templateUrl: 'Widoki/Okna/oknoWybierzPomiar.html',
                 controller: 'wybierzPomiarKontroler',
+                backdrop  : 'static',
                 resolve: {
                     rodzajPomiaru: function () {
                         return numer;
@@ -191,22 +194,33 @@ app.controller('dodajTraseKontroler', function ($uibModal, $uibModalInstance, $r
         $scope.aktualizujDane();
     }
 
-    $scope.zamknij = function () {
-        $uibModalInstance.dismiss('cancel');
-    };
-
     $scope.trasaDodajTankowanie = function () {
         $uibModal.open({
             templateUrl: 'Widoki/Okna/oknoTankowanie.html',
-            controller: 'dodajTankowanieKontroler'
+            controller: 'dodajTankowanieKontroler',
+            backdrop  : 'static'
         });
     }
+
+    $scope.trasaImportujTankowania = function () {
+        $uibModal.open({
+            templateUrl: 'Widoki/Okna/oknoTankowaniaZPliku.html',
+            controller: 'importujTankowaniaKontroler',
+            backdrop  : 'static',
+            size: 'sm'
+        });
+    };
 
     $scope.trasaDodajPomiar = function () {
         $uibModal.open({
             templateUrl: 'Widoki/Okna/oknoPomiar.html',
-            controller: 'dodajPomiarKontroler'
+            controller: 'dodajPomiarKontroler',
+            backdrop  : 'static'
         });
     }
+
+    $scope.zamknij = function () {
+        $uibModalInstance.dismiss('cancel');
+    };
 
 });

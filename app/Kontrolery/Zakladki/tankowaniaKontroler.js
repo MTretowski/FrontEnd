@@ -16,14 +16,33 @@ app.controller('tankowaniaKontroler', function ($scope, $uibModal, tankowaniaSer
     $scope.dodajTankowanie = function () {
         $uibModal.open({
             templateUrl: 'Widoki/Okna/oknoTankowanie.html',
-            controller: 'dodajTankowanieKontroler'
+            controller: 'dodajTankowanieKontroler',
+            backdrop  : 'static',
         });
     };
 
-    $scope.edytujTankowanie = function () {
+    $scope.importujTankowania = function () {
+        $uibModal.open({
+            templateUrl: 'Widoki/Okna/oknoTankowaniaZPliku.html',
+            controller: 'importujTankowaniaKontroler',
+            backdrop  : 'static',
+            size: 'sm'
+        });
+    };
+
+    $scope.edytujTankowanie = function (indeks) {
         $uibModal.open({
             templateUrl: 'Widoki/Okna/oknoTankowanie.html',
-            controller: 'edytujTankowanieKontroler'
+            controller: 'edytujTankowanieKontroler',
+            backdrop  : 'static',
+            resolve: {
+                czyEdycjaImportowanego: function(){
+                    return false;
+                },
+                edytowaneTankowanie: function(){
+                    return $scope.tankowania[indeks];
+                }
+            }
         });
     };
 

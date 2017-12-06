@@ -8,14 +8,16 @@ app.controller('uzytkownicyKontroler', function ($scope, $uibModal, uzytkownicyS
     $scope.dodajUzytkownika = function () {
         $uibModal.open({
             templateUrl: 'Widoki/Okna/oknoUzytkownik.html',
-            controller: 'dodajUzytkownikaKontroler'
+            controller: 'dodajUzytkownikaKontroler',
+            backdrop  : 'static'
         });
     };
 
     $scope.edytujUzytkownika = function () {
         $uibModal.open({
             templateUrl: 'Widoki/Okna/oknoUzytkownik.html',
-            controller: 'edytujUzytkownikaKontroler'
+            controller: 'edytujUzytkownikaKontroler',
+            backdrop  : 'static'
         });
     };
 

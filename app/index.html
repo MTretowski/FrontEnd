@@ -45,6 +45,8 @@
     <script src="Kontrolery/Okna/Kierowca/wybierzKierowceKontroler.js"></script>
     <script src="Kontrolery/Okna/Pojazd/wybierzPojazdKontroler.js"></script>
     <script src="Kontrolery/Okna/Pomiar/wybierzPomiarKontroler.js"></script>
+    <script src="Kontrolery/Okna/Tankowanie/importujTankowaniaKontroler.js"></script>
+    <script src="Kontrolery/Okna/Tankowanie/podsumowanieImportuKontroler.js"></script>
 
     <script src="Serwisy/kierowcySerwis.js"></script>
     <script src="Serwisy/pojazdySerwis.js"></script>
@@ -153,10 +155,8 @@
 
             <div class="row">
                 <div class="col-md-12 text-center">
-                    <div class="btn-group">
-                        <a class="btn btn-info" ng-click="pokazFiltry = !pokazFiltry">{{pokazFiltry ? 'Ukryj filtry' : 'Pokaż filtry'}}</a>
-                        <a class="btn btn-success" ng-click="dodajTrase()">Dodaj trasę</a>
-                    </div>
+                    <a class="btn btn-info" ng-click="pokazFiltry = !pokazFiltry">{{pokazFiltry ? 'Ukryj filtry ' : 'Pokaż filtry '}}<span class="glyphicon glyphicon-filter"/></a>
+                    <a class="btn btn-success" ng-click="dodajTrase()">Dodaj trasę <span class="glyphicon glyphicon-plus"/></a>
                 </div>
             </div>
 
@@ -317,8 +317,8 @@
                     <td class="text-center">{{trasa.numerRejestracyjnyPojazdu}}</td>
                     <td class="text-center">{{trasa.kierowca1}}</td>
                     <td class="text-center">{{trasa.kierowca2}}</td>
-                    <td class="text-center">{{trasa.dataRozpoczecia | date : 'dd.MM.yyyy'}}</td>
-                    <td class="text-center">{{trasa.dataZakonczenia | date : 'dd.MM.yyyy'}}</td>
+                    <td class="text-center">{{trasa.dataRozpoczecia | date : 'dd.MM.yyyy' : 'UTC'}}</td>
+                    <td class="text-center">{{trasa.dataZakonczenia | date : 'dd.MM.yyyy' : 'UTC'}}</td>
                     <td class="text-right">{{trasa.srednieSpalanieFaktyczne | number : 2}}</td>
                     <td class="text-right">{{trasa.srednieSpalanieWgGPS | number : 2}}</td>
                     <td class="text-right">{{trasa.odchylenieOdNormy | number : 2}}</td>
@@ -347,10 +347,9 @@
 
             <div class="row">
                 <div class="col-md-12 text-center">
-                    <div class="btn-group">
-                        <a class="btn btn-info" ng-click="pokazFiltry = !pokazFiltry">{{pokazFiltry ? 'Ukryj filtry' : 'Pokaż filtry'}}</a>
-                        <a class="btn btn-success" ng-click="dodajTankowanie()">Dodaj tankowanie</a>
-                    </div>
+                    <a class="btn btn-info" ng-click="pokazFiltry = !pokazFiltry">{{pokazFiltry ? 'Ukryj filtry ' : 'Pokaż filtry '}}<span class="glyphicon glyphicon-filter"/></a>
+                    <a class="btn btn-success" ng-click="dodajTankowanie()">Dodaj tankowanie ręcznie <span class="glyphicon glyphicon-plus"/></a>
+                    <a class="btn btn-primary" ng-click="importujTankowania()">Importuj tankowania z pliku <span class="glyphicon glyphicon-save-file"/></a>
                 </div>
             </div>
 
@@ -416,10 +415,10 @@
                     </th>
 
                     <th class="text-center">
-                        <a href="#" ng-click="kluczSortowania = 'cena';odwrotneSortowanie = !odwrotneSortowanie">
-                            Cena za litr
-                            <span ng-show="kluczSortowania == 'cena' && !odwrotneSortowanie" class="glyphicon glyphicon-triangle-bottom"></span>
-                            <span ng-show="kluczSortowania == 'cena' && odwrotneSortowanie" class="glyphicon glyphicon-triangle-top"></span>
+                        <a href="#" ng-click="kluczSortowania = 'kwota';odwrotneSortowanie = !odwrotneSortowanie">
+                            Kwota brutto
+                            <span ng-show="kluczSortowania == 'kwota' && !odwrotneSortowanie" class="glyphicon glyphicon-triangle-bottom"></span>
+                            <span ng-show="kluczSortowania == 'kwota' && odwrotneSortowanie" class="glyphicon glyphicon-triangle-top"></span>
                         </a>
                     </th>
 
@@ -447,9 +446,9 @@
                 <tbody>
                 <tr ng-repeat="tankowanie in tankowania | filter:{pojazd: filtrNumerRejestracyjny, dostawca:filtrDostawca}| orderBy:kluczSortowania:odwrotneSortowanie" ng-if="tankowanie.data >= filtrDataOd && tankowanie.data <= filtrDataDo">
                     <td class="text-center">{{tankowanie.pojazd}}</td>
-                    <td class="text-center">{{tankowanie.data | date : 'dd.MM.yyyy'}}</td>
+                    <td class="text-center">{{tankowanie.data | date : 'dd.MM.yyyy' : 'UTC'}}</td>
                     <td class="text-right">{{tankowanie.ilosc | number : 2}}</td>
-                    <td class="text-right">{{tankowanie.cena | number : 2}}</td>
+                    <td class="text-right">{{tankowanie.kwota | number : 2}}</td>
                     <td class="text-center">{{tankowanie.waluta}}</td>
                     <td class="text-center">{{tankowanie.dostawca}}</td>
                     <td>
@@ -477,10 +476,8 @@
 
             <div class="row">
                 <div class="col-md-12 text-center">
-                    <div class="btn-group">
-                        <a class="btn btn-info" ng-click="pokazFiltry = !pokazFiltry">{{pokazFiltry ? 'Ukryj filtry' : 'Pokaż filtry'}}</a>
-                        <a class="btn btn-success" ng-click="dodajPomiar()">Dodaj pomiar</a>
-                    </div>
+                    <a class="btn btn-info" ng-click="pokazFiltry = !pokazFiltry">{{pokazFiltry ? 'Ukryj filtry ' : 'Pokaż filtry '}}<span class="glyphicon glyphicon-filter"/></a>
+                    <a class="btn btn-success" ng-click="dodajPomiar()">Dodaj pomiar <span class="glyphicon glyphicon-plus"/></a>
                 </div>
             </div>
 
@@ -585,9 +582,9 @@
                 <tbody>
                 <tr ng-repeat="pomiar in pomiary | filter:{numerRejestracyjnyPojazdu: filtrNumerRejestracyjny}| orderBy:kluczSortowania:odwrotneSortowanie" ng-if="pomiar.dataPomiaru >= filtrDataOd && pomiar.dataPomiaru <= filtrDataDo">
                     <td class="text-center">{{pomiar.numerRejestracyjnyPojazdu}}</td>
-                    <td class="text-center">{{pomiar.dataPomiaru | date : 'dd.MM.yyyy'}}</td>
-                    <td class="text-center"> - </td>
-                    <td class="text-center"> - </td>
+                    <td class="text-center">{{pomiar.dataPomiaru | date : 'dd.MM.yyyy' : 'UTC'}}</td>
+                    <td class="text-center"> -</td>
+                    <td class="text-center"> -</td>
                     <td class="text-center">{{pomiar.sposobPomiaru}}</td>
                     <td class="text-right">{{pomiar.lewy | number : 2}}</td>
                     <td class="text-right">{{pomiar.prawy | number : 2}}</td>
@@ -616,10 +613,8 @@
 
             <div class="row">
                 <div class="col-md-12 text-center">
-                    <div class="btn-group">
-                        <a class="btn btn-info" ng-click="pokazFiltry = !pokazFiltry">{{pokazFiltry ? 'Ukryj filtry' : 'Pokaż filtry'}}</a>
-                        <a class="btn btn-success" ng-click="dodajKierowce()">Dodaj kierowcę</a>
-                    </div>
+                    <a class="btn btn-info" ng-click="pokazFiltry = !pokazFiltry">{{pokazFiltry ? 'Ukryj filtry ' : 'Pokaż filtry '}}<span class="glyphicon glyphicon-filter"/></a>
+                    <a class="btn btn-success" ng-click="dodajKierowce()">Dodaj kierowcę <span class="glyphicon glyphicon-plus"/></a>
                 </div>
             </div>
 
@@ -671,7 +666,7 @@
 
                 </thead>
                 <tbody>
-                <tr ng-repeat="kierowca in kierowcy | filter:{imie: filtrImie, nazwisko:filtrNazwisko}| orderBy:kluczSortowania:odwrotneSortowanie"  ng-if="kierowca.czyAktywny === true || (kierowca.czyAktywny === false && filtrPokazNieaktywnych === true)">
+                <tr ng-repeat="kierowca in kierowcy | filter:{imie: filtrImie, nazwisko:filtrNazwisko}| orderBy:kluczSortowania:odwrotneSortowanie" ng-if="kierowca.czyAktywny === true || (kierowca.czyAktywny === false && filtrPokazNieaktywnych === true)">
                     <td class="text-center">{{kierowca.imie}}</td>
                     <td class="text-center">{{kierowca.nazwisko}}</td>
                     <td>
@@ -699,10 +694,8 @@
 
             <div class="row">
                 <div class="col-md-12 text-center">
-                    <div class="btn-group">
-                        <a class="btn btn-info" ng-click="pokazFiltry = !pokazFiltry">{{pokazFiltry ? 'Ukryj filtry' : 'Pokaż filtry'}}</a>
-                        <a class="btn btn-success" ng-click="dodajPojazd()">Dodaj pojazd</a>
-                    </div>
+                    <a class="btn btn-info" ng-click="pokazFiltry = !pokazFiltry">{{pokazFiltry ? 'Ukryj filtry ' : 'Pokaż filtry '}}<span class="glyphicon glyphicon-filter"/></a>
+                    <a class="btn btn-success" ng-click="dodajPojazd()">Dodaj pojazd <span class="glyphicon glyphicon-plus"/></a>
                 </div>
             </div>
 
@@ -803,10 +796,8 @@
 
             <div class="row">
                 <div class="col-md-12 text-center">
-                    <div class="btn-group">
-                        <a class="btn btn-info" ng-click="pokazFiltry = !pokazFiltry">{{pokazFiltry ? 'Ukryj filtry' : 'Pokaż filtry'}}</a>
-                        <a class="btn btn-success" ng-click="dodajUzytkownika()">Dodaj użytkownika</a>
-                    </div>
+                    <a class="btn btn-info" ng-click="pokazFiltry = !pokazFiltry">{{pokazFiltry ? 'Ukryj filtry ' : 'Pokaż filtry '}}<span class="glyphicon glyphicon-filter"/></a>
+                    <a class="btn btn-success" ng-click="dodajUzytkownika()">Dodaj użytkownika <span class="glyphicon glyphicon-plus"/></a>
                 </div>
             </div>
 
@@ -904,7 +895,6 @@
     </div>
 
 </div>
-
 
 </body>
 

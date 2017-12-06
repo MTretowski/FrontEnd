@@ -1,8 +1,8 @@
 app.controller('wybierzPomiarKontroler', function ($uibModalInstance, $rootScope, $scope, pomiarySerwis, rodzajPomiaru, idPojazdu) {
 
     $scope.pomiary = pomiarySerwis.dajPomiary();
-
     $scope.idPojazdu = idPojazdu;
+
     var teraz = new Date();
     var dzisiaj = new Date(teraz.getUTCFullYear(), teraz.getUTCMonth(), teraz.getUTCDate(), teraz.getUTCHours(), teraz.getUTCMinutes(), teraz.getUTCSeconds());
     var rokTemu = new Date(teraz.getUTCFullYear() - 1, teraz.getUTCMonth(), teraz.getUTCDate(), teraz.getUTCHours(), teraz.getUTCMinutes(), teraz.getUTCSeconds());

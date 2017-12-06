@@ -16,14 +16,16 @@ app.controller('pomiaryKontroler', function ($scope, $uibModal, pomiarySerwis) {
     $scope.dodajPomiar = function () {
         $uibModal.open({
             templateUrl: 'Widoki/Okna/oknoPomiar.html',
-            controller: 'dodajPomiarKontroler'
+            controller: 'dodajPomiarKontroler',
+            backdrop  : 'static'
         });
     };
 
     $scope.edytujPomiar = function () {
         $uibModal.open({
             templateUrl: 'Widoki/Okna/oknoPomiar.html',
-            controller: 'edytujPomiarKontroler'
+            controller: 'edytujPomiarKontroler',
+            backdrop  : 'static'
         });
     };
 

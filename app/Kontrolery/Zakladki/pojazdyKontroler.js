@@ -9,14 +9,16 @@ app.controller('pojazdyKontroler', function ($scope, $uibModal, pojazdySerwis) {
     $scope.dodajPojazd = function () {
         $uibModal.open({
             templateUrl: 'Widoki/Okna/oknoPojazd.html',
-            controller: 'dodajPojazdKontroler'
+            controller: 'dodajPojazdKontroler',
+            backdrop  : 'static'
         });
     };
 
     $scope.edytujPojazd = function () {
         $uibModal.open({
             templateUrl: 'Widoki/Okna/oknoPojazd.html',
-            controller: 'edytujPojazdKontroler'
+            controller: 'edytujPojazdKontroler',
+            backdrop  : 'static'
         });
     };
 

@@ -1,0 +1,456 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <button type="button" class="close glyphicon glyphicon-remove" ng-click="zamknij()"></button>
+        <h4 class="modal-title">Podsumowanie importu z pliku</h4>
+    </div>
+
+    <div class="modal-body">
+
+        <div ng-show="!czySaTankowania && !czySaOstrzezenia && !czySaInneZdarzenia">
+            <h5 class = text-center>Brak zaimportowanych zdarzeń</h5>
+        </div>
+
+        <div ng-show="czySaTankowania">
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <a class="btn btn-success" ng-click="pokazDobre = !pokazDobre">{{pokazDobre ? 'Ukryj poprawnie zaimportowane tankowania ' : 'Pokaż poprawnie zaimportowane tankowania '}} <span class="badge">{{zaimportowaneTankowania.length}}</span></a>
+                </div>
+            </div>
+
+            <div ng-show="pokazDobre">
+                <div class="row">
+                    <h3 class="text-center">Poprawnie zaimportowane tankowania</h3>
+                    <br>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <a class="btn btn-info" ng-click="pokazFiltry = !pokazFiltry">{{pokazFiltry ? 'Ukryj filtry ' : 'Pokaż filtry '}}<span class="glyphicon glyphicon-filter"/></a>
+                    </div>
+                </div>
+
+                <div class="row" ng-show="pokazFiltry">
+                    <br>
+                    <div class="col-md-offset-2 col-md-4">
+                        <div class="input-group">
+                            <span class="input-group-addon">Data od: </span>
+                            <input type="date" class="form-control" ng-model-options="{ timezone: 'UTC' }" ng-model="filtrDataOd">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="input-group">
+                            <span class="input-group-addon">Data do: </span>
+                            <input type="date" class="form-control" ng-model-options="{ timezone: 'UTC' }" ng-model="filtrDataDo">
+                        </div>
+                    </div>
+                </div>
+
+                <br>
+
+                <table class="table table-condensed table-responsive table-hover table-bordered table-striped">
+                    <thead>
+                    <tr>
+                        <th class="text-center">
+                            <a href="#" ng-click="kluczSortowania = 'pojazd';odwrotneSortowanie = !odwrotneSortowanie">
+                                Pojazd
+                                <span ng-show="kluczSortowania == 'pojazd' && !odwrotneSortowanie" class="glyphicon glyphicon-triangle-bottom"></span>
+                                <span ng-show="kluczSortowania == 'pojazd' && odwrotneSortowanie" class="glyphicon glyphicon-triangle-top"></span>
+                            </a>
+                        </th>
+
+                        <th class="text-center">
+                            <a href="#" ng-click="kluczSortowania = 'data';odwrotneSortowanie = !odwrotneSortowanie">
+                                Data
+                                <span ng-show="kluczSortowania == 'data' && !odwrotneSortowanie" class="glyphicon glyphicon-triangle-bottom"></span>
+                                <span ng-show="kluczSortowania == 'data' && odwrotneSortowanie" class="glyphicon glyphicon-triangle-top"></span>
+                            </a>
+                        </th>
+
+                        <th class="text-center">
+                            <a href="#" ng-click="kluczSortowania = 'ilosc';odwrotneSortowanie = !odwrotneSortowanie">
+                                Ilość [L]
+                                <span ng-show="kluczSortowania == 'ilosc' && !odwrotneSortowanie" class="glyphicon glyphicon-triangle-bottom"></span>
+                                <span ng-show="kluczSortowania == 'ilosc' && odwrotneSortowanie" class="glyphicon glyphicon-triangle-top"></span>
+                            </a>
+                        </th>
+
+                        <th class="text-center">
+                            <a href="#" ng-click="kluczSortowania = 'kwota';odwrotneSortowanie = !odwrotneSortowanie">
+                                Kwota brutto
+                                <span ng-show="kluczSortowania == 'kwota' && !odwrotneSortowanie" class="glyphicon glyphicon-triangle-bottom"></span>
+                                <span ng-show="kluczSortowania == 'kwota' && odwrotneSortowanie" class="glyphicon glyphicon-triangle-top"></span>
+                            </a>
+                        </th>
+
+                        <th class="text-center">
+                            <a href="#" ng-click="kluczSortowania = 'waluta';odwrotneSortowanie = !odwrotneSortowanie">
+                                Waluta
+                                <span ng-show="kluczSortowania == 'waluta' && !odwrotneSortowanie" class="glyphicon glyphicon-triangle-bottom"></span>
+                                <span ng-show="kluczSortowania == 'waluta' && odwrotneSortowanie" class="glyphicon glyphicon-triangle-top"></span>
+                            </a>
+                        </th>
+
+                        <th class="text-center">
+                            <a href="#" ng-click="kluczSortowania = 'opis';odwrotneSortowanie = !odwrotneSortowanie">
+                                Opis
+                                <span ng-show="kluczSortowania == 'opis' && !odwrotneSortowanie" class="glyphicon glyphicon-triangle-bottom"></span>
+                                <span ng-show="kluczSortowania == 'opis' && odwrotneSortowanie" class="glyphicon glyphicon-triangle-top"></span>
+                            </a>
+                        </th>
+
+                        <th ng-if="dostawca == 'DKV'" class="text-center">
+                            <a href="#" ng-click="kluczSortowania = 'opisDodatkowy';odwrotneSortowanie = !odwrotneSortowanie">
+                                Opis dodatkowy
+                                <span ng-show="kluczSortowania == 'opisDodatkowy' && !odwrotneSortowanie" class="glyphicon glyphicon-triangle-bottom"></span>
+                                <span ng-show="kluczSortowania == 'opisDodatkowy' && odwrotneSortowanie" class="glyphicon glyphicon-triangle-top"></span>
+                            </a>
+                        </th>
+
+                        <th class="text-center">Edytuj</th>
+                        <th class="text-center">Usuń</th>
+                    </tr>
+
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="tankowanie in zaimportowaneTankowania | orderBy:kluczSortowania:odwrotneSortowanie" ng-if="tankowanie.data >= filtrDataOd && tankowanie.data <= filtrDataDo">
+                        <td class="text-center">{{tankowanie.pojazd}}</td>
+                        <td class="text-center">{{tankowanie.data | date : 'dd.MM.yyyy' : 'UTC'}}</td>
+                        <td class="text-right">{{tankowanie.ilosc | number: 2}}</td>
+                        <td class="text-right">{{tankowanie.kwota | number: 2}}</td>
+                        <td class="text-center">{{tankowanie.waluta}}</td>
+                        <td class="text-right">{{tankowanie.opis}}</td>
+                        <td ng-if="dostawca == 'DKV'" class="text-right">{{tankowanie.opisDodatkowy}}</td>
+
+                        <td>
+                            <button type="button" class="btn-xs btn-warning glyphicon glyphicon-edit center-block" ng-click="edytujTankowanie(zaimportowaneTankowania.indexOf(tankowanie))"></button>
+                        </td>
+                        <td>
+                            <button type="button" class="btn-xs btn-danger glyphicon glyphicon-remove center-block" ng-click="usunTankowanie(zaimportowaneTankowania.indexOf(tankowanie))"></button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <br>
+        </div>
+
+        <div ng-show="czySaOstrzezenia">
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <a class="btn btn-warning" ng-click="pokazOstrzezenia = !pokazOstrzezenia">{{pokazOstrzezenia ? 'Ukryj zaimportowane tankowania z ostrzeżeniami ' : 'Pokaż zaimportowane tankowania z ostrzeżeniami '}} <span class="badge">{{tankowaniaZOstrzezeniami.length}}</span></a>
+                </div>
+            </div>
+
+            <div ng-show="pokazOstrzezenia">
+                <div class="row">
+                    <h3 class="text-center">Zaimportowane tankowania z ostrzeżeniami</h3>
+                    <h4 class="text-center">Tankowania te nie zostaną dostane do bazy danych</h4>
+                    <h5 class="text-center">Aby pozbyć się ostrzeżeń, edytuj poszególne tankowania</h5>
+                    <br>
+
+                    <div class="col-md-12 text-center">
+                        <a class="btn btn-info" ng-click="pokazFiltryOstrzezenia = !pokazFiltryOstrzezenia">{{pokazFiltryOstrzezenia ? 'Ukryj filtry ' : 'Pokaż filtry '}}<span class="glyphicon glyphicon-filter"/></a>
+                    </div>
+                </div>
+
+                <div class="row" ng-show="pokazFiltryOstrzezenia">
+                    <br>
+                    <div class="col-md-offset-2 col-md-4">
+                        <div class="input-group">
+                            <span class="input-group-addon">Data od: </span>
+                            <input type="date" class="form-control" ng-model-options="{ timezone: 'UTC' }" ng-model="filtrDataOdOstrzezenia">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="input-group">
+                            <span class="input-group-addon">Data do: </span>
+                            <input type="date" class="form-control" ng-model-options="{ timezone: 'UTC' }" ng-model="filtrDataDoOstrzezenia">
+                        </div>
+                    </div>
+                </div>
+
+                <br>
+
+                <table class="table table-condensed table-responsive table-hover table-bordered table-striped">
+                    <thead>
+                    <tr>
+                        <th class="text-center">
+                            <a href="#" ng-click="kluczSortowaniaOstrzezenia = 'pojazd';odwrotneSortowanieOstrzezenia = !odwrotneSortowanieOstrzezenia">
+                                Pojazd
+                                <span ng-show="kluczSortowaniaOstrzezenia == 'pojazd' && !odwrotneSortowanieOstrzezenia" class="glyphicon glyphicon-triangle-bottom"></span>
+                                <span ng-show="kluczSortowaniaOstrzezenia == 'pojazd' && odwrotneSortowanieOstrzezenia" class="glyphicon glyphicon-triangle-top"></span>
+                            </a>
+                        </th>
+
+                        <th class="text-center">
+                            <a href="#" ng-click="kluczSortowaniaOstrzezenia = 'data';odwrotneSortowanieOstrzezenia = !odwrotneSortowanieOstrzezenia">
+                                Data
+                                <span ng-show="kluczSortowaniaOstrzezenia == 'data' && !odwrotneSortowanieOstrzezenia" class="glyphicon glyphicon-triangle-bottom"></span>
+                                <span ng-show="kluczSortowaniaOstrzezenia == 'data' && odwrotneSortowanieOstrzezenia" class="glyphicon glyphicon-triangle-top"></span>
+                            </a>
+                        </th>
+
+                        <th class="text-center">
+                            <a href="#" ng-click="kluczSortowaniaOstrzezenia = 'ilosc';odwrotneSortowanieOstrzezenia = !odwrotneSortowanieOstrzezenia">
+                                Ilość [L]
+                                <span ng-show="kluczSortowaniaOstrzezenia == 'ilosc' && !odwrotneSortowanieOstrzezenia" class="glyphicon glyphicon-triangle-bottom"></span>
+                                <span ng-show="kluczSortowaniaOstrzezenia == 'ilosc' && odwrotneSortowanieOstrzezenia" class="glyphicon glyphicon-triangle-top"></span>
+                            </a>
+                        </th>
+
+                        <th class="text-center">
+                            <a href="#" ng-click="kluczSortowaniaOstrzezenia = 'kwota';odwrotneSortowanieOstrzezenia = !odwrotneSortowanieOstrzezenia">
+                                Kwota brutto
+                                <span ng-show="kluczSortowaniaOstrzezenia == 'kwota' && !odwrotneSortowanieOstrzezenia" class="glyphicon glyphicon-triangle-bottom"></span>
+                                <span ng-show="kluczSortowaniaOstrzezenia == 'kwota' && odwrotneSortowanieOstrzezenia" class="glyphicon glyphicon-triangle-top"></span>
+                            </a>
+                        </th>
+
+                        <th class="text-center">
+                            <a href="#" ng-click="kluczSortowaniaOstrzezenia = 'waluta';odwrotneSortowanieOstrzezenia = !odwrotneSortowanieOstrzezenia">
+                                Waluta
+                                <span ng-show="kluczSortowaniaOstrzezenia == 'waluta' && !odwrotneSortowanieOstrzezenia" class="glyphicon glyphicon-triangle-bottom"></span>
+                                <span ng-show="kluczSortowaniaOstrzezenia == 'waluta' && odwrotneSortowanieOstrzezenia" class="glyphicon glyphicon-triangle-top"></span>
+                            </a>
+                        </th>
+
+                        <th class="text-center">
+                            <a href="#" ng-click="kluczSortowaniaOstrzezenia = 'opis';odwrotneSortowanieOstrzezenia = !odwrotneSortowanieOstrzezenia">
+                                Opis
+                                <span ng-show="kluczSortowaniaOstrzezenia == 'opis' && !odwrotneSortowanieOstrzezenia" class="glyphicon glyphicon-triangle-bottom"></span>
+                                <span ng-show="kluczSortowaniaOstrzezenia == 'opis' && odwrotneSortowanieOstrzezenia" class="glyphicon glyphicon-triangle-top"></span>
+                            </a>
+                        </th>
+
+                        <th ng-if="dostawca == 'DKV'" class="text-center">
+                            <a href="#" ng-click="kluczSortowaniaOstrzezenia = 'opisDodatkowy';odwrotneSortowanieOstrzezenia = !odwrotneSortowanieOstrzezenia">
+                                Opis dodatkowy
+                                <span ng-show="kluczSortowaniaOstrzezenia == 'opisDodatkowy' && !odwrotneSortowanieOstrzezenia" class="glyphicon glyphicon-triangle-bottom"></span>
+                                <span ng-show="kluczSortowaniaOstrzezenia == 'opisDodatkowy' && odwrotneSortowanieOstrzezenia" class="glyphicon glyphicon-triangle-top"></span>
+                            </a>
+                        </th>
+
+                        <th class="text-center">
+                            <a href="#" ng-click="kluczSortowaniaOstrzezenia = 'komunikat';odwrotneSortowanieOstrzezenia = !odwrotneSortowanieOstrzezenia">
+                                Komunikat
+                                <span ng-show="kluczSortowaniaOstrzezenia == 'komunikat' && !odwrotneSortowanieOstrzezenia" class="glyphicon glyphicon-triangle-bottom"></span>
+                                <span ng-show="kluczSortowaniaOstrzezenia == 'komunikat' && odwrotneSortowanieOstrzezenia" class="glyphicon glyphicon-triangle-top"></span>
+                            </a>
+                        </th>
+
+                        <th class="text-center">Edytuj</th>
+                        <th class="text-center">Usuń</th>
+                    </tr>
+
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="tankowanie in tankowaniaZOstrzezeniami | orderBy:kluczSortowania:odwrotneSortowanie" ng-if="tankowanie.data >= filtrDataOdOstrzezenia && tankowanie.data <= filtrDataDoOstrzezenia">
+                        <td class="text-center">{{tankowanie.pojazd}}</td>
+                        <td class="text-center">{{tankowanie.data | date : 'dd.MM.yyyy' : 'UTC'}}</td>
+                        <td class="text-right">{{tankowanie.ilosc | number: 2}}</td>
+                        <td class="text-right">{{tankowanie.kwota | number: 2}}</td>
+                        <td class="text-center">{{tankowanie.waluta}}</td>
+                        <td class="text-right">{{tankowanie.opis}}</td>
+                        <td ng-if="dostawca == 'DKV'" class="text-right">{{tankowanie.opisDodatkowy}}</td>
+                        <td class="text-right">{{tankowanie.komunikat}}</td>
+                        <td>
+                            <button type="button" class="btn-xs btn-warning glyphicon glyphicon-edit center-block" ng-click="edytujTankowanieZOstrzezeniem(tankowaniaZOstrzezeniami.indexOf(tankowanie))"></button>
+                        </td>
+                        <td>
+                            <button type="button" class="btn-xs btn-danger glyphicon glyphicon-remove center-block" ng-click="usunTankowanieZOstrzezeniem(tankowaniaZOstrzezeniami.indexOf(tankowanie))"></button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <br>
+        </div>
+
+        <div ng-show="czySaInneZdarzenia">
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <a class="btn btn-danger" ng-click="pokazInne = !pokazInne">{{pokazInne ? 'Ukryj zdarzenia niezakfalifikowane jako tankowania ' : 'Pokaż zdarzenia niezakfalifikowane jako tankowania '}}<span class="badge">{{inneZdarzenia.length}}</span></a>
+                </div>
+            </div>
+
+            <div ng-show="pokazInne">
+                <div class="row">
+                    <h3 class="text-center">Zdarzenie niezakfalifikowane jako tankowania</h3>
+                    <h4 class="text-center">Zdarzenia te nie zostaną dostane do bazy danych</h4>
+                    <h5 class="text-center">Aby pozbyć się błędów, edytuj poszególne zdarzenia</h5>
+                    <br>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <a class="btn btn-info" ng-click="pokazFiltryInne = !pokazFiltryInne">{{pokazFiltryInne ? 'Ukryj filtry ' : 'Pokaż filtry '}}<span class="glyphicon glyphicon-filter"/></a>
+                    </div>
+                </div>
+
+                <div class="row" ng-show="pokazFiltryInne">
+                    <br>
+                    <div class="col-md-offset-2 col-md-4">
+                        <div class="input-group">
+                            <span class="input-group-addon">Data od: </span>
+                            <input type="date" class="form-control" ng-model-options="{ timezone: 'UTC' }" ng-model="filtrDataOdInne">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="input-group">
+                            <span class="input-group-addon">Data do: </span>
+                            <input type="date" class="form-control" ng-model-options="{ timezone: 'UTC' }" ng-model="filtrDataDoInne">
+                        </div>
+                    </div>
+                </div>
+
+                <br>
+
+                <table class="table table-condensed table-responsive table-hover table-bordered table-striped">
+                    <thead>
+                    <tr>
+                        <th class="text-center">
+                            <a href="#" ng-click="kluczSortowaniaInne = 'pojazd';odwrotneSortowanieInne = !odwrotneSortowanieInne">
+                                Pojazd
+                                <span ng-show="kluczSortowaniaInne == 'pojazd' && !odwrotneSortowanieInne" class="glyphicon glyphicon-triangle-bottom"></span>
+                                <span ng-show="kluczSortowaniaInne == 'pojazd' && odwrotneSortowanieInne" class="glyphicon glyphicon-triangle-top"></span>
+                            </a>
+                        </th>
+
+                        <th class="text-center">
+                            <a href="#" ng-click="kluczSortowaniaInne = 'data';odwrotneSortowanieInne = !odwrotneSortowanieInne">
+                                Data
+                                <span ng-show="kluczSortowaniaInne == 'data' && !odwrotneSortowanieInne" class="glyphicon glyphicon-triangle-bottom"></span>
+                                <span ng-show="kluczSortowaniaInne == 'data' && odwrotneSortowanieInne" class="glyphicon glyphicon-triangle-top"></span>
+                            </a>
+                        </th>
+
+                        <th class="text-center">
+                            <a href="#" ng-click="kluczSortowaniaInne = 'ilosc';odwrotneSortowanieInne = !odwrotneSortowanieInne">
+                                Ilość [L]
+                                <span ng-show="kluczSortowaniaInne == 'ilosc' && !odwrotneSortowanieInne" class="glyphicon glyphicon-triangle-bottom"></span>
+                                <span ng-show="kluczSortowaniaInne == 'ilosc' && odwrotneSortowanieInne" class="glyphicon glyphicon-triangle-top"></span>
+                            </a>
+                        </th>
+
+                        <th class="text-center">
+                            <a href="#" ng-click="kluczSortowaniaInne = 'kwota';odwrotneSortowanieInne = !odwrotneSortowanieInne">
+                                Kwota brutto
+                                <span ng-show="kluczSortowaniaInne == 'kwota' && !odwrotneSortowanieInne" class="glyphicon glyphicon-triangle-bottom"></span>
+                                <span ng-show="kluczSortowaniaInne == 'kwota' && odwrotneSortowanieInne" class="glyphicon glyphicon-triangle-top"></span>
+                            </a>
+                        </th>
+
+                        <th class="text-center">
+                            <a href="#" ng-click="kluczSortowaniaInne = 'waluta';odwrotneSortowanieInne = !odwrotneSortowanieInne">
+                                Waluta
+                                <span ng-show="kluczSortowaniaInne == 'waluta' && !odwrotneSortowanieInne" class="glyphicon glyphicon-triangle-bottom"></span>
+                                <span ng-show="kluczSortowaniaInne == 'waluta' && odwrotneSortowanieInne" class="glyphicon glyphicon-triangle-top"></span>
+                            </a>
+                        </th>
+
+                        <th class="text-center">
+                            <a href="#" ng-click="kluczSortowaniaInne = 'opis';odwrotneSortowanieInne = !odwrotneSortowanieInne">
+                                Opis
+                                <span ng-show="kluczSortowaniaInne == 'opis' && !odwrotneSortowanieInne" class="glyphicon glyphicon-triangle-bottom"></span>
+                                <span ng-show="kluczSortowaniaInne == 'opis' && odwrotneSortowanieInne" class="glyphicon glyphicon-triangle-top"></span>
+                            </a>
+                        </th>
+
+                        <th ng-if="dostawca == 'DKV'" class="text-center">
+                            <a href="#" ng-click="kluczSortowaniaInne = 'opisDodatkowy';odwrotneSortowanieInne = !odwrotneSortowanieInne">
+                                Opis dodatkowy
+                                <span ng-show="kluczSortowaniaInne == 'opisDodatkowy' && !odwrotneSortowanieInne" class="glyphicon glyphicon-triangle-bottom"></span>
+                                <span ng-show="kluczSortowaniaInne == 'opisDodatkowy' && odwrotneSortowanieInne" class="glyphicon glyphicon-triangle-top"></span>
+                            </a>
+                        </th>
+
+                        <th class="text-center">
+                            <a href="#" ng-click="kluczSortowaniaInne = 'komunikat';odwrotneSortowanieInne = !odwrotneSortowanieInne">
+                                Komunikat
+                                <span ng-show="kluczSortowaniaInne == 'komunikat' && !odwrotneSortowanieInne" class="glyphicon glyphicon-triangle-bottom"></span>
+                                <span ng-show="kluczSortowaniaInne == 'komunikat' && odwrotneSortowanieInne" class="glyphicon glyphicon-triangle-top"></span>
+                            </a>
+                        </th>
+
+                        <th class="text-center">Edytuj</th>
+                        <th class="text-center">Usuń</th>
+                    </tr>
+
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="zdarzenie in inneZdarzenia | orderBy:kluczSortowaniaInne:odwrotneSortowanieInne" ng-if="zdarzenie.data >= filtrDataOdInne && zdarzenie.data <= filtrDataDoInne">
+                        <td class="text-center">{{zdarzenie.pojazd}}</td>
+                        <td class="text-center">{{zdarzenie.data | date : 'dd.MM.yyyy' : 'UTC'}}</td>
+                        <td class="text-right">{{zdarzenie.ilosc | number: 2}}</td>
+                        <td class="text-right">{{zdarzenie.kwota | number: 2}}</td>
+                        <td class="text-center">{{zdarzenie.waluta}}</td>
+                        <td class="text-right">{{zdarzenie.opis}}</td>
+                        <td ng-if="dostawca == 'DKV'" class="text-right">{{zdarzenie.opisDodatkowy}}</td>
+                        <td class="text-right">{{zdarzenie.komunikat}}</td>
+
+                        <td>
+                            <button type="button" class="btn-xs btn-warning glyphicon glyphicon-edit center-block" ng-click="edytujInneZdarzenie(inneZdarzenia.indexOf(zdarzenie))"></button>
+                        </td>
+                        <td>
+                            <button type="button" class="btn-xs btn-danger glyphicon glyphicon-remove center-block" ng-click="usunInneZdarzenie(inneZdarzenia.indexOf(zdarzenie))"></button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <br>
+        </div>
+
+        <div ng-show="czySaBledy">
+
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <a class="btn btn-danger" ng-click="pokazBledy = !pokazBledy">{{pokazBledy ? 'Ukryj błędne wiersze ' : 'Pokaż błędne wiersze '}}<span class="badge">{{bledneWiersze.length}}</span></a>
+                </div>
+            </div>
+
+            <div ng-show="pokazBledy">
+                <div class="row">
+                    <h3 class="text-center">Zdarzenie niezakfalifikowane jako tankowania</h3>
+                    <h4 class="text-center">Zdarzenia te nie zostaną dostane do bazy danych</h4>
+                    <h5 class="text-center">Aby pozbyć się błędów, edytuj poszególne zdarzenia</h5>
+                    <br>
+                </div>
+                
+                <table class="table table-condensed table-responsive table-hover table-bordered table-striped">
+                    <thead>
+                    <tr>
+                        <th class="text-center">
+                            <a href="#" ng-click="kluczSortowaniaInne = 'wiersz';odwrotneSortowanieInne = !odwrotneSortowanieInne">
+                                Zawartość wiersza
+                                <span ng-show="kluczSortowaniaInne == 'wiersz' && !odwrotneSortowanieInne" class="glyphicon glyphicon-triangle-bottom"></span>
+                                <span ng-show="kluczSortowaniaInne == 'wiersz' && odwrotneSortowanieInne" class="glyphicon glyphicon-triangle-top"></span>
+                            </a>
+                        </th>
+
+                        <th class="text-center">
+                            <a href="#" ng-click="kluczSortowaniaInne = 'blad';odwrotneSortowanieInne = !odwrotneSortowanieInne">
+                                Błąd
+                                <span ng-show="kluczSortowaniaInne == 'blad' && !odwrotneSortowanieInne" class="glyphicon glyphicon-triangle-bottom"></span>
+                                <span ng-show="kluczSortowaniaInne == 'blad' && odwrotneSortowanieInne" class="glyphicon glyphicon-triangle-top"></span>
+                            </a>
+                        </th>
+                    </tr>
+
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="wiersz in bledneWiersze | orderBy:kluczSortowaniaInne:odwrotneSortowanieInne">
+                        <td class="text-center">{{wiersz.wiersz}}</td>
+                        <td class="text-center">{{wiersz.blad}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-footer">
+        <button ng-show="czySaTankowania" type="button" class="btn btn-success" ng-click="importuj()">Importuj</button>
+        <button type="button" class="btn btn-danger" ng-click="zamknij()">Anuluj</button>
+    </div>
+</div>

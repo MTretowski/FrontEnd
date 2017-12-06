@@ -1,4 +1,4 @@
-app.controller('wybierzPojazdKontroler', function ($uibModalInstance, $rootScope, $scope, pojazdySerwis) {
+app.controller('wybierzPojazdKontroler', function ($uibModalInstance, $uibModal, $rootScope, $scope, pojazdySerwis) {
 
     $scope.pojazdy = pojazdySerwis.dajPojazdy()
 
@@ -6,6 +6,14 @@ app.controller('wybierzPojazdKontroler', function ($uibModalInstance, $rootScope
         $rootScope.$broadcast('wybranoPojazd', $scope.pojazdy[numerPojazdu].idPojazdu, $scope.pojazdy[numerPojazdu].numerRejestracyjny);
         $uibModalInstance.dismiss('cancel');
     }
+
+    $scope.dodajPojazd = function () {
+        $uibModal.open({
+            templateUrl: 'Widoki/Okna/oknoPojazd.html',
+            controller: 'dodajPojazdKontroler',
+            backdrop  : 'static'
+        });
+    };
 
     $scope.zamknij = function () {
         $uibModalInstance.dismiss('cancel');

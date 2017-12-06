@@ -7,6 +7,7 @@ app.controller('glownyKontroler', function ($cookieStore, $rootScope, $scope, $u
         $uibModal.open({
             templateUrl: 'Widoki/Okna/oknoHaslo.html',
             controller: 'zmienHasloKontroler',
+            backdrop  : 'static',
             size: 'sm'
         });
     };

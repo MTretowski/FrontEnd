@@ -9,7 +9,7 @@
         <div class="row">
             <div class="col-md-12 text-center">
                 <div class="btn-group">
-                    <a class="btn btn-info" ng-click="pokazFiltry = !pokazFiltry">{{pokazFiltry ? 'Ukryj filtry' : 'Pokaż filtry'}}</a>
+                    <a class="btn btn-info" ng-click="pokazFiltry = !pokazFiltry">{{pokazFiltry ? 'Ukryj filtry ' : 'Pokaż filtry '}}<span class="glyphicon glyphicon-filter"/></a>
                 </div>
             </div>
         </div>
@@ -83,7 +83,7 @@
             </thead>
             <tbody>
             <tr ng-repeat="pomiar in pomiary | orderBy:kluczSortowania:odwrotneSortowanie" ng-if="pomiar.dataPomiaru >= filtrDataOd && pomiar.dataPomiaru <= filtrDataDo && pomiar.idPojazdu == idPojazdu">
-                <td class="text-center">{{pomiar.dataPomiaru | date : 'dd.MM.yyyy'}}</td>
+                <td class="text-center">{{pomiar.dataPomiaru | date : 'dd.MM.yyyy' : 'UTC'}}</td>
                 <td class="text-center">{{pomiar.sposobPomiaru}}</td>
                 <td class="text-right">{{pomiar.lewy | number : 2}}</td>
                 <td class="text-right">{{pomiar.prawy | number : 2}}</td>
