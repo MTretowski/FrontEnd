@@ -3,8 +3,7 @@ app.controller('wybierzKierowceKontroler', function ($uibModalInstance, $rootSco
     $scope.kierowcy = kierowcySerwis.dajKierowcow();
 
     $scope.wybrano= function (numerKierowcy){
-        $rootScope.$broadcast('wybranoKierowce', numerKierowcyWZalodze, $scope.kierowcy[numerKierowcy].idKierowcy,
-            ($scope.kierowcy[numerKierowcy].nazwisko + ' ' + $scope.kierowcy[numerKierowcy].imie));
+        $rootScope.$broadcast('wybranoKierowce', numerKierowcyWZalodze, $scope.kierowcy[numerKierowcy]);
         $uibModalInstance.dismiss('cancel');
     }
 

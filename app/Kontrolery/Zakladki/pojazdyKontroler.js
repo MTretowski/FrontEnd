@@ -14,11 +14,16 @@ app.controller('pojazdyKontroler', function ($scope, $uibModal, pojazdySerwis) {
         });
     };
 
-    $scope.edytujPojazd = function () {
+    $scope.edytujPojazd = function (indeks) {
         $uibModal.open({
             templateUrl: 'Widoki/Okna/oknoPojazd.html',
             controller: 'edytujPojazdKontroler',
-            backdrop  : 'static'
+            backdrop  : 'static',
+            resolve: {
+                edytowanyPojazd: function(){
+                    return $scope.pojazdy[indeks];
+                }
+            }
         });
     };
 

@@ -173,9 +173,9 @@ app.controller('importujTankowaniaKontroler', function ($uibModalInstance, $uibM
         }
         else {
             var teraz = new Date();
-            var dzisiaj = new Date(teraz.getUTCFullYear(), teraz.getUTCMonth(), teraz.getUTCDate(), teraz.getUTCHours(), teraz.getUTCMinutes(), teraz.getUTCSeconds());
+            var terazUTC = new Date(teraz.getUTCFullYear(), teraz.getUTCMonth(), teraz.getUTCDate(), teraz.getUTCHours(), teraz.getUTCMinutes(), teraz.getUTCSeconds());
 
-            if (data > dzisiaj) {
+            if (data > terazUTC) {
                 return "Niepoprawny format daty";
             }
 

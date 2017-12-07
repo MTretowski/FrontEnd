@@ -6,72 +6,97 @@
 
     <div class="modal-body">
         <form class="form-horizontal">
+
+            <div class="form-group">
+                <label class="control-label col-md-2">Status</label>
+                <div class="col-md-4">
+                    <select class="form-control" ng-model="statusAktywnosci" ng-change="wybranoSposobPomiaru()">
+                        <option selected="selected" value="">-</option>
+                        <option value="aktywny">Aktywny</option>
+                        <option value="nieaktywny">Nieaktywny</option>
+                    </select>
+                </div>
+            </div>
+
             <div class="form-group">
                 <label class="control-label col-md-4">Numer rejestracyjny</label>
                 <div class="col-md-8">
-                    <input type="text" class="form-control">
+                    <input type="text" class="form-control" ng-model="numerRejestracyjny">
                 </div>
             </div>
 
             <div class="form-group">
                 <label class="control-label col-md-4">Marka i model</label>
                 <div class="col-md-8">
-                    <input type="text" class="form-control">
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label class="control-label col-md-6">Norma spalania (L / 100 km)</label>
-                <div class="col-md-6">
-                    <input type="text" class="form-control">
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label class="control-label col-md-6">Dopuszczalne odchylenie (L / 100 km)</label>
-                <div class="col-md-6">
-                    <input type="text" class="form-control">
+                    <input type="text" class="form-control" ng-model="markaIModel">
                 </div>
             </div>
 
             <br>
 
             <div class="col-md-12 text-center">
-                <label>Przeliczniki (L / cm)</label>
+                <label>Przeliczniki [L / cm]</label>
             </div>
             <div class="form-group">
                 <label class="control-label col-md-3">Zbiornik lewy</label>
                 <div class="col-md-3">
-                    <input type="text" class="form-control">
+                    <input type="number" class="form-control" min="0" ng-model="przelicznikZbiornikLewy">
                 </div>
                 <label class="control-label col-md-3">Zbiornik prawy</label>
                 <div class="col-md-3">
-                    <input type="text" class="form-control">
+                    <input type="number" class="form-control" min="0" ng-model="przelicznikZbiornikPrawy">
                 </div>
             </div>
 
             <div class="col-md-12 text-center">
-                <label>Pojemności zbiorników (L)</label>
-                <div class="input-group center-block"><input type="checkbox" ng-model="zbiornikiTakieSame">Zbiorniki takie same</div>
+                <label>Pojemności [L]</label>
             </div>
-
             <div class="form-group">
                 <label class="control-label col-md-3">Zbiornik lewy</label>
                 <div class="col-md-3">
-                    <input type="text" class="form-control" ng-disabled="zbiornikiTakieSame">
+                    <input type="number" class="form-control" min="0" ng-model="maxPojemnoscZbiornikLewy">
                 </div>
                 <label class="control-label col-md-3">Zbiornik prawy</label>
                 <div class="col-md-3">
-                    <input type="text" class="form-control" ng-disabled="zbiornikiTakieSame">
+                    <input type="number" class="form-control" min="0" ng-model="maxPojemnoscZbiornikPrawy">
                 </div>
             </div>
 
-            <div class="form-group">
-                <label class="control-label col-md-3">Suma</label>
-                <div class="col-md-3">
-                    <input type="text" class="form-control" ng-disabled="!zbiornikiTakieSame">
-                </div>
-            </div>
+
+            <br>
+            <h4 class="text-center"> Podsumowanie pojemności </h4>
+            <table class="table table-condensed table-responsive table-hover table-bordered table-striped">
+                <thead>
+                <tr>
+                    <th class="text-center">
+                        Zbiornik lewy
+                    </th>
+                    <th class="text-center">
+                        Zbiornik prawy
+                    </th>
+                    <th class="text-center">
+                        Litry łącznie
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+
+                <tr>
+                    <td class="text-center">
+                        {{maxPojemnoscZbiornikLewy}}
+                    </td>
+
+                    <td class="text-center">
+                        {{maxPojemnoscZbiornikPrawy}}
+                    </td>
+
+                    <td class="text-center">
+                        {{maxPojemnoscZbiornikLewy + maxPojemnoscZbiornikPrawy}}
+                    </td>
+                </tr>
+
+                </tbody>
+            </table>
 
         </form>
 

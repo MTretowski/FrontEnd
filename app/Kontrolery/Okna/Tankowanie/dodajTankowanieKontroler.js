@@ -1,8 +1,10 @@
 app.controller('dodajTankowanieKontroler', function ($uibModalInstance, $uibModal, $rootScope, $scope) {
     $scope.tytul = 'Dodaj tankowanie';
     $scope.akceptuj = 'Dodaj';
-    $scope.data = new Date();
-    $scope.data.setUTCHours(12, 0, 0, 0);
+    var teraz = new Date();
+    var terazUTC = new Date(teraz.getUTCFullYear(), teraz.getUTCMonth(), teraz.getUTCDate(),  teraz.getUTCHours(), teraz.getUTCMinutes(), teraz.getUTCSeconds());
+    terazUTC.setUTCHours(12,0,0,0);
+    $scope.data = terazUTC;
     $scope.pojazd = null;
     $scope.idPojazdu = null;
 
@@ -10,14 +12,15 @@ app.controller('dodajTankowanieKontroler', function ($uibModalInstance, $uibModa
         $uibModal.open({
             templateUrl: 'Widoki/Okna/oknoWybierzPojazd.html',
             controller: 'wybierzPojazdKontroler',
-            backdrop  : 'static'
+            backdrop: 'static'
         });
     }
 
-    $rootScope.$on('wybranoPojazd', function (zdarzenie, idPojazdu, numerRejestracyjnyPojazdu) {
-        $scope.pojazd = numerRejestracyjnyPojazdu;
-        $scope.idPojazdu = idPojazdu;
+    $rootScope.$on('wybranoPojazd', function (zdarzenie, obiektPojazd) {
+        $scope.pojazd = obiektPojazd.numerRejestracyjny;
+        $scope.idPojazdu = obiektPojazd.idPojazdu;
     })
+
 
     $scope.usunPojazd = function () {
         $scope.pojazd = null;

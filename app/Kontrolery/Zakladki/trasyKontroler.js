@@ -6,14 +6,14 @@ app.controller('trasyKontroler', function ($scope, $uibModal, trasySerwis) {
     $scope.trasy = trasySerwis.dajTrasy()
     
     var teraz = new Date();
-    var dzisiaj = new Date(teraz.getUTCFullYear(), teraz.getUTCMonth(), teraz.getUTCDate(),  teraz.getUTCHours(), teraz.getUTCMinutes(), teraz.getUTCSeconds());
+    var terazUTC = new Date(teraz.getUTCFullYear(), teraz.getUTCMonth(), teraz.getUTCDate(),  teraz.getUTCHours(), teraz.getUTCMinutes(), teraz.getUTCSeconds());
     var rokTemu = new Date(teraz.getUTCFullYear()-1, teraz.getUTCMonth(), teraz.getUTCDate(),  teraz.getUTCHours(), teraz.getUTCMinutes(), teraz.getUTCSeconds());
-    dzisiaj.setUTCHours(23,59,59);
+    terazUTC.setUTCHours(23,59,59);
     rokTemu.setUTCHours(0,0,0);
     $scope.filtrDataRozpoczeciaOd = rokTemu;
-    $scope.filtrDataRozpoczeciaDo = dzisiaj;
+    $scope.filtrDataRozpoczeciaDo = terazUTC;
     $scope.filtrDataZakonczeniaOd = rokTemu;
-    $scope.filtrDataZakonczeniaDo = dzisiaj;
+    $scope.filtrDataZakonczeniaDo = terazUTC;
 
 
     $scope.dodajTrase = function () {

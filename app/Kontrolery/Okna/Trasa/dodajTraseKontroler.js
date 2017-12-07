@@ -1,12 +1,9 @@
-app.controller('dodajTraseKontroler', function ($uibModal, $uibModalInstance, $rootScope, $scope, tankowaniaSerwis, trasySerwis) {
+app.controller('dodajTraseKontroler', function ($uibModal, $uibModalInstance, $rootScope, $scope, tankowaniaSerwis) {
     $scope.tytul = 'Dodaj trasę';
     $scope.akceptuj = 'Dodaj';
     $scope.kierowca1 = null;
-    $scope.idKierowcy1 = null;
     $scope.kierowca2 = null;
-    $scope.idKierowcy2 = null;
     $scope.pojazd = null;
-    $scope.idPojazdu = null;
     $scope.dataRozpoczecia = new Date();
     $scope.dataRozpoczecia.setUTCHours(0, 0, 0, 0);
     $scope.dataZakonczenia = new Date();
@@ -26,79 +23,73 @@ app.controller('dodajTraseKontroler', function ($uibModal, $uibModalInstance, $r
             'idPomiaru': null,
             'data': null,
             'ilosc': null,
-        }
+        };
 
     $scope.pomiarKoncowy =
         {
             'idPomiaru': null,
             'data': null,
             'ilosc': null,
-        }
+        };
 
     $scope.wybierzKierowce = function (numer) {
         $uibModal.open({
             templateUrl: 'Widoki/Okna/oknoWybierzKierowce.html',
             controller: 'wybierzKierowceKontroler',
-            backdrop  : 'static',
+            backdrop: 'static',
             resolve: {
                 numerKierowcyWZalodze: function () {
                     return numer;
                 },
             }
         });
-    }
+    };
 
-    $rootScope.$on('wybranoKierowce', function (zdarzenie, numerKierowcyWZalodze, idKierowcy, imieINazwiskoKierowcy) {
+    $rootScope.$on('wybranoKierowce', function (zdarzenie, numerKierowcyWZalodze, obiektKierowca) {
         if (numerKierowcyWZalodze == 1) {
-            $scope.kierowca1 = imieINazwiskoKierowcy;
-            $scope.idKierowcy1 = idKierowcy;
+            $scope.kierowca1 = obiektKierowca;
         }
         else {
-            $scope.kierowca2 = imieINazwiskoKierowcy;
-            $scope.idKierowcy2 = idKierowcy;
+            $scope.kierowca2 = obiektKierowca;
         }
-    })
+    });
 
     $scope.usunKierowce = function (numerKierowcy) {
         if (numerKierowcy == 1) {
             $scope.kierowca1 = null;
-            $scope.idKierowcy1 = null;
         }
         else {
             $scope.kierowca2 = null;
-            $scope.idKierowcy2 = null;
         }
-    }
+    };
 
     $scope.wybierzPojazd = function () {
         $uibModal.open({
             templateUrl: 'Widoki/Okna/oknoWybierzPojazd.html',
             controller: 'wybierzPojazdKontroler',
-            backdrop  : 'static',
+            backdrop: 'static',
         });
-    }
+    };
 
-    $rootScope.$on('wybranoPojazd', function (zdarzenie, idPojazdu, numerRejestracyjnyPojazdu) {
+    $rootScope.$on('wybranoPojazd', function (zdarzenie, obiektPojazd) {
 
-        if($scope.idPojazdu != idPojazdu){
+        if ($scope.idPojazdu != obiektPojazd.idPojazdu) {
             $scope.pomiarPoczatkowy.idPomiaru = null;
-            $scope.pomiarPoczatkowy.data = null
-            $scope.pomiarPoczatkowy.ilosc = null
-            $scope.pomiarKoncowy.idPomiaru = null
-            $scope.pomiarKoncowy.data = null
+            $scope.pomiarPoczatkowy.data = null;
+            $scope.pomiarPoczatkowy.ilosc = null;
+            $scope.pomiarKoncowy.idPomiaru = null;
+            $scope.pomiarKoncowy.data = null;
             $scope.pomiarKoncowy.ilosc = null;
         }
 
-        $scope.pojazd = numerRejestracyjnyPojazdu;
-        $scope.idPojazdu = idPojazdu;
+        $scope.pojazd = obiektPojazd;
 
         $scope.aktualizujDane();
 
-    })
+    });
 
     $scope.usunPojazd = function () {
         $scope.pojazd = null;
-        $scope.idPojazdu = null;
 
         $scope.pomiarPoczatkowy.idPomiaru = null;
         $scope.pomiarPoczatkowy.data = null
@@ -114,22 +105,22 @@ app.controller('dodajTraseKontroler', function ($uibModal, $uibModalInstance, $r
     $scope.aktualizujDane = function () {
         $scope.paliwoDotankowane = 0;
         for (i = 0; i < $scope.tankowania.length; i++) {
-            if ($scope.tankowania[i].data <= $scope.dataZakonczenia && $scope.tankowania[i].data >= $scope.dataRozpoczecia && $scope.tankowania[i].idPojazdu == $scope.idPojazdu) {
+            if ($scope.tankowania[i].data <= $scope.dataZakonczenia && $scope.tankowania[i].data >= $scope.dataRozpoczecia && $scope.tankowania[i].idPojazdu == $scope.pojazd.idPojazdu) {
                 $scope.paliwoDotankowane += $scope.tankowania[i].ilosc;
             }
         }
-        
-        if($scope.pomiarPoczatkowy.ilosc == null){
+
+        if ($scope.pomiarPoczatkowy.ilosc == null) {
             $scope.paliwoPrzedWyjazdem = 0;
         }
-        else{
+        else {
             $scope.paliwoPrzedWyjazdem = $scope.pomiarPoczatkowy.ilosc
         }
 
-        if($scope.pomiarKoncowy.ilosc == null){
+        if ($scope.pomiarKoncowy.ilosc == null) {
             $scope.paliwoPoPowrocie = 0;
         }
-        else{
+        else {
             $scope.paliwoPoPowrocie = $scope.pomiarKoncowy.ilosc
         }
     }
@@ -142,7 +133,7 @@ app.controller('dodajTraseKontroler', function ($uibModal, $uibModalInstance, $r
             $uibModal.open({
                 templateUrl: 'Widoki/Okna/oknoWybierzPomiar.html',
                 controller: 'wybierzPomiarKontroler',
-                backdrop  : 'static',
+                backdrop: 'static',
                 resolve: {
                     rodzajPomiaru: function () {
                         return numer;
@@ -158,7 +149,7 @@ app.controller('dodajTraseKontroler', function ($uibModal, $uibModalInstance, $r
 
     $scope.$on('wybranoPomiar', function (zdarzenie, rodzajPomiaru, idPomiaru, dataPomiaru, ilosc) {
         if (rodzajPomiaru == 1) {
-            if(idPomiaru == $scope.pomiarKoncowy.idPomiaru){
+            if (idPomiaru == $scope.pomiarKoncowy.idPomiaru) {
                 alert('Błąd!\nJeden pomiar nie może być jednocześnie pomiarem począkowym i końcowym.')
             }
             else {
@@ -168,7 +159,7 @@ app.controller('dodajTraseKontroler', function ($uibModal, $uibModalInstance, $r
             }
         }
         else {
-            if(idPomiaru == $scope.pomiarPoczatkowy.idPomiaru){
+            if (idPomiaru == $scope.pomiarPoczatkowy.idPomiaru) {
                 alert('Błąd!\nJeden pomiar nie może być jednocześnie pomiarem począkowym i końcowym.')
             }
             else {
@@ -198,7 +189,7 @@ app.controller('dodajTraseKontroler', function ($uibModal, $uibModalInstance, $r
         $uibModal.open({
             templateUrl: 'Widoki/Okna/oknoTankowanie.html',
             controller: 'dodajTankowanieKontroler',
-            backdrop  : 'static'
+            backdrop: 'static'
         });
     }
 
@@ -206,7 +197,7 @@ app.controller('dodajTraseKontroler', function ($uibModal, $uibModalInstance, $r
         $uibModal.open({
             templateUrl: 'Widoki/Okna/oknoTankowaniaZPliku.html',
             controller: 'importujTankowaniaKontroler',
-            backdrop  : 'static',
+            backdrop: 'static',
             size: 'sm'
         });
     };
@@ -215,7 +206,7 @@ app.controller('dodajTraseKontroler', function ($uibModal, $uibModalInstance, $r
         $uibModal.open({
             templateUrl: 'Widoki/Okna/oknoPomiar.html',
             controller: 'dodajPomiarKontroler',
-            backdrop  : 'static'
+            backdrop: 'static'
         });
     }
 

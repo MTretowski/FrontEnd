@@ -21,7 +21,6 @@ app.service('pomiarySerwis', function () {
                 'lewy': 625,
                 'prawy': 625,
                 'lacznie': 1250,
-                'sposobPomiaru': 'Dotankowano do pełna [L]'
             },
             {
                 'idPomiaru': 2,
@@ -39,10 +38,9 @@ app.service('pomiarySerwis', function () {
                 'zmierzonoIlosc': false,
                 'idPojazdu': 2,
                 'numerRejestracyjnyPojazdu': 'WWY55119',
-                'lewy': 15,
-                'prawy': 20,
+                'lewy': 180,
+                'prawy': 120,
                 'lacznie': 320.17,
-                'sposobPomiaru': 'Pomiar ręczny [cm]'
             },
             {
                 'idPomiaru': 3,
@@ -63,7 +61,6 @@ app.service('pomiarySerwis', function () {
                 'lewy': 125.78,
                 'prawy': 325.14,
                 'lacznie': 450.92,
-                'sposobPomiaru': 'Zmierzono ilość [L]'
             },
         ]
 

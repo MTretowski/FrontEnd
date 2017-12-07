@@ -552,7 +552,7 @@
 
                     <th class="text-center">
                         <a href="#" ng-click="kluczSortowania = 'lewy';odwrotneSortowanie = !odwrotneSortowanie">
-                            Zbiornik lewy
+                            Zbiornik lewy [L]
                             <span ng-show="kluczSortowania == 'lewy' && !odwrotneSortowanie" class="glyphicon glyphicon-triangle-bottom"></span>
                             <span ng-show="kluczSortowania == 'lewy' && odwrotneSortowanie" class="glyphicon glyphicon-triangle-top"></span>
                         </a>
@@ -560,7 +560,7 @@
 
                     <th class="text-center">
                         <a href="#" ng-click="kluczSortowania = 'prawy';odwrotneSortowanie = !odwrotneSortowanie">
-                            Zbiornik prawy
+                            Zbiornik prawy [L]
                             <span ng-show="kluczSortowania == 'prawy' && !odwrotneSortowanie" class="glyphicon glyphicon-triangle-bottom"></span>
                             <span ng-show="kluczSortowania == 'prawy' && odwrotneSortowanie" class="glyphicon glyphicon-triangle-top"></span>
                         </a>
@@ -585,7 +585,9 @@
                     <td class="text-center">{{pomiar.dataPomiaru | date : 'dd.MM.yyyy' : 'UTC'}}</td>
                     <td class="text-center"> -</td>
                     <td class="text-center"> -</td>
-                    <td class="text-center">{{pomiar.sposobPomiaru}}</td>
+                    <td ng-if="pomiar.pomiarReczny" class="text-center">Pomiar ręczny [cm]</td>
+                    <td ng-if="pomiar.dotankowanoDoPelna" class="text-center">Dotankowano do pełna [L]</td>
+                    <td ng-if="pomiar.zmierzonoIlosc" class="text-center">Zmierzono ilość [L]</td>
                     <td class="text-right">{{pomiar.lewy | number : 2}}</td>
                     <td class="text-right">{{pomiar.prawy | number : 2}}</td>
                     <td class="text-right">{{pomiar.lacznie | number : 2}}</td>
@@ -743,22 +745,6 @@
                         </a>
                     </th>
 
-                    <th class="text-center">
-                        <a href="#" ng-click="kluczSortowania = 'normaSpalania';odwrotneSortowanie = !odwrotneSortowanie">
-                            Norma spalania [L / 100 km]
-                            <span ng-show="kluczSortowania == 'normaSpalania' && !odwrotneSortowanie" class="glyphicon glyphicon-triangle-bottom"></span>
-                            <span ng-show="kluczSortowania == 'normaSpalania' && odwrotneSortowanie" class="glyphicon glyphicon-triangle-top"></span>
-                        </a>
-                    </th>
-
-                    <th class="text-center">
-                        <a href="#" ng-click="kluczSortowania = 'dopuszczalneOdchylenie';odwrotneSortowanie = !odwrotneSortowanie">
-                            Dopuszczalne odchylenie [L / 100 km]
-                            <span ng-show="kluczSortowania == 'dopuszczalneOdchylenie' && !odwrotneSortowanie" class="glyphicon glyphicon-triangle-bottom"></span>
-                            <span ng-show="kluczSortowania == 'dopuszczalneOdchylenie' && odwrotneSortowanie" class="glyphicon glyphicon-triangle-top"></span>
-                        </a>
-                    </th>
-
                     <th class="text-center">Edytuj</th>
                     <th class="text-center">Usuń</th>
                 </tr>
@@ -769,8 +755,6 @@
                 <tr ng-repeat="pojazd in pojazdy | filter:{numerRejestracyjny: filtrNumerRejestracyjny, markaIModel:filtrMarka} | orderBy:kluczSortowania:odwrotneSortowanie" ng-if="pojazd.czyAktywny === true || (pojazd.czyAktywny === false && filtrPokazNieaktywne === true)">
                     <td class="text-center">{{pojazd.numerRejestracyjny}}</td>
                     <td class="text-center">{{pojazd.markaIModel}}</td>
-                    <td class="text-right">{{pojazd.normaSpalania | number : 2}}</td>
-                    <td class="text-right">{{pojazd.dopuszczalneOdchylenie | number : 2}}</td>
                     <td>
                         <button type="button" class="btn-xs btn-warning glyphicon glyphicon-edit center-block" ng-click="edytujPojazd(pojazdy.indexOf(pojazd))"></button>
                     </td>

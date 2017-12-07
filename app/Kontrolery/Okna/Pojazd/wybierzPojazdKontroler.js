@@ -3,7 +3,7 @@ app.controller('wybierzPojazdKontroler', function ($uibModalInstance, $uibModal,
     $scope.pojazdy = pojazdySerwis.dajPojazdy()
 
     $scope.wybrano= function (numerPojazdu){
-        $rootScope.$broadcast('wybranoPojazd', $scope.pojazdy[numerPojazdu].idPojazdu, $scope.pojazdy[numerPojazdu].numerRejestracyjny);
+        $rootScope.$broadcast('wybranoPojazd', $scope.pojazdy[numerPojazdu]);
         $uibModalInstance.dismiss('cancel');
     }
 

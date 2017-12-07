@@ -6,59 +6,128 @@
 
     <div class="modal-body">
         <form class="form-horizontal">
+
             <div class="form-group">
                 <label class="control-label col-md-2">Pojazd</label>
-                <div class="col-md-10">
-                    <input type="text" class="form-control">
+                <div class="col-md-6">
+                    <input type="text" class="form-control" ng-model="pojazd.numerRejestracyjny" disabled>
+                </div>
+                <div class="col-md-4">
+                    <div class="btn-group-sm">
+                        <a class="btn btn-info" ng-click="wybierzPojazd()">Wybierz</a>
+                        <a class="btn btn-danger" ng-click="usunPojazd()">Usuń</a>
+                    </div>
                 </div>
             </div>
 
             <div class="form-group">
                 <label class="control-label col-md-2">Data</label>
                 <div class="col-md-4">
-                    <input type="date" class="form-control">
+                    <input type="date" class="form-control" ng-model-options="{ timezone: 'UTC' }" ng-model='data'>
                 </div>
                 <label class="control-label col-md-2">Godzina</label>
                 <div class="col-md-4">
-                    <input type="time" class="form-control">
+                    <input type="time" class="form-control" ng-model-options="{ timezone: 'UTC' }" ng-model='data'>
                 </div>
             </div>
 
             <div class="form-group">
                 <label class="control-label col-md-3">Sposób pomiaru</label>
                 <div class="col-md-9">
-                    <input type="text" class="form-control">
+                    <select class="form-control" ng-model="sposobPomiaru" ng-change="wybranoSposobPomiaru()">
+                        <option ng-if="pojazd!=null" selected="selected" value="">-</option>
+                        <option ng-if="pojazd!=null" value="recznie">Pomiar ręczny [cm]</option>
+                        <option ng-if="pojazd!=null" value="dotankowano">Dotankowano do pełna [L]</option>
+                        <option ng-if="pojazd!=null" value="zmierzono">Zmierzono ilość [L]</option>
+
+                        <option ng-if="pojazd==null" selected="selected" value="brakPojazdu">Proszę najpierw wybrać pojazd</option>
+                    </select>
                 </div>
             </div>
 
+            <h4 class="text-center"> Zmierzone wartości </h4>
+
             <div class="form-group">
-                <label class="control-label col-md-4">Zbiornik lewy (pomiar)</label>
-                <div class="col-md-2">
-                    <input type="text" class="form-control">
+                <label class="control-label col-md-3">Zbiornik lewy</label>
+                <div class="col-md-3">
+                    <input type="number" class="form-control" min="0" ng-model="zbiornikLewy" ng-disabled="litryLacznie > 0">
                 </div>
-                <label class="control-label col-md-4">Zbiornik prawy (pomiar)</label>
-                <div class="col-md-2">
-                    <input type="text" class="form-control">
+                <label class="control-label col-md-3">Zbiornik prawy</label>
+                <div class="col-md-3">
+                    <input type="number" class="form-control" min="0" ng-model="zbiornikPrawy" ng-disabled="litryLacznie > 0">
                 </div>
             </div>
 
-            <div class="form-group">
-                <label class="control-label col-md-4">Zbiornik lewy (litry)</label>
-                <div class="col-md-2">
-                    <input type="text" class="form-control">
-                </div>
-                <label class="control-label col-md-4">Zbiornik prawy (litry)</label>
-                <div class="col-md-2">
-                    <input type="text" class="form-control">
-                </div>
-            </div>
 
             <div class="form-group">
                 <label class="control-label col-md-3">Litry łącznie</label>
                 <div class="col-md-3">
-                    <input type="text" class="form-control">
+                    <input type="number" class="form-control" min="0" ng-model="litryLacznie" ng-disabled="zbiornikLewy > 0 || zbiornikPrawy > 0">
                 </div>
             </div>
+
+            <br>
+            <h4 class="text-center"> Podsumowanie pomiaru </h4>
+            <table class="table table-condensed table-responsive table-hover table-bordered table-striped">
+                <thead>
+                <tr>
+                    <th class="text-center">
+                        Zbiornik lewy
+                    </th>
+                    <th class="text-center">
+                        Zbiornik prawy
+                    </th>
+                    <th class="text-center">
+                        Litry łącznie
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+
+                <tr ng-if="sposobPomiaru == ''">
+                    <td class="text-center">0</td>
+                    <td class="text-center">0</td>
+                    <td class="text-center">0</td>
+                </tr>
+
+                <tr ng-if="sposobPomiaru == 'recznie'">
+                    <td class="text-center">
+                        {{zbiornikLewy * pojazd.przelicznikZbiornikLewy | number : 2}}
+                    </td>
+                    <td class="text-center">
+                        {{zbiornikPrawy * pojazd.przelicznikZbiornikPrawy | number : 2}}
+                    </td>
+                    <td class="text-center">
+                        {{zbiornikLewy * pojazd.przelicznikZbiornikLewy + zbiornikPrawy * pojazd.przelicznikZbiornikPrawy | number : 2}}
+                    </td>
+                </tr>
+
+                <tr ng-if="sposobPomiaru == 'dotankowano'">
+                    <td class="text-center">
+                        {{pojazd.maxPojemnoscZbiornikLewy-zbiornikLewy | number : 2}}
+                    </td>
+                    <td class="text-center">
+                        {{pojazd.maxPojemnoscZbiornikPrawy-zbiornikPrawy | number : 2}}
+                    </td>
+                    <td class="text-center">
+                        {{pojazd.maxPojemnoscZbiornikLewy-zbiornikLewy + pojazd.maxPojemnoscZbiornikPrawy-zbiornikPrawy + max | number : 2}}
+                    </td>
+                </tr>
+
+                <tr ng-if="sposobPomiaru == 'zmierzono'">
+                    <td class="text-center">
+                        {{zbiornikLewy | number : 2}}
+                    </td>
+                    <td class="text-center">
+                        {{zbiornikPrawy | number : 2}}
+                    </td>
+                    <td class="text-center">
+                        {{zbiornikLewy + zbiornikPrawy + litryLacznie | number : 2}}
+                    </td>
+                </tr>
+
+                </tbody>
+            </table>
 
         </form>
 

@@ -9,15 +9,20 @@ app.controller('uzytkownicyKontroler', function ($scope, $uibModal, uzytkownicyS
         $uibModal.open({
             templateUrl: 'Widoki/Okna/oknoUzytkownik.html',
             controller: 'dodajUzytkownikaKontroler',
-            backdrop  : 'static'
+            backdrop: 'static'
         });
     };
 
-    $scope.edytujUzytkownika = function () {
+    $scope.edytujUzytkownika = function (indeks) {
         $uibModal.open({
             templateUrl: 'Widoki/Okna/oknoUzytkownik.html',
             controller: 'edytujUzytkownikaKontroler',
-            backdrop  : 'static'
+            backdrop: 'static',
+            resolve: {
+                edytowanyUzytkownik: function () {
+                    return $scope.uzytkownicy[indeks]
+                }
+            }
         });
     };
 

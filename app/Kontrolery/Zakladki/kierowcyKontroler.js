@@ -17,7 +17,12 @@ app.controller('kierowcyKontroler', function ($scope, $uibModal, kierowcySerwis)
         $uibModal.open({
             templateUrl: 'Widoki/Okna/oknoKierowca.html',
             controller: 'edytujKierowceKontroler',
-            backdrop  : 'static'
+            backdrop  : 'static',
+            resolve: {
+                edytowanyKierowca: function() {
+                    return $scope.kierowcy[indeks];
+                }
+            }
         });
     };
 

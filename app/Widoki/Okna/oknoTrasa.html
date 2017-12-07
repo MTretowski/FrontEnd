@@ -13,7 +13,7 @@
                     <div class="form-group">
                         <label class="control-label col-md-2">Kier. 1</label>
                         <div class="col-md-6">
-                            <input type="text" class="form-control" ng-model="kierowca1" disabled>
+                            <input type="text" class="form-control" value = "{{kierowca1.nazwisko + ' ' + kierowca1.imie}}" disabled>
                         </div>
                         <div class="col-md-4">
                             <a class="btn btn-sm btn-info" ng-click="wybierzKierowce(1)">Wybierz</a>
@@ -24,7 +24,7 @@
                     <div class="form-group">
                         <label class="control-label col-md-2">Kier. 2</label>
                         <div class="col-md-6">
-                            <input type="text" class="form-control" ng-model="kierowca2" disabled>
+                            <input type="text" class="form-control" value = "{{kierowca2.nazwisko + ' ' + kierowca2.imie}}" disabled>
                         </div>
                         <div class="col-md-4">
                             <a class="btn btn-sm btn-info" ng-click="wybierzKierowce(2)">Wybierz</a>
@@ -35,7 +35,7 @@
                     <div class="form-group">
                         <label class="control-label col-md-2">Pojazd</label>
                         <div class="col-md-6">
-                            <input type="text" class="form-control" ng-model="pojazd" disabled>
+                            <input type="text" class="form-control" ng-model="pojazd.numerRejestracyjny" disabled>
                         </div>
                         <div class="col-md-4">
                             <a class="btn btn-sm btn-info" ng-click="wybierzPojazd()">Wybierz</a>
@@ -201,7 +201,7 @@
                     </thead>
 
                     <tbody>
-                    <tr ng-repeat="tankowanie in tankowania" ng-if="tankowanie.data <= dataZakonczenia && tankowanie.data >= dataRozpoczecia && tankowanie.idPojazdu == idPojazdu">
+                    <tr ng-repeat="tankowanie in tankowania" ng-if="tankowanie.data <= dataZakonczenia && tankowanie.data >= dataRozpoczecia && tankowanie.idPojazdu == pojazd.idPojazdu">
                         <td>{{tankowanie.data | date : 'dd.MM.yyyy' : 'UTC'}}</td>
                         <td>{{tankowanie.ilosc | number : 2}}</td>
                         <td>{{tankowanie.dostawca}}</td>

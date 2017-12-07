@@ -32,16 +32,16 @@ app.controller('podsumowanieImportuKontroler', function ($uibModalInstance, $uib
     $scope.slowaKluczowe = slowaKluczowe;
 
     var teraz = new Date();
-    var dzisiaj = new Date(teraz.getUTCFullYear(), teraz.getUTCMonth(), teraz.getUTCDate(), teraz.getUTCHours(), teraz.getUTCMinutes(), teraz.getUTCSeconds());
+    var terazUTC = new Date(teraz.getUTCFullYear(), teraz.getUTCMonth(), teraz.getUTCDate(), teraz.getUTCHours(), teraz.getUTCMinutes(), teraz.getUTCSeconds());
     var dwaLataTemu = new Date(teraz.getUTCFullYear() - 2, teraz.getUTCMonth(), teraz.getUTCDate(), teraz.getUTCHours(), teraz.getUTCMinutes(), teraz.getUTCSeconds());
-    dzisiaj.setUTCHours(23, 59, 59);
+    terazUTC.setUTCHours(23, 59, 59);
     dwaLataTemu.setUTCHours(0, 0, 0);
     $scope.filtrDataOd = dwaLataTemu;
-    $scope.filtrDataDo = dzisiaj;
+    $scope.filtrDataDo = terazUTC;
     $scope.filtrDataOdOstrzezenia = dwaLataTemu;
-    $scope.filtrDataDoOstrzezenia = dzisiaj;
+    $scope.filtrDataDoOstrzezenia = terazUTC;
     $scope.filtrDataOdInne = dwaLataTemu;
-    $scope.filtrDataDoInne = dzisiaj;
+    $scope.filtrDataDoInne = terazUTC;
 
     $scope.edytujTankowanie = function (indeks) {
         $uibModal.open({

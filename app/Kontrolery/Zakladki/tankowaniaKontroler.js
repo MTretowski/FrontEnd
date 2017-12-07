@@ -6,18 +6,18 @@ app.controller('tankowaniaKontroler', function ($scope, $uibModal, tankowaniaSer
     $scope.tankowania = tankowaniaSerwis.dajTankowania();
 
     var teraz = new Date();
-    var dzisiaj = new Date(teraz.getUTCFullYear(), teraz.getUTCMonth(), teraz.getUTCDate(),  teraz.getUTCHours(), teraz.getUTCMinutes(), teraz.getUTCSeconds());
-    var rokTemu = new Date(teraz.getUTCFullYear()-1, teraz.getUTCMonth(), teraz.getUTCDate(),  teraz.getUTCHours(), teraz.getUTCMinutes(), teraz.getUTCSeconds());
-    dzisiaj.setUTCHours(23,59,59);
-    rokTemu.setUTCHours(0,0,0);
+    var terazUTC = new Date(teraz.getUTCFullYear(), teraz.getUTCMonth(), teraz.getUTCDate(), teraz.getUTCHours(), teraz.getUTCMinutes(), teraz.getUTCSeconds());
+    var rokTemu = new Date(teraz.getUTCFullYear() - 1, teraz.getUTCMonth(), teraz.getUTCDate(), teraz.getUTCHours(), teraz.getUTCMinutes(), teraz.getUTCSeconds());
+    terazUTC.setUTCHours(23, 59, 59);
+    rokTemu.setUTCHours(0, 0, 0);
     $scope.filtrDataOd = rokTemu;
-    $scope.filtrDataDo = dzisiaj;
+    $scope.filtrDataDo = terazUTC;
 
     $scope.dodajTankowanie = function () {
         $uibModal.open({
             templateUrl: 'Widoki/Okna/oknoTankowanie.html',
             controller: 'dodajTankowanieKontroler',
-            backdrop  : 'static',
+            backdrop: 'static',
         });
     };
 
@@ -25,7 +25,7 @@ app.controller('tankowaniaKontroler', function ($scope, $uibModal, tankowaniaSer
         $uibModal.open({
             templateUrl: 'Widoki/Okna/oknoTankowaniaZPliku.html',
             controller: 'importujTankowaniaKontroler',
-            backdrop  : 'static',
+            backdrop: 'static',
             size: 'sm'
         });
     };
@@ -34,19 +34,25 @@ app.controller('tankowaniaKontroler', function ($scope, $uibModal, tankowaniaSer
         $uibModal.open({
             templateUrl: 'Widoki/Okna/oknoTankowanie.html',
             controller: 'edytujTankowanieKontroler',
-            backdrop  : 'static',
+            backdrop: 'static',
             resolve: {
-                czyEdycjaImportowanego: function(){
+                czyEdycjaImportowanego: function () {
                     return false;
                 },
-                edytowaneTankowanie: function(){
+                edytowaneTankowanie: function () {
                     return $scope.tankowania[indeks];
+                },
+                slownik: function () {
+                    return null;
+                },
+                slowaKluczowe: function () {
+                    return null;
                 }
             }
         });
     };
 
-    $scope.usunTankowanie = function(indeks){
+    $scope.usunTankowanie = function (indeks) {
         alert('usuwam tankowanie o numerze ' + indeks);
     }
 });
