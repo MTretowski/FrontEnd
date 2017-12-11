@@ -411,9 +411,8 @@
 
             <div ng-show="pokazBledy">
                 <div class="row">
-                    <h3 class="text-center">Zdarzenie niezakfalifikowane jako tankowania</h3>
-                    <h4 class="text-center">Zdarzenia te nie zostaną dostane do bazy danych</h4>
-                    <h5 class="text-center">Aby pozbyć się błędów, edytuj poszególne zdarzenia</h5>
+                    <h3 class="text-center">Wiersze zidentyfikowane przez system jako błędne</h3>
+                    <h4 class="text-center">Proszę pobrać plik ponownie i zaimportować go jeszcze raz</h4>
                     <br>
                 </div>
                 
@@ -422,7 +421,7 @@
                     <tr>
                         <th class="text-center">
                             <a href="#" ng-click="kluczSortowaniaInne = 'wiersz';odwrotneSortowanieInne = !odwrotneSortowanieInne">
-                                Zawartość wiersza
+                                Wiersz
                                 <span ng-show="kluczSortowaniaInne == 'wiersz' && !odwrotneSortowanieInne" class="glyphicon glyphicon-triangle-bottom"></span>
                                 <span ng-show="kluczSortowaniaInne == 'wiersz' && odwrotneSortowanieInne" class="glyphicon glyphicon-triangle-top"></span>
                             </a>
