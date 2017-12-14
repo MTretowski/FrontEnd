@@ -338,14 +338,19 @@ app.controller('importujTankowaniaKontroler', function ($uibModalInstance, $uibM
             czyPojazdJestWBazie = false;
             czyTankowanie = false;
             komunikat = '';
-            wierszPodzielony = podzielonaZawartosc[i].split(';');
-            blad = sprawdzPoprawnoscWiersza(wierszPodzielony, kolumny, dostawca);
             data = null;
             idPojazdu = null;
             waluta = null;
             opisDodatkowy = null;
             blednyWiersz = '';
 
+            wierszPodzielony = podzielonaZawartosc[i].split(';');
+
+            for(j = 0; j < wierszPodzielony.length; j++){
+                wierszPodzielony[j] = wierszPodzielony[j].trim();
+            }
+
+            blad = sprawdzPoprawnoscWiersza(wierszPodzielony, kolumny, dostawca);
 
             if (blad !== '') {
                 blednyWiersz = wierszPodzielony[0];
