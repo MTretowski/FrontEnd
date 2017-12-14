@@ -1,6 +1,6 @@
-app.controller('edytujPomiarKontroler', function ($uibModalInstance, $uibModal, $rootScope, $scope, edytowanyPomiar, pojazdySerwis) {
+app.controller('edytujPomiarKontroler', function ($uibModalInstance, $uibModal, $rootScope, $scope, edytowanyPomiar, pojazdySerwis, inputWalidator) {
     $scope.tytul = 'Edytuj pomiar';
-    $scope.akceptuj = 'Zapisz zmiany';
+    $scope.tekstPrzyciskuAkceptuj = 'Zapisz zmiany';
 
     $scope.pojazdy = pojazdySerwis.dajPojazdy();
     $scope.edytowanyPomiar = edytowanyPomiar;
@@ -12,41 +12,40 @@ app.controller('edytujPomiarKontroler', function ($uibModalInstance, $uibModal, 
 
     $scope.zbiornikLewy = 0;
     $scope.zbiornikPrawy = 0;
-    $scope.litryLacznie = 0;
 
     {
-        for(i = 0; i < $scope.pojazdy.length; i++){
-            if($scope.edytowanyPomiar.idPojazdu == $scope.pojazdy[i].idPojazdu){
+        for (i = 0; i < $scope.pojazdy.length; i++) {
+            if ($scope.edytowanyPomiar.idPojazdu === $scope.pojazdy[i].idPojazdu) {
                 $scope.pojazd = $scope.pojazdy[i];
             }
         }
 
-        if($scope.edytowanyPomiar.pomiarReczny){
+        if ($scope.edytowanyPomiar.pomiarReczny) {
             $scope.sposobPomiaru = 'recznie';
             $scope.zbiornikLewy = $scope.edytowanyPomiar.zbiornikLewyCm;
             $scope.zbiornikPrawy = $scope.edytowanyPomiar.zbiornikPrawyCm;
         }
-        else if($scope.edytowanyPomiar.dotankowanoDoPelna){
+        else if ($scope.edytowanyPomiar.dotankowanoDoPelna) {
             $scope.sposobPomiaru = 'dotankowano';
             $scope.zbiornikLewy = $scope.edytowanyPomiar.zbiornikLewyLitryDotankowane;
             $scope.zbiornikPrawy = $scope.edytowanyPomiar.zbiornikPrawyLitryDotankowane;
         }
-        else if(edytowanyPomiar.zmierzonoIlosc){
+        else if (edytowanyPomiar.zmierzonoIlosc) {
             $scope.sposobPomiaru = 'zmierzono';
             $scope.zbiornikLewy = $scope.edytowanyPomiar.zbiornikLewyLitry;
             $scope.zbiornikPrawy = $scope.edytowanyPomiar.zbiornikPrawyLitry;
         }
     }
 
-    $scope.wybranoSposobPomiaru = function(){
-        if($scope.sposobPomiaru == 'recznie'){
-            if($scope.pojazd.przelicznikZbiornikLewy == null || $scope.pojazd.przelicznikZbiornikPrawy == null){
+    $scope.wybranoSposobPomiaru = function () {
+        if ($scope.sposobPomiaru === 'recznie') {
+            if ($scope.pojazd.przelicznikZbiornikLewy === null || $scope.pojazd.przelicznikZbiornikPrawy === null) {
                 alert("Nie można wybrać tego sposobu pomiaru.\nNie zdefiniowano przeliczników dla zbiorników w tym pojeździe.");
                 $scope.sposobPomiaru = '';
             }
         }
-        else if($scope.sposobPomiaru == 'dotankowano'){
-            if($scope.pojazd.maxPojemnoscZbiornikLewy == null || $scope.pojazd.maxPojemnoscZbiornikPrawy == null){
+        else if ($scope.sposobPomiaru === 'dotankowano') {
+            if ($scope.pojazd.maxPojemnoscZbiornikLewy === null || $scope.pojazd.maxPojemnoscZbiornikPrawy === null) {
                 alert("Nie można wybrać tego sposobu pomiaru.\nNie zdefiniowano maksymalnych pojemności dla zbiorników w tym pojeździe");
                 $scope.sposobPomiaru = '';
             }
@@ -69,6 +68,67 @@ app.controller('edytujPomiarKontroler', function ($uibModalInstance, $uibModal, 
     $scope.usunPojazd = function () {
         $scope.pojazd = null;
         $scope.sposobPomiaru = 'brakPojazdu'
+    };
+
+    $scope.akceptuj = function () {
+        let blad = sprawdzPoprawnoscDanych();
+
+        if (blad === '') {
+            alert("Wszystkie dane poprawne, dodaję pomiar")
+        }
+        else {
+            alert(blad);
+        }
+    };
+
+    let sprawdzPoprawnoscDanych = function () {
+        let blad = '';
+
+        blad += inputWalidator.sprawdzPoleTekstowe($scope.pojazd, 'Pojazd');
+        blad += inputWalidator.sprawdzPoleDaty($scope.data, 'Data pomiaru');
+
+        if ($scope.sposobPomiaru === '' || $scope.sposobPomiaru === 'brakPojazdu') {
+            blad += "Nie wybrano sposobu pomiaru.\n";
+        }
+        else {
+
+            blad += inputWalidator.sprawdzPoleNumeryczne($scope.zbiornikLewy, false, 'Zbiornik prawy');
+            blad += inputWalidator.sprawdzPoleNumeryczne($scope.zbiornikPrawy, false, 'Zbiornik lewy');
+
+            if (inputWalidator.sprawdzPoleNumeryczne($scope.zbiornikPrawy, false) && inputWalidator.sprawdzPoleNumeryczne($scope.zbiornikLewy, false)) {
+
+                if ($scope.sposobPomiaru === 'dotankowano') {
+                    if ($scope.zbiornikLewy > $scope.pojazd.maxPojemnoscZbiornikLewy) {
+                        blad += 'Ilość dotanowanego paliwa do zbiornika lewego jest większa niż zdefiniowana pojemność zbiornika.\n';
+                    }
+                    if ($scope.zbiornikPrawy > $scope.pojazd.maxPojemnoscZbiornikPrawy) {
+                        blad += 'Ilość dotanowanego paliwa do zbiornika prawego jest większa niż zdefiniowana pojemność zbiornika.\n';
+                    }
+                }
+                else if ($scope.sposobPomiaru === 'zmierzono') {
+                    if ($scope.zbiornikLewy > $scope.pojazd.maxPojemnoscZbiornikLewy) {
+                        blad += 'Ilość zmierzonego paliwa w zbiorniku lewym jest większa niż zdefiniowana pojemność zbiornika.\n';
+                    }
+                    if ($scope.zbiornikPrawy > $scope.pojazd.maxPojemnoscZbiornikPrawy) {
+                        blad += 'Ilość zmierzonego paliwa w zbiorniku prawym jest większa niż zdefiniowana pojemność zbiornika.\n';
+                    }
+                }
+                else if ($scope.sposobPomiaru === 'recznie') {
+                    if ($scope.pojazd.maxPojemnoscZbiornikLewy !== null) {
+                        if (($scope.pojazd.przelicznikZbiornikLewy * $scope.zbiornikLewy) > $scope.pojazd.maxPojemnoscZbiornikLewy) {
+                            blad += 'Ilość zmierzonego paliwa w zbiorniku lewym jest większa niż zdefiniowana pojemność zbiornika.\n';
+                        }
+                    }
+                    if ($scope.pojazd.maxPojemnoscZbiornikPrawy !== null) {
+                        if (($scope.pojazd.przelicznikZbiornikPrawy * $scope.zbiornikPrawy) > $scope.pojazd.maxPojemnoscZbiornikPrawy) {
+                            blad += 'Ilość zmierzonego paliwa w zbiorniku prawym jest większa niż zdefiniowana pojemność zbiornika.\n';
+                        }
+                    }
+                }
+            }
+        }
+
+        return blad;
     };
 
     $scope.zamknij = function () {

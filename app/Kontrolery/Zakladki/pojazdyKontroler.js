@@ -1,8 +1,11 @@
 app.controller('pojazdyKontroler', function ($scope, $uibModal, pojazdySerwis) {
-    $scope.kluczSortowania;
+    $scope.kluczSortowania = '';
     $scope.odwrotneSortowanie = false;
     $scope.pokazFiltry = false;
     $scope.zbiornikiTakieSame = false;
+
+    $scope.filtrMarka = '';
+    $scope.filtrPokazNieaktywne = '';
 
     $scope.pojazdy = pojazdySerwis.dajPojazdy();
 
@@ -10,7 +13,7 @@ app.controller('pojazdyKontroler', function ($scope, $uibModal, pojazdySerwis) {
         $uibModal.open({
             templateUrl: 'Widoki/Okna/oknoPojazd.html',
             controller: 'dodajPojazdKontroler',
-            backdrop  : 'static'
+            backdrop: 'static'
         });
     };
 
@@ -18,9 +21,9 @@ app.controller('pojazdyKontroler', function ($scope, $uibModal, pojazdySerwis) {
         $uibModal.open({
             templateUrl: 'Widoki/Okna/oknoPojazd.html',
             controller: 'edytujPojazdKontroler',
-            backdrop  : 'static',
+            backdrop: 'static',
             resolve: {
-                edytowanyPojazd: function(){
+                edytowanyPojazd: function () {
                     return $scope.pojazdy[indeks];
                 }
             }

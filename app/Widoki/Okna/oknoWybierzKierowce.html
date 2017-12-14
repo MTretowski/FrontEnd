@@ -8,7 +8,7 @@
         <div class="row">
             <div class="col-md-12 text-center">
                 <div class="btn-group">
-                    <a class="btn btn-info" ng-click="pokazFiltry = !pokazFiltry">{{pokazFiltry ? 'Ukryj filtry ' : 'Pokaż filtry '}}<span class="glyphicon glyphicon-filter"/></a>
+                    <a class="btn btn-info" ng-click="pokazFiltry = !pokazFiltry">{{pokazFiltry ? 'Ukryj filtry ' : 'Pokaż filtry '}}<span class="glyphicon glyphicon-filter"></span></a>
                 </div>
             </div>
         </div>
@@ -18,14 +18,14 @@
             <div class="col-md-6">
                 <div class="input-group">
                     <span class="input-group-addon">Imię: </span>
-                    <input type="text" class="form-control" ng-model="filtrImie">
+                    <input type="text" class="form-control" ng-model="filtrImie" title="filtrImie">
                 </div>
             </div>
 
             <div class="col-md-6">
                 <div class="input-group">
                     <span class="input-group-addon">Nazwisko: </span>
-                    <input type="text" class="form-control" ng-model="filtrNazwisko">
+                    <input type="text" class="form-control" ng-model="filtrNazwisko" title="filtrNazwisko">
                 </div>
             </div>
         </div>

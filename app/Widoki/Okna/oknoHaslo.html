@@ -8,17 +8,17 @@
         <div ng-show="zmianaHasla">
 
             <label>Stare hasło:</label>
-            <input type="email" class="form-control" ng-model="stareHaslo">
+            <input type="email" class="form-control" ng-model="stareHaslo" title="stareHaslo">
             <br>
 
         </div>
 
         <label>Nowe hasło:</label>
-        <input type="password" class="form-control" ng-model="noweHaslo">
+        <input type="password" class="form-control" ng-model="noweHaslo" title="noweHaslo">
 
     </div>
     <div class="modal-footer">
-        <button type="button" class="btn btn-success" data-dismiss="modal">{{akceptuj}}</button>
+        <button type="button" class="btn btn-success" data-dismiss="modal">{{tekstPrzyciskuAkceptuj}}</button>
         <button type="button" class="btn btn-danger" ng-click="zamknij()">Anuluj</button>
 
     </div>

@@ -1,6 +1,6 @@
 app.service('pojazdySerwis', function () {
 
-    var pojazdy =
+    let pojazdy =
         [
             {
                 'idPojazdu': 1,
@@ -32,7 +32,7 @@ app.service('pojazdySerwis', function () {
                 'maxPojemnoscZbiornikPrawy': null,
                 'czyAktywny': false
             }
-        ]
+        ];
 
     this.dajPojazdy = function(){
         return pojazdy;

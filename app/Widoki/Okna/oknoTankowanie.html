@@ -10,7 +10,7 @@
             <div class="form-group">
                 <label class="control-label col-md-2">Pojazd</label>
                 <div class="col-md-6">
-                    <input type="text" class="form-control" ng-model="pojazd" disabled>
+                    <input type="text" class="form-control" ng-model="pojazd.numerRejestracyjny" title="pojazd.numerRejestracyjny" disabled>
                 </div>
                 <div class="col-md-4">
                     <div class="btn-group-sm">
@@ -23,11 +23,11 @@
             <div class="form-group">
                 <label class="control-label col-md-2">Data</label>
                 <div class="col-md-4">
-                    <input type="date" class="form-control" ng-model-options="{ timezone: 'UTC' }" ng-model="data">
+                    <input type="date" class="form-control" ng-model-options="{ timezone: 'UTC' }" ng-model="data" title="dataDzien">
                 </div>
                 <label class="control-label col-md-2">Godzina</label>
                 <div class="col-md-4">
-                    <input type="time" class="form-control" ng-model-options="{ timezone: 'UTC' }" ng-model="data">
+                    <input type="time" class="form-control" ng-model-options="{ timezone: 'UTC' }" ng-model="data" title="dataGodzina">
                 </div>
             </div>
 
@@ -36,7 +36,7 @@
                 <div ng-if="czyEdycjaImportowanego == false">
                     <label class="control-label col-md-2">Dostawca</label>
                     <div class="col-md-4">
-                        <select class="form-control" ng-model="dostawca">
+                        <select class="form-control" ng-model="dostawca" title="dostawca">
                             <option selected="selected" value="">-</option>
                             <option value="E100">E100</option>
                             <option value="DKV">DKV</option>
@@ -46,18 +46,18 @@
 
                 <label class="control-label col-md-2">Ilość</label>
                 <div class="col-md-4">
-                    <input type="text" class="form-control" ng-model="ilosc">
+                    <input type="text" class="form-control" ng-model="ilosc" title="ilosc">
                 </div>
             </div>
 
             <div class="form-group">
                 <label class="control-label col-md-3">Kwota brutto</label>
                 <div class="col-md-3">
-                    <input type="text" class="form-control" ng-model="kwota">
+                    <input type="text" class="form-control" ng-model="kwota" title="kwota">
                 </div>
                 <label class="control-label col-md-2">Waluta</label>
                 <div class="col-md-4">
-                    <select class="form-control" ng-model="waluta">
+                    <select class="form-control" ng-model="waluta" title="waluta">
                         <option selected="selected" value="">-</option>
                         <option value="PLN">PLN</option>
                         <option value="EUR">EUR</option>
@@ -74,7 +74,7 @@
                 <div class="form-group">
                     <label class="control-label col-md-2">Opis</label>
                     <div class="col-md-10">
-                        <input type="text" class="form-control" ng-model="opis">
+                        <input type="text" class="form-control" ng-model="$parent.opis" title="opis">
                     </div>
                 </div>
                 <h5 class="text-center">
@@ -89,7 +89,7 @@
                 <div class="form-group">
                     <label class="control-label col-md-3">Dodatkowy opis</label>
                     <div class="col-md-9">
-                        <input type="text" class="form-control" ng-model="dodatkowyOpis">
+                        <input type="text" class="form-control" ng-model="$parent.opisDodatkowy" title="opisDodatkowy">
                     </div>
                 </div>
                 <h5 class="text-center">
@@ -102,7 +102,7 @@
     </div>
 
     <div class="modal-footer">
-        <button type="button" class="btn btn-success" data-dismiss="modal">{{akceptuj}}</button>
+        <button type="button" class="btn btn-success" ng-click="akceptuj()">{{tekstPrzyciskuAkceptuj}}</button>
         <button type="button" class="btn btn-danger" ng-click="zamknij()">Anuluj</button>
     </div>
 </div>

@@ -54,7 +54,13 @@
     <script src="Serwisy/tankowaniaSerwis.js"></script>
     <script src="Serwisy/trasySerwis.js"></script>
     <script src="Serwisy/uzytkownicySerwis.js"></script>
+    <script src="Serwisy/inputSerwis.js"></script>
 
+    <script src="Walidatory/nazwiskoWalidator.js"></script>
+    <script src="Walidatory/imieWalidator.js"></script>
+    <script src="Walidatory/numerRejestracyjnyWalidator.js"></script>
+    <script src="Walidatory/inputWalidator.js"></script>
+    <script src="Walidatory/dataWalidator.js"></script>
 
     <title>FrontEnd</title>
 
@@ -62,83 +68,100 @@
 
 <body>
 
-<!----------------------------  Pasek nawigacyjny - Niezalogowany użytkownik  ---------------------------->
+<div ng-controller="glownyKontroler">
 
-<nav ng-show="sprawdzUprawnienia()===''" class="navbar navbar-default" role="navigation" ng-controller="glownyKontroler">
-    <div class="navbar-header">
-        <a class="navbar-brand">Mateusz Trętowski - Praca inżynierska</a>
+    <!----------------------------  Pasek nawigacyjny - Niezalogowany użytkownik  ---------------------------->
+
+    <nav ng-show="sprawdzUprawnienia()===''" class="navbar navbar-default" role="navigation">
+        <div class="navbar-header">
+            <a class="navbar-brand">Mateusz Trętowski - Praca inżynierska</a>
+        </div>
+    </nav>
+
+
+    <!----------------------------  Panel logowania  ---------------------------->
+
+    <div ng-show="sprawdzUprawnienia()===''" class="container">
+
+        <div class="well">
+            <h3 class="text-center">
+                Uwaga
+            </h3>
+            <h4 class="text-center">
+                Ta strona wykorzystuje pliki cookies.
+            </h4>
+            <h5 class="text-center">
+                W przeglądarce zapisywane są jedynie dane o aktualnie zalogowanym użytkowniku celem uniknięcia konieczności ponowngo logowania
+                po odświeżeniu witryny lub zamknięciu przeglądarki.
+            </h5>
+        </div>
+
+        <form class="form-horizontal">
+            <div class="form-group">
+                <label class="control-label col-sm-4">Login:</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" ng-model="login" title="login">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-sm-4">Hasło:</label>
+                <div class="col-sm-4">
+                    <input type="password" class="form-control" ng-model="haslo" title="haslo">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-offset-4 col-sm-2">
+                    <button type="submit" class="btn btn-info" ng-click=zaloguj()>Zaloguj się</button>
+                </div>
+            </div>
+        </form>
     </div>
-</nav>
 
 
-<!----------------------------  Panel logowania  ---------------------------->
+    <!----------------------------  Pasek nawigacyjny - Zalogowany użytkownik  ---------------------------->
 
-<div ng-show="sprawdzUprawnienia()===''" class="container" ng-controller="glownyKontroler">
-
-    <form class="form-horizontal">
-        <div class="form-group">
-            <label class="control-label col-sm-4">Login:</label>
-            <div class="col-sm-4">
-                <input type="text" class="form-control" ng-model="login">
-            </div>
+    <nav ng-hide="sprawdzUprawnienia()===''" class="navbar navbar-default" role="navigation">
+        <div class="navbar-header">
+            <a class="navbar-brand">Mateusz Trętowski - Praca inżynierska</a>
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
         </div>
-
-        <div class="form-group">
-            <label class="control-label col-sm-4">Hasło:</label>
-            <div class="col-sm-4">
-                <input type="password" class="form-control" ng-model="haslo">
-            </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Zalogowano jako: {{imie}} {{nazwisko}}<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="" ng-click="zmienHaslo()">Zmień hasło</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="" ng-click="wyloguj()">Wyloguj się</a></li>
+                    </ul>
+                </li>
+            </ul>
         </div>
-
-        <div class="row">
-            <div class="col-sm-offset-4 col-sm-2">
-                <button type="submit" class="btn btn-info" ng-click=zaloguj()>Zaloguj się</button>
-            </div>
-        </div>
-    </form>
-</div>
+    </nav>
 
 
-<!----------------------------  Pasek nawigacyjny - Zalogowany użytkownik  ---------------------------->
+    <!----------------------------  Zakładki  ---------------------------->
 
-<nav ng-hide="sprawdzUprawnienia()===''" class="navbar navbar-default" role="navigation" ng-controller="glownyKontroler">
-    <div class="navbar-header">
-        <a class="navbar-brand">Mateusz Trętowski - Praca inżynierska</a>
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-        </button>
-    </div>
-    <div class="navbar-collapse collapse">
-        <ul class="nav navbar-nav navbar-right">
-            <li class="dropdown">
-                <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Zalogowano jako: <span class="caret"></span></a>
-                <ul class="dropdown-menu">
-                    <li><a href="" ng-click="zmienHaslo()">Zmień hasło</a></li>
-                    <li role="separator" class="divider"></li>
-                    <li><a href="" ng-click="wyloguj()">Wyloguj się</a></li>
-                </ul>
+    <div ng-hide="sprawdzUprawnienia()===''" class="container">
+        <ul class="nav nav-tabs nav-justified">
+            <li class="active"><a data-toggle="tab" href="#trasy">Trasy</a></li>
+            <li><a data-toggle="tab" href="#tankowania">Tankowania</a></li>
+            <li><a data-toggle="tab" href="#pomiary">Pomiary</a></li>
+            <li><a data-toggle="tab" href="#kierowcy">Kierowcy</a></li>
+            <li><a data-toggle="tab" href="#pojazdy">Pojazdy</a></li>
+            <li ng-show="sprawdzUprawnienia()==='administrator'"><a data-toggle="tab" href="#uzytkownicy">Użytkownicy</a>
             </li>
         </ul>
     </div>
-</nav>
 
 
-<!----------------------------  Zakładki  ---------------------------->
-
-<div ng-hide="sprawdzUprawnienia()===''" class="container" ng-controller="glownyKontroler">
-    <ul class="nav nav-tabs nav-justified">
-        <li class="active"><a data-toggle="tab" href="#trasy">Trasy</a></li>
-        <li><a data-toggle="tab" href="#tankowania">Tankowania</a></li>
-        <li><a data-toggle="tab" href="#pomiary">Pomiary</a></li>
-        <li><a data-toggle="tab" href="#kierowcy">Kierowcy</a></li>
-        <li><a data-toggle="tab" href="#pojazdy">Pojazdy</a></li>
-        <li ng-show="sprawdzUprawnienia()==='administrator'"><a data-toggle="tab" href="#uzytkownicy">Użytkownicy</a>
-        </li>
-    </ul>
 </div>
-
 
 <!----------------------------  Zawartość zakładek  ---------------------------->
 
@@ -155,8 +178,8 @@
 
             <div class="row">
                 <div class="col-md-12 text-center">
-                    <a class="btn btn-info" ng-click="pokazFiltry = !pokazFiltry">{{pokazFiltry ? 'Ukryj filtry ' : 'Pokaż filtry '}}<span class="glyphicon glyphicon-filter"/></a>
-                    <a class="btn btn-success" ng-click="dodajTrase()">Dodaj trasę <span class="glyphicon glyphicon-plus"/></a>
+                    <a class="btn btn-info" ng-click="pokazFiltry = !pokazFiltry">{{pokazFiltry ? 'Ukryj filtry ' : 'Pokaż filtry '}}<span class="glyphicon glyphicon-filter"></span></a>
+                    <a class="btn btn-success" ng-click="dodajTrase()">Dodaj trasę <span class="glyphicon glyphicon-plus"></span></a>
                 </div>
             </div>
 
@@ -165,13 +188,13 @@
                 <div class="col-md-offset-2 col-md-4">
                     <div class="input-group">
                         <span class="input-group-addon">Data rozpoczęcia od: </span>
-                        <input type="date" class="form-control" ng-model-options="{ timezone: 'UTC' }" ng-model="filtrDataRozpoczeciaOd">
+                        <input type="date" class="form-control" ng-model-options="{ timezone: 'UTC' }" ng-model="filtrDataRozpoczeciaOd" title="trasyFiltrDataRozpoczeciaOd">
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="input-group">
                         <span class="input-group-addon">Data rozpoczęcia do: </span>
-                        <input type="date" class="form-control" ng-model-options="{ timezone: 'UTC' }" ng-model="filtrDataRozpoczeciaDo">
+                        <input type="date" class="form-control" ng-model-options="{ timezone: 'UTC' }" ng-model="filtrDataRozpoczeciaDo" title="trasyFiltrDataRozpoczeciaDo">
                     </div>
                 </div>
             </div>
@@ -181,13 +204,13 @@
                 <div class="col-md-offset-2 col-md-4">
                     <div class="input-group">
                         <span class="input-group-addon">Data zakończenia od: </span>
-                        <input type="date" class="form-control" ng-model-options="{ timezone: 'UTC' }" ng-model="filtrDataZakonczeniaOd">
+                        <input type="date" class="form-control" ng-model-options="{ timezone: 'UTC' }" ng-model="filtrDataZakonczeniaOd" title="trasyFiltrDataZakonczeniaOd">
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="input-group">
                         <span class="input-group-addon">Data zakończenia do: </span>
-                        <input type="date" class="form-control" ng-model-options="{ timezone: 'UTC' }" ng-model="filtrDataZakonczeniaDo">
+                        <input type="date" class="form-control" ng-model-options="{ timezone: 'UTC' }" ng-model="filtrDataZakonczeniaDo" title="trasyFiltrDataZakonczeniaDo">
                     </div>
                 </div>
             </div>
@@ -197,25 +220,25 @@
                 <div class="col-md-3">
                     <div class="input-group">
                         <span class="input-group-addon">Kierowca 1: </span>
-                        <input type="text" class="form-control" ng-model="filtrKierowca1">
+                        <input type="text" class="form-control" ng-model="filtrKierowca1" title="trasyFiltrKierowca1">
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="input-group">
                         <span class="input-group-addon">Kierowca 2: </span>
-                        <input type="text" class="form-control" ng-model="filtrKierowca2">
+                        <input type="text" class="form-control" ng-model="filtrKierowca2" title="trasyFiltrKierowca2">
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="input-group">
                         <span class="input-group-addon">Pojazd: </span>
-                        <input type="text" class="form-control" ng-model="filtrNumerRejestracyjny">
+                        <input type="text" class="form-control" ng-model="filtrNumerRejestracyjny" title="trasyFiltrNumerRejestracyjny">
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="input-group">
                         <span class="input-group-addon">Numer trasy: </span>
-                        <input type="text" class="form-control" ng-model="filtrnumerPoleceniaWyjazdu">
+                        <input type="text" class="form-control" ng-model="filtrNumerPoleceniaWyjazdu" title="trasyfiltrNumerPoleceniaWyjazdu">
                     </div>
                 </div>
             </div>
@@ -310,7 +333,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr ng-repeat="trasa in trasy | filter:{numerRejestracyjnyPojazdu: filtrNumerRejestracyjny, kierowca1: filtrKierowca1, kierowca2: filtrKierowca2, numerPoleceniaWyjazdu: filtrNumerTrast}| orderBy:kluczSortowania:odwrotneSortowanie"
+                <tr ng-repeat="trasa in trasy | filter:{numerRejestracyjnyPojazdu: filtrNumerRejestracyjny, kierowca1: filtrKierowca1, kierowca2: filtrKierowca2, numerPoleceniaWyjazdu: filtrNumerPoleceniaWyjazdu}| orderBy:kluczSortowania:odwrotneSortowanie"
                     ng-if="trasa.dataRozpoczecia >= filtrDataRozpoczeciaOd && trasa.dataRozpoczecia <= filtrDataRozpoczeciaDo &&
                     trasa.dataZakonczenia >= filtrDataZakonczeniaOd && trasa.dataZakonczenia <= filtrDataZakonczeniaDo">
                     <td class="text-center">{{trasa.numerPoleceniaWyjazdu}}</td>
@@ -321,7 +344,7 @@
                     <td class="text-center">{{trasa.dataZakonczenia | date : 'dd.MM.yyyy' : 'UTC'}}</td>
                     <td class="text-right">{{trasa.srednieSpalanieFaktyczne | number : 2}}</td>
                     <td class="text-right">{{trasa.srednieSpalanieWgGPS | number : 2}}</td>
-                    <td class="text-right">{{trasa.odchylenieOdNormy | number : 2}}</td>
+                    <td class="text-right">{{trasa.srednieSpalanieWgGPS - trasa.srednieSpalanieFaktyczne | number : 2}}</td>
                     <td class="text-right">{{trasa.przejechaneKilometry | number : 2}}</td>
                     <td>
                         <button type="button" class="btn-xs btn-warning glyphicon glyphicon-edit center-block" ng-click="edytujTrase(trasy.indexOf(trasa))"></button>
@@ -347,9 +370,9 @@
 
             <div class="row">
                 <div class="col-md-12 text-center">
-                    <a class="btn btn-info" ng-click="pokazFiltry = !pokazFiltry">{{pokazFiltry ? 'Ukryj filtry ' : 'Pokaż filtry '}}<span class="glyphicon glyphicon-filter"/></a>
-                    <a class="btn btn-success" ng-click="dodajTankowanie()">Dodaj tankowanie ręcznie <span class="glyphicon glyphicon-plus"/></a>
-                    <a class="btn btn-primary" ng-click="importujTankowania()">Importuj tankowania z pliku <span class="glyphicon glyphicon-save-file"/></a>
+                    <a class="btn btn-info" ng-click="pokazFiltry = !pokazFiltry">{{pokazFiltry ? 'Ukryj filtry ' : 'Pokaż filtry '}}<span class="glyphicon glyphicon-filter"></span></a>
+                    <a class="btn btn-success" ng-click="dodajTankowanie()">Dodaj tankowanie ręcznie <span class="glyphicon glyphicon-plus"></span></a>
+                    <a class="btn btn-primary" ng-click="importujTankowania()">Importuj tankowania z pliku <span class="glyphicon glyphicon-save-file"></span></a>
                 </div>
             </div>
 
@@ -358,13 +381,13 @@
                 <div class="col-md-offset-2 col-md-4">
                     <div class="input-group">
                         <span class="input-group-addon">Data od: </span>
-                        <input type="date" class="form-control" ng-model-options="{ timezone: 'UTC' }" ng-model="filtrDataOd">
+                        <input type="date" class="form-control" ng-model-options="{ timezone: 'UTC' }" ng-model="filtrDataOd" title="tankowaniaFiltrDataOd">
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="input-group">
                         <span class="input-group-addon">Data do: </span>
-                        <input type="date" class="form-control" ng-model-options="{ timezone: 'UTC' }" ng-model="filtrDataDo">
+                        <input type="date" class="form-control" ng-model-options="{ timezone: 'UTC' }" ng-model="filtrDataDo" title="tankowaniaFiltrDataDo">
                     </div>
                 </div>
             </div>
@@ -374,13 +397,13 @@
                 <div class="col-md-offset-2 col-md-4">
                     <div class="input-group">
                         <span class="input-group-addon">Dostawca: </span>
-                        <input type="text" class="form-control" ng-model="filtrDostawca">
+                        <input type="text" class="form-control" ng-model="filtrDostawca" title="tankowaniaFiltrDostawca">
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="input-group">
                         <span class="input-group-addon">Pojazd: </span>
-                        <input type="text" class="form-control" ng-model="filtrNumerRejestracyjny">
+                        <input type="text" class="form-control" ng-model="filtrNumerRejestracyjny" title="tankowaniaFiltrNumerRejestracyjny">
                     </div>
                 </div>
             </div>
@@ -476,8 +499,8 @@
 
             <div class="row">
                 <div class="col-md-12 text-center">
-                    <a class="btn btn-info" ng-click="pokazFiltry = !pokazFiltry">{{pokazFiltry ? 'Ukryj filtry ' : 'Pokaż filtry '}}<span class="glyphicon glyphicon-filter"/></a>
-                    <a class="btn btn-success" ng-click="dodajPomiar()">Dodaj pomiar <span class="glyphicon glyphicon-plus"/></a>
+                    <a class="btn btn-info" ng-click="pokazFiltry = !pokazFiltry">{{pokazFiltry ? 'Ukryj filtry ' : 'Pokaż filtry '}}<span class="glyphicon glyphicon-filter"></span></a>
+                    <a class="btn btn-success" ng-click="dodajPomiar()">Dodaj pomiar <span class="glyphicon glyphicon-plus"></span></a>
                 </div>
             </div>
 
@@ -486,21 +509,21 @@
                 <div class="col-md-4">
                     <div class="input-group">
                         <span class="input-group-addon">Data od: </span>
-                        <input type="date" class="form-control" ng-model-options="{ timezone: 'UTC' }" ng-model="filtrDataOd">
+                        <input type="date" class="form-control" ng-model-options="{ timezone: 'UTC' }" ng-model="filtrDataOd" title="pomiaryFiltrDataOd">
                     </div>
                 </div>
 
                 <div class="col-md-4">
                     <div class="input-group">
                         <span class="input-group-addon">Data do: </span>
-                        <input type="date" class="form-control" ng-model-options="{ timezone: 'UTC' }" ng-model="filtrDataDo">
+                        <input type="date" class="form-control" ng-model-options="{ timezone: 'UTC' }" ng-model="filtrDataDo" title="pomiaryFiltrDataDo">
                     </div>
                 </div>
 
                 <div class="col-md-4">
                     <div class="input-group">
                         <span class="input-group-addon">Pojazd: </span>
-                        <input type="text" class="form-control" ng-model="filtrNumerRejestracyjny">
+                        <input type="text" class="form-control" ng-model="filtrNumerRejestracyjny" title="pomiaryFiltrNumerRejestracyjny">
                     </div>
                 </div>
             </div>
@@ -583,8 +606,8 @@
                 <tr ng-repeat="pomiar in pomiary | filter:{numerRejestracyjnyPojazdu: filtrNumerRejestracyjny}| orderBy:kluczSortowania:odwrotneSortowanie" ng-if="pomiar.dataPomiaru >= filtrDataOd && pomiar.dataPomiaru <= filtrDataDo">
                     <td class="text-center">{{pomiar.numerRejestracyjnyPojazdu}}</td>
                     <td class="text-center">{{pomiar.dataPomiaru | date : 'dd.MM.yyyy' : 'UTC'}}</td>
-                    <td class="text-center"> -</td>
-                    <td class="text-center"> -</td>
+                    <td class="text-center">{{pomiar.trasaRozpoczynana}}</td>
+                    <td class="text-center">{{pomiar.trasaKonczona}}</td>
                     <td ng-if="pomiar.pomiarReczny" class="text-center">Pomiar ręczny [cm]</td>
                     <td ng-if="pomiar.dotankowanoDoPelna" class="text-center">Dotankowano do pełna [L]</td>
                     <td ng-if="pomiar.zmierzonoIlosc" class="text-center">Zmierzono ilość [L]</td>
@@ -615,8 +638,8 @@
 
             <div class="row">
                 <div class="col-md-12 text-center">
-                    <a class="btn btn-info" ng-click="pokazFiltry = !pokazFiltry">{{pokazFiltry ? 'Ukryj filtry ' : 'Pokaż filtry '}}<span class="glyphicon glyphicon-filter"/></a>
-                    <a class="btn btn-success" ng-click="dodajKierowce()">Dodaj kierowcę <span class="glyphicon glyphicon-plus"/></a>
+                    <a class="btn btn-info" ng-click="pokazFiltry = !pokazFiltry">{{pokazFiltry ? 'Ukryj filtry ' : 'Pokaż filtry '}}<span class="glyphicon glyphicon-filter"></span></a>
+                    <a class="btn btn-success" ng-click="dodajKierowce()">Dodaj kierowcę <span class="glyphicon glyphicon-plus"></span></a>
                 </div>
             </div>
 
@@ -625,19 +648,19 @@
                 <div class="col-md-offset-1 col-md-4">
                     <div class="input-group">
                         <span class="input-group-addon">Imię: </span>
-                        <input type="text" class="form-control" ng-model="filtrImie">
+                        <input type="text" class="form-control" ng-model="filtrImie" title="kierowcyFiltrImie">
                     </div>
                 </div>
 
                 <div class="col-md-4">
                     <div class="input-group">
                         <span class="input-group-addon">Nazwisko: </span>
-                        <input type="text" class="form-control" ng-model="filtrNazwisko">
+                        <input type="text" class="form-control" ng-model="filtrNazwisko" title="kierowcyFiltrNazwisko">
                     </div>
                 </div>
 
                 <div class="col-md-2">
-                    <div class="input-group center-block"><input type="checkbox" ng-model="filtrPokazNieaktywnych">Pokaż niekatywnych</div>
+                    <div class="input-group center-block"><input type="checkbox" ng-model="filtrPokazNieaktywnych" title="kierowcyFiltrPokazNieaktywnych">Pokaż niekatywnych</div>
                 </div>
             </div>
 
@@ -696,8 +719,8 @@
 
             <div class="row">
                 <div class="col-md-12 text-center">
-                    <a class="btn btn-info" ng-click="pokazFiltry = !pokazFiltry">{{pokazFiltry ? 'Ukryj filtry ' : 'Pokaż filtry '}}<span class="glyphicon glyphicon-filter"/></a>
-                    <a class="btn btn-success" ng-click="dodajPojazd()">Dodaj pojazd <span class="glyphicon glyphicon-plus"/></a>
+                    <a class="btn btn-info" ng-click="pokazFiltry = !pokazFiltry">{{pokazFiltry ? 'Ukryj filtry ' : 'Pokaż filtry '}}<span class="glyphicon glyphicon-filter"></span></a>
+                    <a class="btn btn-success" ng-click="dodajPojazd()">Dodaj pojazd <span class="glyphicon glyphicon-plus"></span></a>
                 </div>
             </div>
 
@@ -707,19 +730,19 @@
                 <div class="col-md-offset-1 col-md-4">
                     <div class="input-group">
                         <span class="input-group-addon">Numer rejestracyjny: </span>
-                        <input type="text" class="form-control" ng-model="filtrNumerRejestracyjny">
+                        <input type="text" class="form-control" ng-model="filtrNumerRejestracyjny" title="pojazdyFiltrNumerRejestracyjny">
                     </div>
                 </div>
 
                 <div class="col-md-4">
                     <div class="input-group">
                         <span class="input-group-addon">Marka i model: </span>
-                        <input type="text" class="form-control" ng-model="filtrMarka">
+                        <input type="text" class="form-control" ng-model="filtrMarka" title="pojazdyFiltrMarka">
                     </div>
                 </div>
 
                 <div class="col-md-2">
-                    <div class="input-group center-block"><input type="checkbox" ng-model="filtrPokazNieaktywne">Pokaż niekatywne</div>
+                    <div class="input-group center-block"><input type="checkbox" ng-model="filtrPokazNieaktywne" title="pojazdyFiltrPokazNieaktywne">Pokaż niekatywne</div>
                 </div>
 
             </div>
@@ -780,8 +803,8 @@
 
             <div class="row">
                 <div class="col-md-12 text-center">
-                    <a class="btn btn-info" ng-click="pokazFiltry = !pokazFiltry">{{pokazFiltry ? 'Ukryj filtry ' : 'Pokaż filtry '}}<span class="glyphicon glyphicon-filter"/></a>
-                    <a class="btn btn-success" ng-click="dodajUzytkownika()">Dodaj użytkownika <span class="glyphicon glyphicon-plus"/></a>
+                    <a class="btn btn-info" ng-click="pokazFiltry = !pokazFiltry">{{pokazFiltry ? 'Ukryj filtry ' : 'Pokaż filtry '}}<span class="glyphicon glyphicon-filter"></span></a>
+                    <a class="btn btn-success" ng-click="dodajUzytkownika()">Dodaj użytkownika <span class="glyphicon glyphicon-plus"></span></a>
                 </div>
             </div>
 
@@ -790,21 +813,21 @@
                 <div class="col-md-4">
                     <div class="input-group">
                         <span class="input-group-addon">Imię: </span>
-                        <input type="text" class="form-control" ng-model="filtrImie">
+                        <input type="text" class="form-control" ng-model="filtrImie" title="uzytkownicyFiltrImie">
                     </div>
                 </div>
 
                 <div class="col-md-4">
                     <div class="input-group">
                         <span class="input-group-addon">Nazwisko: </span>
-                        <input type="text" class="form-control" ng-model="filtrNazwisko">
+                        <input type="text" class="form-control" ng-model="filtrNazwisko" title="uzytkownicyFiltrNazwisko">
                     </div>
                 </div>
 
                 <div class="col-md-4">
                     <div class="input-group">
                         <span class="input-group-addon">Rola: </span>
-                        <input type="text" class="form-control" ng-model="filtrRola">
+                        <input type="text" class="form-control" ng-model="filtrNazwaRoli" title="uzytkownicyFiltrNazwaRoli">
                     </div>
                 </div>
             </div>
@@ -812,7 +835,7 @@
             <div class="row" ng-show="pokazFiltry">
                 <br>
                 <div class="col-md-offset-5 col-md-2">
-                    <div class="input-group center-block"><input type="checkbox" ng-model="filtrPokazNieaktywnych">Pokaż niekatywnych</div>
+                    <div class="input-group center-block"><input type="checkbox" ng-model="filtrPokazNieaktywnych" title="uzytkownicyFiltrPokazNieaktywnych">Pokaż niekatywnych</div>
                 </div>
             </div>
 
@@ -859,7 +882,7 @@
 
                 </thead>
                 <tbody>
-                <tr ng-repeat="uzytkownik in uzytkownicy | filter:{imie: filtrImie, nazwisko:filtrNazwisko, rola:filtrRola}| orderBy:kluczSortowania:odwrotneSortowanie" ng-if="uzytkownik.czyAktywny === true || (uzytkownik.czyAktywny === false && filtrPokazNieaktywnych === true)">
+                <tr ng-repeat="uzytkownik in uzytkownicy | filter:{imie: filtrImie, nazwisko:filtrNazwisko, nazwaRoli:filtrNazwaRoli}| orderBy:kluczSortowania:odwrotneSortowanie" ng-if="uzytkownik.czyAktywny === true || (uzytkownik.czyAktywny === false && filtrPokazNieaktywnych === true)">
                     <td class="text-center">{{uzytkownik.imie}}</td>
                     <td class="text-center">{{uzytkownik.nazwisko}}</td>
                     <td class="text-center">{{uzytkownik.login}}</td>

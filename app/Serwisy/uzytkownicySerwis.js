@@ -1,11 +1,11 @@
 app.service('uzytkownicySerwis', function () {
 
-    var uzytkownicy =
+    let uzytkownicy =
         [
             {
                 'imie': 'Admin',
                 'nazwisko': 'Administracyjny',
-                'login': 'admin@admin.pl',
+                'login': 'admin',
                 'idRoli': 1,
                 'nazwaRoli': 'Administrator',
                 'czyAktywny': true
@@ -13,23 +13,12 @@ app.service('uzytkownicySerwis', function () {
             {
                 'imie': 'Użytkownik',
                 'nazwisko': 'Użykownikowy',
-                'login': 'uzytkownik@uzytkownik.pl',
+                'login': 'uzytkownik',
                 'idRoli': 2,
                 'nazwaRoli': 'Uzytkownik',
                 'czyAktywny': false
             }
-        ]
-    var role =
-        [
-            {
-                'idRoli': 1,
-                'nazwaRoli': 'Administrator'
-            },
-            {
-                'idRoli': 2,
-                'nazwaRoli': 'Użytkownik'
-            }
-        ]
+        ];
 
     this.dajUzytkownikow = function () {
         return uzytkownicy

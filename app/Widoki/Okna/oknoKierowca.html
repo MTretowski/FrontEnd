@@ -9,18 +9,18 @@
             <div class="form-group">
                 <label class="control-label col-md-2">Imię</label>
                 <div class="col-md-4">
-                    <input type="text" class="form-control" ng-model="imie">
+                    <input type="text" class="form-control" ng-model="imie" title="imie">
                 </div>
                 <label class="control-label col-md-2">Nazwisko</label>
                 <div class="col-md-4">
-                    <input type="text" class="form-control" ng-model="nazwisko">
+                    <input type="text" class="form-control" ng-model="nazwisko" title="nazwisko">
                 </div>
             </div>
         </form>
     </div>
 
     <div class="modal-footer">
-        <button type="button" class="btn btn-success" data-dismiss="modal">{{akceptuj}}</button>
+        <button type="button" class="btn btn-success" ng-click="akceptuj()">{{tekstPrzyciskuAkceptuj}}</button>
         <button type="button" class="btn btn-danger" ng-click="zamknij()">Anuluj</button>
     </div>
 </div>

@@ -1,7 +1,11 @@
 app.controller('kierowcyKontroler', function ($scope, $uibModal, kierowcySerwis) {
-    $scope.kluczSortowania;
+    $scope.kluczSortowania = '';
     $scope.odwrotneSortowanie = false;
     $scope.pokazFiltry = false;
+
+    $scope.filtrImie = '';
+    $scope.filtrNazwisko = '';
+    $scope.filtrPokazNieaktywnych = false;
 
     $scope.kierowcy = kierowcySerwis.dajKierowcow();
 
@@ -9,7 +13,7 @@ app.controller('kierowcyKontroler', function ($scope, $uibModal, kierowcySerwis)
         $uibModal.open({
             templateUrl: 'Widoki/Okna/oknoKierowca.html',
             controller: 'dodajKierowceKontroler',
-            backdrop  : 'static'
+            backdrop: 'static'
         });
     };
 
@@ -17,16 +21,16 @@ app.controller('kierowcyKontroler', function ($scope, $uibModal, kierowcySerwis)
         $uibModal.open({
             templateUrl: 'Widoki/Okna/oknoKierowca.html',
             controller: 'edytujKierowceKontroler',
-            backdrop  : 'static',
+            backdrop: 'static',
             resolve: {
-                edytowanyKierowca: function() {
+                edytowanyKierowca: function () {
                     return $scope.kierowcy[indeks];
                 }
             }
         });
     };
 
-    $scope.usunKierowce = function(indeks){
+    $scope.usunKierowce = function (indeks) {
         alert('usuwam kierowce o numerze ' + indeks);
     }
 

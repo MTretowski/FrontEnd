@@ -1,13 +1,15 @@
 app.controller('tankowaniaKontroler', function ($scope, $uibModal, tankowaniaSerwis) {
-    $scope.kluczSortowania;
+    $scope.kluczSortowania = '';
     $scope.odwrotneSortowanie = false;
     $scope.pokazFiltry = false;
 
+    $scope.filtrDostawca = '';
+
     $scope.tankowania = tankowaniaSerwis.dajTankowania();
 
-    var teraz = new Date();
-    var terazUTC = new Date(teraz.getUTCFullYear(), teraz.getUTCMonth(), teraz.getUTCDate(), teraz.getUTCHours(), teraz.getUTCMinutes(), teraz.getUTCSeconds());
-    var rokTemu = new Date(teraz.getUTCFullYear() - 1, teraz.getUTCMonth(), teraz.getUTCDate(), teraz.getUTCHours(), teraz.getUTCMinutes(), teraz.getUTCSeconds());
+    let teraz = new Date();
+    let terazUTC = new Date(teraz.getUTCFullYear(), teraz.getUTCMonth(), teraz.getUTCDate(), teraz.getUTCHours(), teraz.getUTCMinutes(), teraz.getUTCSeconds());
+    let rokTemu = new Date(teraz.getUTCFullYear() - 1, teraz.getUTCMonth(), teraz.getUTCDate(), teraz.getUTCHours(), teraz.getUTCMinutes(), teraz.getUTCSeconds());
     terazUTC.setUTCHours(23, 59, 59);
     rokTemu.setUTCHours(0, 0, 0);
     $scope.filtrDataOd = rokTemu;

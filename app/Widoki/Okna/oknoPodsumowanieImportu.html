@@ -6,7 +6,7 @@
 
     <div class="modal-body">
 
-        <div ng-show="!czySaTankowania && !czySaOstrzezenia && !czySaInneZdarzenia">
+        <div ng-show="!czySaTankowania && !czySaOstrzezenia && !czySaInneZdarzenia && !czySaBledy">
             <h5 class = text-center>Brak zaimportowanych zdarzeń</h5>
         </div>
 
@@ -25,7 +25,7 @@
 
                 <div class="row">
                     <div class="col-md-12 text-center">
-                        <a class="btn btn-info" ng-click="pokazFiltry = !pokazFiltry">{{pokazFiltry ? 'Ukryj filtry ' : 'Pokaż filtry '}}<span class="glyphicon glyphicon-filter"/></a>
+                        <a class="btn btn-info" ng-click="pokazFiltry = !pokazFiltry">{{pokazFiltry ? 'Ukryj filtry ' : 'Pokaż filtry '}}<span class="glyphicon glyphicon-filter"></span></a>
                     </div>
                 </div>
 
@@ -34,13 +34,13 @@
                     <div class="col-md-offset-2 col-md-4">
                         <div class="input-group">
                             <span class="input-group-addon">Data od: </span>
-                            <input type="date" class="form-control" ng-model-options="{ timezone: 'UTC' }" ng-model="filtrDataOd">
+                            <input type="date" class="form-control" ng-model-options="{ timezone: 'UTC' }" ng-model="filtrDataOd" title="filtrDataOd">
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="input-group">
                             <span class="input-group-addon">Data do: </span>
-                            <input type="date" class="form-control" ng-model-options="{ timezone: 'UTC' }" ng-model="filtrDataDo">
+                            <input type="date" class="form-control" ng-model-options="{ timezone: 'UTC' }" ng-model="filtrDataDo" title="filtrDataDo">
                         </div>
                     </div>
                 </div>
@@ -122,10 +122,10 @@
                         <td ng-if="dostawca == 'DKV'" class="text-right">{{tankowanie.opisDodatkowy}}</td>
 
                         <td>
-                            <button type="button" class="btn-xs btn-warning glyphicon glyphicon-edit center-block" ng-click="edytujTankowanie(zaimportowaneTankowania.indexOf(tankowanie))"></button>
+                            <button type="button" class="btn-xs btn-warning glyphicon glyphicon-edit center-block" ng-click="edytujDobreTankowanie(zaimportowaneTankowania.indexOf(tankowanie))"></button>
                         </td>
                         <td>
-                            <button type="button" class="btn-xs btn-danger glyphicon glyphicon-remove center-block" ng-click="usunTankowanie(zaimportowaneTankowania.indexOf(tankowanie))"></button>
+                            <button type="button" class="btn-xs btn-danger glyphicon glyphicon-remove center-block" ng-click="usunDobreTankowanie(zaimportowaneTankowania.indexOf(tankowanie))"></button>
                         </td>
                     </tr>
                     </tbody>
@@ -149,7 +149,7 @@
                     <br>
 
                     <div class="col-md-12 text-center">
-                        <a class="btn btn-info" ng-click="pokazFiltryOstrzezenia = !pokazFiltryOstrzezenia">{{pokazFiltryOstrzezenia ? 'Ukryj filtry ' : 'Pokaż filtry '}}<span class="glyphicon glyphicon-filter"/></a>
+                        <a class="btn btn-info" ng-click="pokazFiltryOstrzezenia = !pokazFiltryOstrzezenia">{{pokazFiltryOstrzezenia ? 'Ukryj filtry ' : 'Pokaż filtry '}}<span class="glyphicon glyphicon-filter"></span></a>
                     </div>
                 </div>
 
@@ -158,13 +158,13 @@
                     <div class="col-md-offset-2 col-md-4">
                         <div class="input-group">
                             <span class="input-group-addon">Data od: </span>
-                            <input type="date" class="form-control" ng-model-options="{ timezone: 'UTC' }" ng-model="filtrDataOdOstrzezenia">
+                            <input type="date" class="form-control" ng-model-options="{ timezone: 'UTC' }" ng-model="filtrDataOdOstrzezenia" title="filtrDataOdOstrzezenia">
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="input-group">
                             <span class="input-group-addon">Data do: </span>
-                            <input type="date" class="form-control" ng-model-options="{ timezone: 'UTC' }" ng-model="filtrDataDoOstrzezenia">
+                            <input type="date" class="form-control" ng-model-options="{ timezone: 'UTC' }" ng-model="filtrDataDoOstrzezenia" title="filtrDataDoOstrzezenia">
                         </div>
                     </div>
                 </div>
@@ -283,7 +283,7 @@
 
                 <div class="row">
                     <div class="col-md-12 text-center">
-                        <a class="btn btn-info" ng-click="pokazFiltryInne = !pokazFiltryInne">{{pokazFiltryInne ? 'Ukryj filtry ' : 'Pokaż filtry '}}<span class="glyphicon glyphicon-filter"/></a>
+                        <a class="btn btn-info" ng-click="pokazFiltryInne = !pokazFiltryInne">{{pokazFiltryInne ? 'Ukryj filtry ' : 'Pokaż filtry '}}<span class="glyphicon glyphicon-filter"></span></a>
                     </div>
                 </div>
 
@@ -292,13 +292,13 @@
                     <div class="col-md-offset-2 col-md-4">
                         <div class="input-group">
                             <span class="input-group-addon">Data od: </span>
-                            <input type="date" class="form-control" ng-model-options="{ timezone: 'UTC' }" ng-model="filtrDataOdInne">
+                            <input type="date" class="form-control" ng-model-options="{ timezone: 'UTC' }" ng-model="filtrDataOdInne" title="filtrDataOdInne">
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="input-group">
                             <span class="input-group-addon">Data do: </span>
-                            <input type="date" class="form-control" ng-model-options="{ timezone: 'UTC' }" ng-model="filtrDataDoInne">
+                            <input type="date" class="form-control" ng-model-options="{ timezone: 'UTC' }" ng-model="filtrDataDoInne" title="filtrDataDoInne">
                         </div>
                     </div>
                 </div>

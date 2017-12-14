@@ -1,7 +1,10 @@
 app.controller('uzytkownicyKontroler', function ($scope, $uibModal, uzytkownicySerwis) {
-    $scope.kluczSortowania;
+    $scope.kluczSortowania = '';
     $scope.odwrotneSortowanie = false;
     $scope.pokazFiltry = false;
+
+    $scope.filtrNazwaRoli = '';
+    $scope.filtrPokazNieaktywnych = false;
 
     $scope.uzytkownicy = uzytkownicySerwis.dajUzytkownikow();
 

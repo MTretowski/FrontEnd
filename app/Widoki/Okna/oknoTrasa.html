@@ -13,7 +13,7 @@
                     <div class="form-group">
                         <label class="control-label col-md-2">Kier. 1</label>
                         <div class="col-md-6">
-                            <input type="text" class="form-control" value = "{{kierowca1.nazwisko + ' ' + kierowca1.imie}}" disabled>
+                            <input type="text" class="form-control" value = "{{kierowca1.nazwisko + ' ' + kierowca1.imie}}" title="kierowca1" disabled>
                         </div>
                         <div class="col-md-4">
                             <a class="btn btn-sm btn-info" ng-click="wybierzKierowce(1)">Wybierz</a>
@@ -24,7 +24,7 @@
                     <div class="form-group">
                         <label class="control-label col-md-2">Kier. 2</label>
                         <div class="col-md-6">
-                            <input type="text" class="form-control" value = "{{kierowca2.nazwisko + ' ' + kierowca2.imie}}" disabled>
+                            <input type="text" class="form-control" value = "{{kierowca2.nazwisko + ' ' + kierowca2.imie}}" title="kierowca2" disabled>
                         </div>
                         <div class="col-md-4">
                             <a class="btn btn-sm btn-info" ng-click="wybierzKierowce(2)">Wybierz</a>
@@ -35,7 +35,7 @@
                     <div class="form-group">
                         <label class="control-label col-md-2">Pojazd</label>
                         <div class="col-md-6">
-                            <input type="text" class="form-control" ng-model="pojazd.numerRejestracyjny" disabled>
+                            <input type="text" class="form-control" ng-model="pojazd.numerRejestracyjny" title="pojazd.numerRejestracyjny" disabled>
                         </div>
                         <div class="col-md-4">
                             <a class="btn btn-sm btn-info" ng-click="wybierzPojazd()">Wybierz</a>
@@ -47,11 +47,11 @@
                     <div class="form-group">
                         <label class="control-label col-md-1">Data</label>
                         <div class="col-md-5">
-                            <input type="date" class="form-control" ng-model-options="{ timezone: 'UTC' }" ng-model="dataRozpoczecia" ng-change="aktualizujDane()">
+                            <input type="date" class="form-control" ng-model-options="{ timezone: 'UTC' }" ng-model="dataRozpoczecia" ng-change="aktualizujDane()" title="dataRozpoczeciaDzien">
                         </div>
                         <label class="control-label col-md-2">Godzina</label>
                         <div class="col-md-4">
-                            <input type="time" class="form-control" ng-model-options="{ timezone: 'UTC' }" ng-model="dataRozpoczecia" ng-change="aktualizujDane()">
+                            <input type="time" class="form-control" ng-model-options="{ timezone: 'UTC' }" ng-model="dataRozpoczecia" ng-change="aktualizujDane()" title="dataRozpoczeciaGodzina">
                         </div>
                     </div>
 
@@ -59,32 +59,32 @@
                     <div class="form-group">
                         <label class="control-label col-md-1">Data</label>
                         <div class="col-md-5">
-                            <input type="date" class="form-control" ng-model-options="{ timezone: 'UTC' }" ng-model="dataZakonczenia" ng-change="aktualizujDane()">
+                            <input type="date" class="form-control" ng-model-options="{ timezone: 'UTC' }" ng-model="dataZakonczenia" ng-change="aktualizujDane()" title="dataZakonczeniaDzien">
                         </div>
                         <label class="control-label col-md-2">Godzina</label>
                         <div class="col-md-4">
-                            <input type="time" class="form-control" ng-model-options="{ timezone: 'UTC' }" ng-model="dataZakonczenia" ng-change="aktualizujDane()">
+                            <input type="time" class="form-control" ng-model-options="{ timezone: 'UTC' }" ng-model="dataZakonczenia" ng-change="aktualizujDane()" title="dataZakonczeniaGodzina">
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label class="control-label col-md-6">Przejechany dystans [km]</label>
                         <div class="col-md-6">
-                            <input type="number" class="form-control" ng-model="przejechaneKilometry">
+                            <input type="number" class="form-control" min="0" ng-model="przejechaneKilometry" title="przejechaneKilometry">
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label class="control-label col-md-6">Zużyte paliwo - Webasto [L]</label>
                         <div class="col-md-6">
-                            <input type="number" class="form-control" ng-model='paliwoZuzyteWebasto'>
+                            <input type="number" class="form-control" min="0" ng-model='paliwoZuzyteWebasto' title="paliwoZuzyteWebastwo">
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label class="control-label col-md-6">Zużyte paliwo - CAN [L]</label>
                         <div class="col-md-6">
-                            <input type="number" class="form-control" ng-model="paliwoZuzyteCAN">
+                            <input type="number" class="form-control" min="0" ng-model="paliwoZuzyteCAN" title="paliwoZuzyteCAN">
                         </div>
                     </div>
 
@@ -137,7 +137,7 @@
                 <h4 class="text-center">Pomiary</h4>
 
                 <div class="col-md-12 text-center">
-                    <a class="btn btn-sm btn-success" ng-click="trasaDodajPomiar()">Dodaj pomiar <span class="glyphicon glyphicon-plus"/></a>
+                    <a class="btn btn-sm btn-success" ng-click="trasaDodajPomiar()">Dodaj pomiar <span class="glyphicon glyphicon-plus"></span></a>
                 </div>
 
                 <br>
@@ -182,8 +182,8 @@
                 <h4 class="text-center">Tankowania</h4>
 
                 <div class="col-md-12 text-center">
-                    <a class="btn btn-sm btn-success" ng-click="trasaDodajTankowanie()">Dodaj tankowanie ręcznie <span class="glyphicon glyphicon-plus"/></a>
-                    <a class="btn btn-sm btn-primary" ng-click="trasaImportujTankowania()">Importuj tankowania z pliku <span class="glyphicon glyphicon-save-file"/></a>
+                    <a class="btn btn-sm btn-success" ng-click="trasaDodajTankowanie()">Dodaj tankowanie ręcznie <span class="glyphicon glyphicon-plus"></span></a>
+                    <a class="btn btn-sm btn-primary" ng-click="trasaImportujTankowania()">Importuj tankowania z pliku <span class="glyphicon glyphicon-save-file"></span></a>
                 </div>
 
 
@@ -217,7 +217,7 @@
 
                 <div class="form-group">
                     <label>Komentarz</label>
-                    <textarea class="form-control" rows="4" ng-model="komentarz"></textarea>
+                    <textarea class="form-control" rows="4" maxlength="1000" data-ng-model="komentarz" title="komentarz"></textarea>
                 </div>
             </div>
         </div>
@@ -225,7 +225,7 @@
 
 
     <div class="modal-footer">
-        <button type="button" class="btn btn-success" data-dismiss="modal">{{akceptuj}}</button>
+        <button type="button" class="btn btn-success" ng-click="akceptuj()">{{tekstPrzyciskuAkceptuj}}</button>
         <button type="button" class="btn btn-danger" ng-click="zamknij()">Anuluj</button>
     </div>
 </div>

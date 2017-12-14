@@ -10,7 +10,7 @@
             <div class="form-group">
                 <label class="control-label col-md-2">Pojazd</label>
                 <div class="col-md-6">
-                    <input type="text" class="form-control" ng-model="pojazd.numerRejestracyjny" disabled>
+                    <input type="text" class="form-control" ng-model="pojazd.numerRejestracyjny" title="pojazd.numerRejestracyjny" disabled>
                 </div>
                 <div class="col-md-4">
                     <div class="btn-group-sm">
@@ -23,18 +23,18 @@
             <div class="form-group">
                 <label class="control-label col-md-2">Data</label>
                 <div class="col-md-4">
-                    <input type="date" class="form-control" ng-model-options="{ timezone: 'UTC' }" ng-model='data'>
+                    <input type="date" class="form-control" ng-model-options="{ timezone: 'UTC' }" ng-model='data' title="dataDzien">
                 </div>
                 <label class="control-label col-md-2">Godzina</label>
                 <div class="col-md-4">
-                    <input type="time" class="form-control" ng-model-options="{ timezone: 'UTC' }" ng-model='data'>
+                    <input type="time" class="form-control" ng-model-options="{ timezone: 'UTC' }" ng-model='data' title="dataGodzina">
                 </div>
             </div>
 
             <div class="form-group">
                 <label class="control-label col-md-3">Sposób pomiaru</label>
                 <div class="col-md-9">
-                    <select class="form-control" ng-model="sposobPomiaru" ng-change="wybranoSposobPomiaru()">
+                    <select class="form-control" ng-model="sposobPomiaru" ng-change="wybranoSposobPomiaru()" title="sposobPomiaru">
                         <option ng-if="pojazd!=null" selected="selected" value="">-</option>
                         <option ng-if="pojazd!=null" value="recznie">Pomiar ręczny [cm]</option>
                         <option ng-if="pojazd!=null" value="dotankowano">Dotankowano do pełna [L]</option>
@@ -50,19 +50,11 @@
             <div class="form-group">
                 <label class="control-label col-md-3">Zbiornik lewy</label>
                 <div class="col-md-3">
-                    <input type="number" class="form-control" min="0" ng-model="zbiornikLewy" ng-disabled="litryLacznie > 0">
+                    <input type="number" class="form-control" min="0" ng-model="zbiornikLewy" ng-disabled="sposobPomiaru == '' || sposobPomiaru == 'brakPojazdu'" title="zbiornikLewy">
                 </div>
                 <label class="control-label col-md-3">Zbiornik prawy</label>
                 <div class="col-md-3">
-                    <input type="number" class="form-control" min="0" ng-model="zbiornikPrawy" ng-disabled="litryLacznie > 0">
-                </div>
-            </div>
-
-
-            <div class="form-group">
-                <label class="control-label col-md-3">Litry łącznie</label>
-                <div class="col-md-3">
-                    <input type="number" class="form-control" min="0" ng-model="litryLacznie" ng-disabled="zbiornikLewy > 0 || zbiornikPrawy > 0">
+                    <input type="number" class="form-control" min="0" ng-model="zbiornikPrawy" ng-disabled="sposobPomiaru == '' || sposobPomiaru == 'brakPojazdu'" title="zbiornikPrawy">
                 </div>
             </div>
 
@@ -110,7 +102,7 @@
                         {{pojazd.maxPojemnoscZbiornikPrawy-zbiornikPrawy | number : 2}}
                     </td>
                     <td class="text-center">
-                        {{pojazd.maxPojemnoscZbiornikLewy-zbiornikLewy + pojazd.maxPojemnoscZbiornikPrawy-zbiornikPrawy + max | number : 2}}
+                        {{pojazd.maxPojemnoscZbiornikLewy-zbiornikLewy + pojazd.maxPojemnoscZbiornikPrawy-zbiornikPrawy | number : 2}}
                     </td>
                 </tr>
 
@@ -122,7 +114,7 @@
                         {{zbiornikPrawy | number : 2}}
                     </td>
                     <td class="text-center">
-                        {{zbiornikLewy + zbiornikPrawy + litryLacznie | number : 2}}
+                        {{zbiornikLewy + zbiornikPrawy| number : 2}}
                     </td>
                 </tr>
 
@@ -134,7 +126,7 @@
     </div>
 
     <div class="modal-footer">
-        <button type="button" class="btn btn-success" data-dismiss="modal">{{akceptuj}}</button>
+        <button type="button" class="btn btn-success" ng-click="akceptuj()">{{tekstPrzyciskuAkceptuj}}</button>
         <button type="button" class="btn btn-danger" ng-click="zamknij()">Anuluj</button>
     </div>
 </div>

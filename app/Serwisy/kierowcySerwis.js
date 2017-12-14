@@ -1,6 +1,6 @@
 app.service('kierowcySerwis', function () {
 
-    var kierowcy =
+    let kierowcy =
         [
             {
                 'idKierowcy': 1,
@@ -20,7 +20,7 @@ app.service('kierowcySerwis', function () {
                 'nazwisko': 'Kowalski',
                 'czyAktywny': false,
             }
-        ]
+        ];
 
     this.dajKierowcow = function () {
         return kierowcy;

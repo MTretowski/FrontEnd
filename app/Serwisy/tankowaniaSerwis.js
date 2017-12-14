@@ -1,6 +1,6 @@
 app.service('tankowaniaSerwis', function () {
 
-    var tankowania =
+    let tankowania =
         [
             {
                 'idTankowania': 1,
@@ -32,7 +32,7 @@ app.service('tankowaniaSerwis', function () {
                 'dostawca': 'E100',
                 'pojazd': 'WWY55119'
             }
-        ]
+        ];
 
     this.dajTankowania = function(){
         return tankowania;

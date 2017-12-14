@@ -1,13 +1,18 @@
 app.controller('trasyKontroler', function ($scope, $uibModal, trasySerwis) {
-    $scope.kluczSortowania;
+    $scope.kluczSortowania = null;
     $scope.odwrotneSortowanie = false;
     $scope.pokazFiltry = false;
 
-    $scope.trasy = trasySerwis.dajTrasy()
+    $scope.filtrNumerRejestracyjny = '';
+    $scope.filtrKierowca1 = '';
+    $scope.filtrKierowca2 = '';
+    $scope.filtrNumerPoleceniaWyjazdu= '';
+
+    $scope.trasy = trasySerwis.dajTrasy();
     
-    var teraz = new Date();
-    var terazUTC = new Date(teraz.getUTCFullYear(), teraz.getUTCMonth(), teraz.getUTCDate(),  teraz.getUTCHours(), teraz.getUTCMinutes(), teraz.getUTCSeconds());
-    var rokTemu = new Date(teraz.getUTCFullYear()-1, teraz.getUTCMonth(), teraz.getUTCDate(),  teraz.getUTCHours(), teraz.getUTCMinutes(), teraz.getUTCSeconds());
+    let teraz = new Date();
+    let terazUTC = new Date(teraz.getUTCFullYear(), teraz.getUTCMonth(), teraz.getUTCDate(),  teraz.getUTCHours(), teraz.getUTCMinutes(), teraz.getUTCSeconds());
+    let rokTemu = new Date(teraz.getUTCFullYear()-1, teraz.getUTCMonth(), teraz.getUTCDate(),  teraz.getUTCHours(), teraz.getUTCMinutes(), teraz.getUTCSeconds());
     terazUTC.setUTCHours(23,59,59);
     rokTemu.setUTCHours(0,0,0);
     $scope.filtrDataRozpoczeciaOd = rokTemu;
@@ -32,8 +37,8 @@ app.controller('trasyKontroler', function ($scope, $uibModal, trasySerwis) {
             backdrop  : 'static',
             size: 'lg',
             resolve: {
-                edytowanaTrasaIndeks: function(){
-                    return indeks;
+                edytowanaTrasa: function(){
+                    return $scope.trasy[indeks];
                 }
             }
         });

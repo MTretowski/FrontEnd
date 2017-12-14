@@ -7,8 +7,8 @@
 
         <div class="row">
             <div class="col-md-12 text-center">
-                <a class="btn btn-info" ng-click="pokazFiltry = !pokazFiltry">{{pokazFiltry ? 'Ukryj filtry ' : 'Pokaż filtry '}}<span class="glyphicon glyphicon-filter"/></a>
-                <a class="btn btn-success" ng-click="dodajPojazd()">Dodaj pojazd <span class="glyphicon glyphicon-plus"/></a>
+                <a class="btn btn-info" ng-click="pokazFiltry = !pokazFiltry">{{pokazFiltry ? 'Ukryj filtry ' : 'Pokaż filtry '}}<span class="glyphicon glyphicon-filter"></span></a>
+                <a class="btn btn-success" ng-click="dodajPojazd()">Dodaj pojazd <span class="glyphicon glyphicon-plus"></span></a>
             </div>
         </div>
 
@@ -17,14 +17,14 @@
             <div class="col-md-6">
                 <div class="input-group">
                     <span class="input-group-addon">Numer rejestracyjny: </span>
-                    <input type="text" class="form-control" ng-model="filtrNumerRejestracyjny">
+                    <input type="text" class="form-control" ng-model="filtrNumerRejestracyjny" title="filtrNumerRejestracyjny">
                 </div>
             </div>
 
             <div class="col-md-6">
                 <div class="input-group">
                     <span class="input-group-addon">Marka i model: </span>
-                    <input type="text" class="form-control" ng-model="filtrMarka">
+                    <input type="text" class="form-control" ng-model="filtrMarka" title="filtrMarka">
                 </div>
             </div>
         </div>
