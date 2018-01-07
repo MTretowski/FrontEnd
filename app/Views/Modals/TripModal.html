@@ -1,0 +1,228 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <button type="button" class="close glyphicon glyphicon-remove" ng-click="close()"></button>
+        <h4 class="modal-title">{{title}}</h4>
+    </div>
+
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-md-6">
+                <form class="form-horizontal">
+
+                    <div class="form-group">
+                        <label class="control-label col-md-6">Numer polecenia wyjazdu</label>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" ng-model="businessTripNumber" title="businessTripNumber">
+                        </div>
+                    </div>
+
+                    <label>Kierowcy</label>
+                    <div class="form-group">
+                        <label class="control-label col-md-2">Kierowca</label>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" value="{{driver.lastName + ' ' + driver.firstName}}" title="driver" disabled>
+                        </div>
+                        <div class="col-md-4">
+                            <a class="btn btn-sm btn-info" ng-click="selectDriver()">Wybierz</a>
+                            <a class="btn btn-sm btn-danger" ng-click="deleteDriver()">Usuń</a>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label class="control-label col-md-2">Pojazd</label>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" ng-model="vehicle.plateNumbers" title="vehicle.plateNumbers" disabled>
+                        </div>
+                        <div class="col-md-4">
+                            <a class="btn btn-sm btn-info" ng-click="selectVehicle()">Wybierz</a>
+                            <a class="btn btn-sm btn-danger" ng-click="deleteVehicle()">Usuń</a>
+                        </div>
+                    </div>
+
+                    <label>Rozpoczęcie trasy</label>
+                    <div class="form-group">
+                        <label class="control-label col-md-1">Data</label>
+                        <div class="col-md-5">
+                            <input type="date" class="form-control" ng-model-options="{ timezone: 'UTC' }" ng-model="startDate" ng-change="updateData()" title="startDateDay">
+                        </div>
+                        <label class="control-label col-md-2">Godzina</label>
+                        <div class="col-md-4">
+                            <input type="time" class="form-control" ng-model-options="{ timezone: 'UTC' }" ng-model="startDate" ng-change="updateData()" title="startDateHour">
+                        </div>
+                    </div>
+
+                    <label>Zakończenie trasy</label>
+                    <div class="form-group">
+                        <label class="control-label col-md-1">Data</label>
+                        <div class="col-md-5">
+                            <input type="date" class="form-control" ng-model-options="{ timezone: 'UTC' }" ng-model="endDate" ng-change="updateData()" title="endDateDay">
+                        </div>
+                        <label class="control-label col-md-2">Godzina</label>
+                        <div class="col-md-4">
+                            <input type="time" class="form-control" ng-model-options="{ timezone: 'UTC' }" ng-model="endDate" ng-change="updateData()" title="endDateHour">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-6">Przejechany dystans [km]</label>
+                        <div class="col-md-6">
+                            <input type="number" class="form-control" min="0" ng-model="distance" title="distance">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-6">Zużyte paliwo - Webasto [L]</label>
+                        <div class="col-md-6">
+                            <input type="number" class="form-control" min="0" ng-model='usedFuelWebasto' title="usedFuelWebasto">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-6">Zużyte paliwo - CAN [L]</label>
+                        <div class="col-md-6">
+                            <input type="number" class="form-control" min="0" ng-model="usedFuelCan" title="usedFuelCan">
+                        </div>
+                    </div>
+
+                </form>
+
+                <table class="table table-condensed table-responsive table-hover table-bordered table-striped">
+                    <tbody>
+                    <tr>
+                        <th>Paliwo przed wyjazdem [L]</th>
+                        <td class="text-right">{{fuelBeforeStart | number : 2}}</td>
+                    </tr>
+                    <tr>
+                        <th>Paliwo dotankowane [L]</th>
+                        <td class="text-right">{{fuellingsSum | number : 2}}</td>
+                    </tr>
+                    <tr>
+                        <th>Paliwo po powrocie [L]</th>
+                        <td class="text-right">{{fuelAfterEnd | number : 2}}</td>
+                    </tr>
+                    <tr>
+                        <th>Zużyte paliwo wg GPS (CAN + Webasto) [L]</th>
+                        <td class="text-right">{{usedFuelWebasto+usedFuelCan | number : 2}}</td>
+                    </tr>
+                    <tr>
+                        <th>Zużyte paliwo faktycznie [L]</th>
+                        <td class="text-right">{{fuelBeforeStart+fuellingsSum-fuelAfterEnd | number : 2}}</td>
+                    </tr>
+                    <tr>
+                        <th>Srednie spalanie wg GPS [L/100 km]</th>
+                        <td class="text-right">{{(usedFuelCan+usedFuelWebasto)/distance*100 | number : 2}}</td>
+                    </tr>
+                    <tr>
+                        <th>Srednie spalanie faktyczne [L/100 km]</th>
+                        <td class="text-right">{{(fuelBeforeStart+fuellingsSum-fuelAfterEnd)/distance*100 | number : 2}}</td>
+                    </tr>
+                    <tr>
+                        <th>Różnica w spalaniu [L/100 km]</th>
+                        <td class="text-right">{{(usedFuelCan+usedFuelWebasto)-(fuelBeforeStart+fuellingsSum-fuelAfterEnd) | number : 2}}</td>
+                    </tr>
+                    <tr>
+                        <th>Różnica w zużyciu paliwa [L]</th>
+                        <td class="text-right">{{((usedFuelCan+usedFuelWebasto)/distance*100)-((fuelBeforeStart+fuellingsSum-fuelAfterEnd)/distance*100) | number : 2}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+                <h5 class="text-center">Jeżeli różnica jest ujemna, to oznacza że zyżuto więcej paliwa, niż wskazuje GPS</h5>
+            </div>
+
+            <div class="col-md-6">
+                <h4 class="text-center">Pomiary</h4>
+
+                <div class="col-md-12 text-center">
+                    <a class="btn btn-sm btn-success" ng-click="tripAddMeasurment()">Dodaj pomiar <span class="glyphicon glyphicon-plus"></span></a>
+                </div>
+
+                <br>
+                <br>
+                <table class="table table-condensed table-responsive table-hover table-bordered table-striped">
+                    <thead>
+                    <tr>
+                        <th class="text-center">Rodzaj</th>
+                        <th class="text-center">Data</th>
+                        <th class="text-center">Paliwo [L]</th>
+                        <th class="text-center">Edytuj</th>
+                        <th class="text-center">Usuń</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    <tr>
+                        <td class="text-center">Początkowy</td>
+                        <td class="text-center">{{startingMeasurment.date | date : 'dd.MM.yyyy' : 'UTC'}}</td>
+                        <td class="text-right">{{startingMeasurment.amount | number: 2}}</td>
+                        <td>
+                            <button type="button" class="btn-xs btn-warning glyphicon glyphicon-edit center-block" ng-click="selectMeasurment(1)"></button>
+                        </td>
+                        <td>
+                            <button type="button" class="btn-xs btn-danger glyphicon glyphicon-remove center-block" ng-click="deleteMeasurment(1)"></button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-center">Końcowy</td>
+                        <td class="text-center">{{endingMeasurment.date | date : 'dd.MM.yyyy' : 'UTC'}}</td>
+                        <td class="text-right">{{endingMeasurment.amount | number: 2}}</td>
+                        <td>
+                            <button type="button" class="btn-xs btn-warning glyphicon glyphicon-edit center-block" ng-click="selectMeasurment(2)"></button>
+                        </td>
+                        <td>
+                            <button type="button" class="btn-xs btn-danger glyphicon glyphicon-remove center-block" ng-click="deleteMeasurment(2)"></button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <h4 class="text-center">Tankowania</h4>
+
+                <div class="col-md-12 text-center">
+                    <a class="btn btn-sm btn-success" ng-click="tripAddFuelling()">Dodaj fuelling ręcznie <span class="glyphicon glyphicon-plus"></span></a>
+                    <a class="btn btn-sm btn-primary" ng-click="tripImportFuellings()">Importuj tankowania z pliku <span class="glyphicon glyphicon-save-file"></span></a>
+                </div>
+
+
+                <br>
+                <br>
+                <table class="table table-condensed table-responsive table-hover table-bordered table-striped">
+                    <thead>
+                    <tr>
+                        <th class="text-center">Data</th>
+                        <th class="text-center">Ilość</th>
+                        <th class="text-center">Dostawca</th>
+                        <th class="text-center">Edytuj</th>
+                        <th class="text-center">Usuń</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    <tr ng-repeat="fuelling in fuellings" ng-if="fuelling.date <= endDate && fuelling.date >= startDate && fuelling.vehicleId == vehicle.id">
+                        <td class="text-center">{{fuelling.date | date : 'dd.MM.yyyy' : 'UTC'}}</td>
+                        <td class="text-right">{{fuelling.amount | number : 2}}</td>
+                        <td class="text-center">{{fuelling.supplierName}}</td>
+                        <td>
+                            <button type="button" class="btn-xs btn-warning glyphicon glyphicon-edit center-block"></button>
+                        </td>
+                        <td>
+                            <button type="button" class="btn-xs btn-danger glyphicon glyphicon-remove center-block"></button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <div class="form-group">
+                    <label>Komentarz</label>
+                    <textarea class="form-control" rows="4" maxlength="1000" data-ng-model="comment" title="comment"></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal-footer">
+        <button type="button" class="btn btn-success" ng-click="accept()">{{acceptButtonTitle}}</button>
+        <button type="button" class="btn btn-danger" ng-click="close()">Anuluj</button>
+    </div>
+</div>

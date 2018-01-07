@@ -1,0 +1,455 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <button type="button" class="close glyphicon glyphicon-remove" ng-click="close()"></button>
+        <h4 class="modal-title">Podsumowanie importu z pliku</h4>
+    </div>
+
+    <div class="modal-body">
+
+        <div ng-show="!areThereFuellings && !areThereWarnings && !areThereOtherActions && !areThereErrors">
+            <h5 class = text-center>Brak zaimportowanych zdarzeń</h5>
+        </div>
+
+        <div ng-show="areThereFuellings">
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <a class="btn btn-success" ng-click="showFuellings = !showFuellings">{{showFuellings ? 'Ukryj poprawnie zaimportowane tankowania ' : 'Pokaż poprawnie zaimportowane tankowania '}} <span class="badge">{{importedFuellings.length}}</span></a>
+                </div>
+            </div>
+
+            <div ng-show="showFuellings">
+                <div class="row">
+                    <h3 class="text-center">Poprawnie zaimportowane tankowania</h3>
+                    <br>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <a class="btn btn-info" ng-click="showFilters = !showFilters">{{showFilters ? 'Ukryj filtry ' : 'Pokaż filtry '}}<span class="glyphicon glyphicon-filter"></span></a>
+                    </div>
+                </div>
+
+                <div class="row" ng-show="showFilters">
+                    <br>
+                    <div class="col-md-offset-2 col-md-4">
+                        <div class="input-group">
+                            <span class="input-group-addon">Data od: </span>
+                            <input type="date" class="form-control" ng-model-options="{ timezone: 'UTC' }" ng-model="dateFromFilter" title="dateFromFilter">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="input-group">
+                            <span class="input-group-addon">Data do: </span>
+                            <input type="date" class="form-control" ng-model-options="{ timezone: 'UTC' }" ng-model="dateToFilter" title="dateToFilter">
+                        </div>
+                    </div>
+                </div>
+
+                <br>
+
+                <table class="table table-condensed table-responsive table-hover table-bordered table-striped">
+                    <thead>
+                    <tr>
+                        <th class="text-center">
+                            <a href="#" ng-click="sortingKey = 'vehicle';descendingSort = !descendingSort">
+                                Pojazd
+                                <span ng-show="sortingKey == 'vehicle' && !descendingSort" class="glyphicon glyphicon-triangle-bottom"></span>
+                                <span ng-show="sortingKey == 'vehicle' && descendingSort" class="glyphicon glyphicon-triangle-top"></span>
+                            </a>
+                        </th>
+
+                        <th class="text-center">
+                            <a href="#" ng-click="sortingKey = 'date';descendingSort = !descendingSort">
+                                Data
+                                <span ng-show="sortingKey == 'date' && !descendingSort" class="glyphicon glyphicon-triangle-bottom"></span>
+                                <span ng-show="sortingKey == 'date' && descendingSort" class="glyphicon glyphicon-triangle-top"></span>
+                            </a>
+                        </th>
+
+                        <th class="text-center">
+                            <a href="#" ng-click="sortingKey = 'amount';descendingSort = !descendingSort">
+                                Ilość [L]
+                                <span ng-show="sortingKey == 'amount' && !descendingSort" class="glyphicon glyphicon-triangle-bottom"></span>
+                                <span ng-show="sortingKey == 'amount' && descendingSort" class="glyphicon glyphicon-triangle-top"></span>
+                            </a>
+                        </th>
+
+                        <th class="text-center">
+                            <a href="#" ng-click="sortingKey = 'grossValue';descendingSort = !descendingSort">
+                                Kwota brutto
+                                <span ng-show="sortingKey == 'grossValue' && !descendingSort" class="glyphicon glyphicon-triangle-bottom"></span>
+                                <span ng-show="sortingKey == 'grossValue' && descendingSort" class="glyphicon glyphicon-triangle-top"></span>
+                            </a>
+                        </th>
+
+                        <th class="text-center">
+                            <a href="#" ng-click="sortingKey = 'currency';descendingSort = !descendingSort">
+                                Waluta
+                                <span ng-show="sortingKey == 'currency' && !descendingSort" class="glyphicon glyphicon-triangle-bottom"></span>
+                                <span ng-show="sortingKey == 'currency' && descendingSort" class="glyphicon glyphicon-triangle-top"></span>
+                            </a>
+                        </th>
+
+                        <th class="text-center">
+                            <a href="#" ng-click="sortingKey = 'description';descendingSort = !descendingSort">
+                                Opis
+                                <span ng-show="sortingKey == 'description' && !descendingSort" class="glyphicon glyphicon-triangle-bottom"></span>
+                                <span ng-show="sortingKey == 'description' && descendingSort" class="glyphicon glyphicon-triangle-top"></span>
+                            </a>
+                        </th>
+
+                        <th ng-if="supplier == 'DKV'" class="text-center">
+                            <a href="#" ng-click="sortingKey = 'additionalDescription';descendingSort = !descendingSort">
+                                Opis dodatkowy
+                                <span ng-show="sortingKey == 'additionalDescription' && !descendingSort" class="glyphicon glyphicon-triangle-bottom"></span>
+                                <span ng-show="sortingKey == 'additionalDescription' && descendingSort" class="glyphicon glyphicon-triangle-top"></span>
+                            </a>
+                        </th>
+
+                        <th class="text-center">Edytuj</th>
+                        <th class="text-center">Usuń</th>
+                    </tr>
+
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="fuelling in importedFuellings | orderBy:sortingKey:descendingSort" ng-if="fuelling.date >= dateFromFilter && fuelling.date <= dateToFilter">
+                        <td class="text-center">{{fuelling.vehicle}}</td>
+                        <td class="text-center">{{fuelling.date | date : 'dd.MM.yyyy' : 'UTC'}}</td>
+                        <td class="text-right">{{fuelling.amount | number: 2}}</td>
+                        <td class="text-right">{{fuelling.grossValue | number: 2}}</td>
+                        <td class="text-center">{{fuelling.currency}}</td>
+                        <td class="text-right">{{fuelling.description}}</td>
+                        <td ng-if="supplier == 'DKV'" class="text-right">{{fuelling.additionalDescription}}</td>
+
+                        <td>
+                            <button type="button" class="btn-xs btn-warning glyphicon glyphicon-edit center-block" ng-click="editImportedFuelling(importedFuellings.indexOf(fuelling))"></button>
+                        </td>
+                        <td>
+                            <button type="button" class="btn-xs btn-danger glyphicon glyphicon-remove center-block" ng-click="deleteImportedFuelling(importedFuellings.indexOf(fuelling))"></button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <br>
+        </div>
+
+        <div ng-show="areThereWarnings">
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <a class="btn btn-warning" ng-click="showWarnings = !showWarnings">{{showWarnings ? 'Ukryj zaimportowane tankowania z ostrzeżeniami ' : 'Pokaż zaimportowane tankowania z ostrzeżeniami '}} <span class="badge">{{fuellingsWithWarnings.length}}</span></a>
+                </div>
+            </div>
+
+            <div ng-show="showWarnings">
+                <div class="row">
+                    <h3 class="text-center">Zaimportowane tankowania z ostrzeżeniami</h3>
+                    <h4 class="text-center">Tankowania te nie zostaną dostane do bazy danych</h4>
+                    <h5 class="text-center">Aby pozbyć się ostrzeżeń, edytuj poszególne tankowania</h5>
+                    <br>
+
+                    <div class="col-md-12 text-center">
+                        <a class="btn btn-info" ng-click="showFiltersWarning = !showFiltersWarning">{{showFiltersWarning ? 'Ukryj filtry ' : 'Pokaż filtry '}}<span class="glyphicon glyphicon-filter"></span></a>
+                    </div>
+                </div>
+
+                <div class="row" ng-show="showFiltersWarning">
+                    <br>
+                    <div class="col-md-offset-2 col-md-4">
+                        <div class="input-group">
+                            <span class="input-group-addon">Data od: </span>
+                            <input type="date" class="form-control" ng-model-options="{ timezone: 'UTC' }" ng-model="dateFromWarningsFilter" title="dateFromWarningsFilter">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="input-group">
+                            <span class="input-group-addon">Data do: </span>
+                            <input type="date" class="form-control" ng-model-options="{ timezone: 'UTC' }" ng-model="dateToWarningsFilter" title="dateToWarningsFilter">
+                        </div>
+                    </div>
+                </div>
+
+                <br>
+
+                <table class="table table-condensed table-responsive table-hover table-bordered table-striped">
+                    <thead>
+                    <tr>
+                        <th class="text-center">
+                            <a href="#" ng-click="sortingKeyWarnings = 'vehicle';descendingSortWarnings = !descendingSortWarnings">
+                                Pojazd
+                                <span ng-show="sortingKeyWarnings == 'vehicle' && !descendingSortWarnings" class="glyphicon glyphicon-triangle-bottom"></span>
+                                <span ng-show="sortingKeyWarnings == 'vehicle' && descendingSortWarnings" class="glyphicon glyphicon-triangle-top"></span>
+                            </a>
+                        </th>
+
+                        <th class="text-center">
+                            <a href="#" ng-click="sortingKeyWarnings = 'date';descendingSortWarnings = !descendingSortWarnings">
+                                Data
+                                <span ng-show="sortingKeyWarnings == 'date' && !descendingSortWarnings" class="glyphicon glyphicon-triangle-bottom"></span>
+                                <span ng-show="sortingKeyWarnings == 'date' && descendingSortWarnings" class="glyphicon glyphicon-triangle-top"></span>
+                            </a>
+                        </th>
+
+                        <th class="text-center">
+                            <a href="#" ng-click="sortingKeyWarnings = 'amount';descendingSortWarnings = !descendingSortWarnings">
+                                Ilość [L]
+                                <span ng-show="sortingKeyWarnings == 'amount' && !descendingSortWarnings" class="glyphicon glyphicon-triangle-bottom"></span>
+                                <span ng-show="sortingKeyWarnings == 'amount' && descendingSortWarnings" class="glyphicon glyphicon-triangle-top"></span>
+                            </a>
+                        </th>
+
+                        <th class="text-center">
+                            <a href="#" ng-click="sortingKeyWarnings = 'grossValue';descendingSortWarnings = !descendingSortWarnings">
+                                Kwota brutto
+                                <span ng-show="sortingKeyWarnings == 'grossValue' && !descendingSortWarnings" class="glyphicon glyphicon-triangle-bottom"></span>
+                                <span ng-show="sortingKeyWarnings == 'grossValue' && descendingSortWarnings" class="glyphicon glyphicon-triangle-top"></span>
+                            </a>
+                        </th>
+
+                        <th class="text-center">
+                            <a href="#" ng-click="sortingKeyWarnings = 'currency';descendingSortWarnings = !descendingSortWarnings">
+                                Waluta
+                                <span ng-show="sortingKeyWarnings == 'currency' && !descendingSortWarnings" class="glyphicon glyphicon-triangle-bottom"></span>
+                                <span ng-show="sortingKeyWarnings == 'currency' && descendingSortWarnings" class="glyphicon glyphicon-triangle-top"></span>
+                            </a>
+                        </th>
+
+                        <th class="text-center">
+                            <a href="#" ng-click="sortingKeyWarnings = 'description';descendingSortWarnings = !descendingSortWarnings">
+                                Opis
+                                <span ng-show="sortingKeyWarnings == 'description' && !descendingSortWarnings" class="glyphicon glyphicon-triangle-bottom"></span>
+                                <span ng-show="sortingKeyWarnings == 'description' && descendingSortWarnings" class="glyphicon glyphicon-triangle-top"></span>
+                            </a>
+                        </th>
+
+                        <th ng-if="supplier == 'DKV'" class="text-center">
+                            <a href="#" ng-click="sortingKeyWarnings = 'additionalDescription';descendingSortWarnings = !descendingSortWarnings">
+                                Opis dodatkowy
+                                <span ng-show="sortingKeyWarnings == 'additionalDescription' && !descendingSortWarnings" class="glyphicon glyphicon-triangle-bottom"></span>
+                                <span ng-show="sortingKeyWarnings == 'additionalDescription' && descendingSortWarnings" class="glyphicon glyphicon-triangle-top"></span>
+                            </a>
+                        </th>
+
+                        <th class="text-center">
+                            <a href="#" ng-click="sortingKeyWarnings = 'message';descendingSortWarnings = !descendingSortWarnings">
+                                Komunikat
+                                <span ng-show="sortingKeyWarnings == 'message' && !descendingSortWarnings" class="glyphicon glyphicon-triangle-bottom"></span>
+                                <span ng-show="sortingKeyWarnings == 'message' && descendingSortWarnings" class="glyphicon glyphicon-triangle-top"></span>
+                            </a>
+                        </th>
+
+                        <th class="text-center">Edytuj</th>
+                        <th class="text-center">Usuń</th>
+                    </tr>
+
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="fuelling in fuellingsWithWarnings | orderBy:sortingKey:descendingSort" ng-if="fuelling.date >= dateFromWarningsFilter && fuelling.date <= dateToWarningsFilter">
+                        <td class="text-center">{{fuelling.vehicle}}</td>
+                        <td class="text-center">{{fuelling.date | date : 'dd.MM.yyyy' : 'UTC'}}</td>
+                        <td class="text-right">{{fuelling.amount | number: 2}}</td>
+                        <td class="text-right">{{fuelling.grossValue | number: 2}}</td>
+                        <td class="text-center">{{fuelling.currency}}</td>
+                        <td class="text-right">{{fuelling.description}}</td>
+                        <td ng-if="supplier == 'DKV'" class="text-right">{{fuelling.additionalDescription}}</td>
+                        <td class="text-right">{{fuelling.message}}</td>
+                        <td>
+                            <button type="button" class="btn-xs btn-warning glyphicon glyphicon-edit center-block" ng-click="editFuellingWithWarning(fuellingsWithWarnings.indexOf(fuelling))"></button>
+                        </td>
+                        <td>
+                            <button type="button" class="btn-xs btn-danger glyphicon glyphicon-remove center-block" ng-click="deleteFuellingWithWarning(fuellingsWithWarnings.indexOf(fuelling))"></button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <br>
+        </div>
+
+        <div ng-show="areThereOtherActions">
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <a class="btn btn-danger" ng-click="showOtherActions = !showOtherActions">{{showOtherActions ? 'Ukryj zdarzenia niezakfalifikowane jako tankowania ' : 'Pokaż zdarzenia niezakfalifikowane jako tankowania '}}<span class="badge">{{otherActions.length}}</span></a>
+                </div>
+            </div>
+
+            <div ng-show="showOtherActions">
+                <div class="row">
+                    <h3 class="text-center">Zdarzenie niezakfalifikowane jako tankowania</h3>
+                    <h4 class="text-center">Zdarzenia te nie zostaną dostane do bazy danych</h4>
+                    <h5 class="text-center">Aby pozbyć się błędów, edytuj poszególne zdarzenia</h5>
+                    <br>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <a class="btn btn-info" ng-click="showFiltersOtherActions = !showFiltersOtherActions">{{showFiltersOtherActions ? 'Ukryj filtry ' : 'Pokaż filtry '}}<span class="glyphicon glyphicon-filter"></span></a>
+                    </div>
+                </div>
+
+                <div class="row" ng-show="showFiltersOtherActions">
+                    <br>
+                    <div class="col-md-offset-2 col-md-4">
+                        <div class="input-group">
+                            <span class="input-group-addon">Data od: </span>
+                            <input type="date" class="form-control" ng-model-options="{ timezone: 'UTC' }" ng-model="dateFromOtherActionsFilter" title="dateFromOtherActionsFilter">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="input-group">
+                            <span class="input-group-addon">Data do: </span>
+                            <input type="date" class="form-control" ng-model-options="{ timezone: 'UTC' }" ng-model="dateToOtherActionsFilter" title="dateToOtherActionsFilter">
+                        </div>
+                    </div>
+                </div>
+
+                <br>
+
+                <table class="table table-condensed table-responsive table-hover table-bordered table-striped">
+                    <thead>
+                    <tr>
+                        <th class="text-center">
+                            <a href="#" ng-click="sortingKeyOtherActions = 'vehicle';descendingSortOtherActions = !descendingSortOtherActions">
+                                Pojazd
+                                <span ng-show="sortingKeyOtherActions == 'vehicle' && !descendingSortOtherActions" class="glyphicon glyphicon-triangle-bottom"></span>
+                                <span ng-show="sortingKeyOtherActions == 'vehicle' && descendingSortOtherActions" class="glyphicon glyphicon-triangle-top"></span>
+                            </a>
+                        </th>
+
+                        <th class="text-center">
+                            <a href="#" ng-click="sortingKeyOtherActions = 'date';descendingSortOtherActions = !descendingSortOtherActions">
+                                Data
+                                <span ng-show="sortingKeyOtherActions == 'date' && !descendingSortOtherActions" class="glyphicon glyphicon-triangle-bottom"></span>
+                                <span ng-show="sortingKeyOtherActions == 'date' && descendingSortOtherActions" class="glyphicon glyphicon-triangle-top"></span>
+                            </a>
+                        </th>
+
+                        <th class="text-center">
+                            <a href="#" ng-click="sortingKeyOtherActions = 'amount';descendingSortOtherActions = !descendingSortOtherActions">
+                                Ilość [L]
+                                <span ng-show="sortingKeyOtherActions == 'amount' && !descendingSortOtherActions" class="glyphicon glyphicon-triangle-bottom"></span>
+                                <span ng-show="sortingKeyOtherActions == 'amount' && descendingSortOtherActions" class="glyphicon glyphicon-triangle-top"></span>
+                            </a>
+                        </th>
+
+                        <th class="text-center">
+                            <a href="#" ng-click="sortingKeyOtherActions = 'grossValue';descendingSortOtherActions = !descendingSortOtherActions">
+                                Kwota brutto
+                                <span ng-show="sortingKeyOtherActions == 'grossValue' && !descendingSortOtherActions" class="glyphicon glyphicon-triangle-bottom"></span>
+                                <span ng-show="sortingKeyOtherActions == 'grossValue' && descendingSortOtherActions" class="glyphicon glyphicon-triangle-top"></span>
+                            </a>
+                        </th>
+
+                        <th class="text-center">
+                            <a href="#" ng-click="sortingKeyOtherActions = 'currency';descendingSortOtherActions = !descendingSortOtherActions">
+                                Waluta
+                                <span ng-show="sortingKeyOtherActions == 'currency' && !descendingSortOtherActions" class="glyphicon glyphicon-triangle-bottom"></span>
+                                <span ng-show="sortingKeyOtherActions == 'currency' && descendingSortOtherActions" class="glyphicon glyphicon-triangle-top"></span>
+                            </a>
+                        </th>
+
+                        <th class="text-center">
+                            <a href="#" ng-click="sortingKeyOtherActions = 'description';descendingSortOtherActions = !descendingSortOtherActions">
+                                Opis
+                                <span ng-show="sortingKeyOtherActions == 'description' && !descendingSortOtherActions" class="glyphicon glyphicon-triangle-bottom"></span>
+                                <span ng-show="sortingKeyOtherActions == 'description' && descendingSortOtherActions" class="glyphicon glyphicon-triangle-top"></span>
+                            </a>
+                        </th>
+
+                        <th ng-if="supplier == 'DKV'" class="text-center">
+                            <a href="#" ng-click="sortingKeyOtherActions = 'additionalDescription';descendingSortOtherActions = !descendingSortOtherActions">
+                                Opis dodatkowy
+                                <span ng-show="sortingKeyOtherActions == 'additionalDescription' && !descendingSortOtherActions" class="glyphicon glyphicon-triangle-bottom"></span>
+                                <span ng-show="sortingKeyOtherActions == 'additionalDescription' && descendingSortOtherActions" class="glyphicon glyphicon-triangle-top"></span>
+                            </a>
+                        </th>
+
+                        <th class="text-center">
+                            <a href="#" ng-click="sortingKeyOtherActions = 'message';descendingSortOtherActions = !descendingSortOtherActions">
+                                Komunikat
+                                <span ng-show="sortingKeyOtherActions == 'message' && !descendingSortOtherActions" class="glyphicon glyphicon-triangle-bottom"></span>
+                                <span ng-show="sortingKeyOtherActions == 'message' && descendingSortOtherActions" class="glyphicon glyphicon-triangle-top"></span>
+                            </a>
+                        </th>
+
+                        <th class="text-center">Edytuj</th>
+                        <th class="text-center">Usuń</th>
+                    </tr>
+
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="action in otherActions | orderBy:sortingKeyOtherActions:descendingSortOtherActions" ng-if="action.date >= dateFromOtherActionsFilter && action.date <= dateToOtherActionsFilter">
+                        <td class="text-center">{{action.vehicle}}</td>
+                        <td class="text-center">{{action.date | date : 'dd.MM.yyyy' : 'UTC'}}</td>
+                        <td class="text-right">{{action.amount | number: 2}}</td>
+                        <td class="text-right">{{action.grossValue | number: 2}}</td>
+                        <td class="text-center">{{action.currency}}</td>
+                        <td class="text-right">{{action.description}}</td>
+                        <td ng-if="supplier == 'DKV'" class="text-right">{{action.additionalDescription}}</td>
+                        <td class="text-right">{{action.message}}</td>
+
+                        <td>
+                            <button type="button" class="btn-xs btn-warning glyphicon glyphicon-edit center-block" ng-click="editOtherAction(otherActions.indexOf(action))"></button>
+                        </td>
+                        <td>
+                            <button type="button" class="btn-xs btn-danger glyphicon glyphicon-remove center-block" ng-click="deleteOtherAction(otherActions.indexOf(action))"></button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <br>
+        </div>
+
+        <div ng-show="areThereErrors">
+
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <a class="btn btn-danger" ng-click="showErrors = !showErrors">{{showErrors ? 'Ukryj błędne lines ' : 'Pokaż błędne wiersze '}}<span class="badge">{{incorrectLines.length}}</span></a>
+                </div>
+            </div>
+
+            <div ng-show="showErrors">
+                <div class="row">
+                    <h3 class="text-center">Wiersze zidentyfikowane przez system jako błędne</h3>
+                    <h4 class="text-center">Proszę pobrać plik ponownie i zaimportować go jeszcze raz</h4>
+                    <br>
+                </div>
+                
+                <table class="table table-condensed table-responsive table-hover table-bordered table-striped">
+                    <thead>
+                    <tr>
+                        <th class="text-center">
+                            <a href="#" ng-click="sortingKeyOtherActions = 'line';descendingSortOtherActions = !descendingSortOtherActions">
+                                Wiersz
+                                <span ng-show="sortingKeyOtherActions == 'line' && !descendingSortOtherActions" class="glyphicon glyphicon-triangle-bottom"></span>
+                                <span ng-show="sortingKeyOtherActions == 'line' && descendingSortOtherActions" class="glyphicon glyphicon-triangle-top"></span>
+                            </a>
+                        </th>
+
+                        <th class="text-center">
+                            <a href="#" ng-click="sortingKeyOtherActions = 'error';descendingSortOtherActions = !descendingSortOtherActions">
+                                Błąd
+                                <span ng-show="sortingKeyOtherActions == 'error' && !descendingSortOtherActions" class="glyphicon glyphicon-triangle-bottom"></span>
+                                <span ng-show="sortingKeyOtherActions == 'error' && descendingSortOtherActions" class="glyphicon glyphicon-triangle-top"></span>
+                            </a>
+                        </th>
+                    </tr>
+
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="line in incorrectLines | orderBy:sortingKeyOtherActions:descendingSortOtherActions">
+                        <td class="text-center">{{line.line}}</td>
+                        <td class="text-center">{{line.error}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-footer">
+        <button ng-show="areThereFuellings" type="button" class="btn btn-success" ng-click="accept()">Importuj</button>
+        <button type="button" class="btn btn-danger" ng-click="close()">Anuluj</button>
+    </div>
+</div>

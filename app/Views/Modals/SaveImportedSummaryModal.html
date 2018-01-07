@@ -1,0 +1,161 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <button type="button" class="close glyphicon glyphicon-remove" ng-click="close()"></button>
+        <h4 class="modal-title">Podsumowanie importu z pliku</h4>
+    </div>
+
+    <div class="modal-body">
+
+        <div ng-show="areThereImported">
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <a class="btn btn-success" ng-click="showImported = !showImported">{{showImported ? 'Ukryj zaimportowane tankowania ' : 'Pokaż zaimportowane tankowania '}} <span class="badge">{{imported.length}}</span></a>
+                </div>
+            </div>
+
+            <div ng-show="showImported">
+                <div class="row">
+                    <h3 class="text-center">Poprawnie zaimportowane tankowania</h3>
+                    <br>
+                </div>
+
+                <table class="table table-condensed table-responsive table-hover table-bordered table-striped">
+                    <thead>
+                    <tr>
+                        <th class="text-center">
+                            <a href="#" ng-click="sortingKey = 'vehicle';descendingSort = !descendingSort">
+                                Pojazd
+                                <span ng-show="sortingKey == 'vehicle' && !descendingSort" class="glyphicon glyphicon-triangle-bottom"></span>
+                                <span ng-show="sortingKey == 'vehicle' && descendingSort" class="glyphicon glyphicon-triangle-top"></span>
+                            </a>
+                        </th>
+
+                        <th class="text-center">
+                            <a href="#" ng-click="sortingKey = 'date';descendingSort = !descendingSort">
+                                Data
+                                <span ng-show="sortingKey == 'date' && !descendingSort" class="glyphicon glyphicon-triangle-bottom"></span>
+                                <span ng-show="sortingKey == 'date' && descendingSort" class="glyphicon glyphicon-triangle-top"></span>
+                            </a>
+                        </th>
+
+                        <th class="text-center">
+                            <a href="#" ng-click="sortingKey = 'amount';descendingSort = !descendingSort">
+                                Ilość [L]
+                                <span ng-show="sortingKey == 'amount' && !descendingSort" class="glyphicon glyphicon-triangle-bottom"></span>
+                                <span ng-show="sortingKey == 'amount' && descendingSort" class="glyphicon glyphicon-triangle-top"></span>
+                            </a>
+                        </th>
+
+                        <th class="text-center">
+                            <a href="#" ng-click="sortingKey = 'grossValue';descendingSort = !descendingSort">
+                                Kwota brutto
+                                <span ng-show="sortingKey == 'grossValue' && !descendingSort" class="glyphicon glyphicon-triangle-bottom"></span>
+                                <span ng-show="sortingKey == 'grossValue' && descendingSort" class="glyphicon glyphicon-triangle-top"></span>
+                            </a>
+                        </th>
+
+                        <th class="text-center">
+                            <a href="#" ng-click="sortingKey = 'currency';descendingSort = !descendingSort">
+                                Waluta
+                                <span ng-show="sortingKey == 'currency' && !descendingSort" class="glyphicon glyphicon-triangle-bottom"></span>
+                                <span ng-show="sortingKey == 'currency' && descendingSort" class="glyphicon glyphicon-triangle-top"></span>
+                            </a>
+                        </th>
+                    </tr>
+
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="fuelling in imported | orderBy:sortingKey:descendingSort">
+                        <td class="text-center">{{fuelling.vehiclePlateNumbers}}</td>
+                        <td class="text-center">{{fuelling.date | date : 'dd.MM.yyyy' : 'UTC'}}</td>
+                        <td class="text-right">{{fuelling.amount | number: 2}}</td>
+                        <td class="text-right">{{fuelling.grossValue | number: 2}}</td>
+                        <td class="text-center">{{fuelling.currency}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <br>
+
+        </div>
+
+        <div ng-show="areThereNotImported">
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <a class="btn btn-danger" ng-click="showNotImported = !showNotImported">{{showNotImported ? 'Ukryj niezaimportowane tankowania ' : 'Pokaż niezaimportowane tankowania '}} <span class="badge">{{notImported.length}}</span></a>
+                </div>
+            </div>
+
+            <div ng-show="showNotImported">
+                <div class="row">
+                    <h3 class="text-center">Niezaimportowane zaimportowane tankowania</h3>
+                    <h4 class="text-center">Takie same tankowania zostały wcześniej dodane do bazy danych</h4>
+                    <br>
+                </div>
+
+                <table class="table table-condensed table-responsive table-hover table-bordered table-striped">
+                    <thead>
+                    <tr>
+                        <th class="text-center">
+                            <a href="#" ng-click="notImportedSortingKey = 'vehicle';notImportedDescendingSort = !notImportedDescendingSort">
+                                Pojazd
+                                <span ng-show="notImportedSortingKey == 'vehicle' && !notImportedDescendingSort" class="glyphicon glyphicon-triangle-bottom"></span>
+                                <span ng-show="notImportedSortingKey == 'vehicle' && notImportedDescendingSort" class="glyphicon glyphicon-triangle-top"></span>
+                            </a>
+                        </th>
+
+                        <th class="text-center">
+                            <a href="#" ng-click="notImportedSortingKey = 'date';notImportedDescendingSort = !notImportedDescendingSort">
+                                Data
+                                <span ng-show="notImportedSortingKey == 'date' && !notImportedDescendingSort" class="glyphicon glyphicon-triangle-bottom"></span>
+                                <span ng-show="notImportedSortingKey == 'date' && notImportedDescendingSort" class="glyphicon glyphicon-triangle-top"></span>
+                            </a>
+                        </th>
+
+                        <th class="text-center">
+                            <a href="#" ng-click="notImportedSortingKey = 'amount';notImportedDescendingSort = !notImportedDescendingSort">
+                                Ilość [L]
+                                <span ng-show="notImportedSortingKey == 'amount' && !notImportedDescendingSort" class="glyphicon glyphicon-triangle-bottom"></span>
+                                <span ng-show="notImportedSortingKey == 'amount' && notImportedDescendingSort" class="glyphicon glyphicon-triangle-top"></span>
+                            </a>
+                        </th>
+
+                        <th class="text-center">
+                            <a href="#" ng-click="notImportedSortingKey = 'grossValue';notImportedDescendingSort = !notImportedDescendingSort">
+                                Kwota brutto
+                                <span ng-show="notImportedSortingKey == 'grossValue' && !notImportedDescendingSort" class="glyphicon glyphicon-triangle-bottom"></span>
+                                <span ng-show="notImportedSortingKey == 'grossValue' && notImportedDescendingSort" class="glyphicon glyphicon-triangle-top"></span>
+                            </a>
+                        </th>
+
+                        <th class="text-center">
+                            <a href="#" ng-click="notImportedSortingKey = 'currency';notImportedDescendingSort = !notImportedDescendingSort">
+                                Waluta
+                                <span ng-show="notImportedSortingKey == 'currency' && !notImportedDescendingSort" class="glyphicon glyphicon-triangle-bottom"></span>
+                                <span ng-show="notImportedSortingKey == 'currency' && notImportedDescendingSort" class="glyphicon glyphicon-triangle-top"></span>
+                            </a>
+                        </th>
+                    </tr>
+
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="fuelling in notImported | orderBy:notImportedSortingKey:notImportedDescendingSort">
+                        <td class="text-center">{{fuelling.vehiclePlateNumbers}}</td>
+                        <td class="text-center">{{fuelling.date | date : 'dd.MM.yyyy' : 'UTC'}}</td>
+                        <td class="text-right">{{fuelling.amount | number: 2}}</td>
+                        <td class="text-right">{{fuelling.grossValue | number: 2}}</td>
+                        <td class="text-center">{{fuelling.currency}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <br>
+
+        </div>
+        
+    </div>
+
+    <div class="modal-footer">
+        <button type="button" class="btn btn-danger" ng-click="close()">Zamknij</button>
+    </div>
+</div>

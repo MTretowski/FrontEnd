@@ -1,0 +1,73 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <button type="button" class="close glyphicon glyphicon-remove" ng-click="close()"></button>
+        <h4 class="modal-title">Wybierz kierowcę</h4>
+    </div>
+
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <div class="btn-group">
+                    <a class="btn btn-info" ng-click="showFilters = !showFilters">{{showFilters ? 'Ukryj filtry ' : 'Pokaż filtry '}}<span class="glyphicon glyphicon-filter"></span></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="row" ng-show="showFilters">
+            <br>
+            <div class="col-md-6">
+                <div class="input-group">
+                    <span class="input-group-addon">Imię: </span>
+                    <input type="text" class="form-control" ng-model="firstNameFilter" title="firstNameFilter">
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="input-group">
+                    <span class="input-group-addon">Nazwisko: </span>
+                    <input type="text" class="form-control" ng-model="lastNameFilter" title="lastNameFilter">
+                </div>
+            </div>
+        </div>
+
+        <br>
+
+        <table class="table table-condensed table-responsive table-hover table-bordered table-striped">
+            <thead>
+            <tr>
+                <th class="text-center">
+                    <a href="#" ng-click="sortingKey = 'firstName';descendingSort = !descendingSort">
+                        Imię
+                        <span ng-show="sortingKey == 'firstName' && !descendingSort" class="glyphicon glyphicon-triangle-bottom"></span>
+                        <span ng-show="sortingKey == 'firstName' && descendingSort" class="glyphicon glyphicon-triangle-top"></span>
+                    </a>
+                </th>
+
+                <th class="text-center">
+                    <a href="#" ng-click="sortingKey = 'lastName';descendingSort = !descendingSort">
+                        Nazwisko
+                        <span ng-show="sortingKey == 'lastName' && !descendingSort" class="glyphicon glyphicon-triangle-bottom"></span>
+                        <span ng-show="sortingKey == 'lastName' && descendingSort" class="glyphicon glyphicon-triangle-top"></span>
+                    </a>
+                </th>
+
+                <th class="text-center">Wybierz</th>
+            </tr>
+
+            </thead>
+            <tbody>
+            <tr ng-repeat="kierowca in drivers | filter:{firstName: firstNameFilter, lastName:lastNameFilter}| orderBy:sortingKey:descendingSort" ng-if="kierowca.active==true">
+                <td class="text-center">{{kierowca.firstName}}</td>
+                <td class="text-center">{{kierowca.lastName}}</td>
+                <td>
+                    <button type="button" class="btn-xs btn-success glyphicon glyphicon-ok center-block" ng-click="selected(drivers.indexOf(kierowca))"></button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="modal-footer">
+        <button type="button" class="btn btn-danger" ng-click="close()">Anuluj</button>
+    </div>
+</div>

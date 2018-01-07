@@ -1,0 +1,57 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <button type="button" class="close glyphicon glyphicon-remove" ng-click="close()"></button>
+        <h4 class="modal-title">{{title}}</h4>
+    </div>
+
+    <div class="modal-body">
+        <form class="form-horizontal">
+
+            <div class="form-group">
+                <div class="col-md-offset-5 col-md-3">
+                    <div class="input-group"><input type="checkbox" ng-model="active" title="active">Aktywny</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-2">Imię</label>
+                <div class="col-md-4">
+                    <input type="text" class="form-control" ng-model="firstName" title="firstName">
+                </div>
+                <label class="control-label col-md-2">Nazwisko</label>
+                <div class="col-md-4">
+                    <input type="text" class="form-control" ng-model="lastName" title="lastName">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-md-2">Login:</label>
+                <div class="col-md-4">
+                    <input type="text" class="form-control" ng-model="username" title="username">
+                </div>
+                <div ng-hide="editMode">
+                    <label class="control-label col-md-2">Hasło:</label>
+                    <div class="col-md-4">
+                        <input type="password" class="form-control" ng-model="password" title="password">
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-2">Rola:</label>
+                <div class="col-md-4">
+                    <select class="form-control" ng-model="userRoleId" title="userRoleId">
+                        <option selected="selected" value="">-</option>
+                        <option value="1">Użytkownik</option>
+                        <option value="2">Administrator</option>
+                    </select>
+                </div>
+            </div>
+            <button ng-show="editMode" type="button" class="btn btn-danger center-block" ng-click="resetujHaslo()">Rest hasła</button>
+        </form>
+    </div>
+
+    <div class="modal-footer">
+        <button type="button" class="btn btn-success" ng-click="accept()">{{acceptButtonTitle}}</button>
+        <button type="button" class="btn btn-danger" ng-click="close()">Anuluj</button>
+    </div>
+</div>

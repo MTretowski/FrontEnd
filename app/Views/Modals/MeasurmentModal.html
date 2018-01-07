@@ -1,0 +1,132 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <button type="button" class="close glyphicon glyphicon-remove" ng-click="close()"></button>
+        <h4 class="modal-title">{{title}}</h4>
+    </div>
+
+    <div class="modal-body">
+        <form class="form-horizontal">
+
+            <div class="form-group">
+                <label class="control-label col-md-2">Pojazd</label>
+                <div class="col-md-6">
+                    <input type="text" class="form-control" ng-model="vehicle.plateNumbers" title="vehicle.plateNumbers" disabled>
+                </div>
+                <div class="col-md-4">
+                    <div class="btn-group-sm">
+                        <a class="btn btn-info" ng-click="selectVehicle()">Wybierz</a>
+                        <a class="btn btn-danger" ng-click="deleteVehicle()">Usuń</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-2">Data</label>
+                <div class="col-md-4">
+                    <input type="date" class="form-control" ng-model-options="{ timezone: 'UTC' }" ng-model='date' title="day">
+                </div>
+                <label class="control-label col-md-2">Godzina</label>
+                <div class="col-md-4">
+                    <input type="time" class="form-control" ng-model-options="{ timezone: 'UTC' }" ng-model='date' title="hour">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-3">Sposób pomiaru</label>
+                <div class="col-md-9">
+                    <select class="form-control" ng-model="measurmentWay" ng-change="selectedMeasurmentWay()" title="measurmentWay">
+                        <option ng-if="vehicle!=null" selected="selected" value="">-</option>
+                        <option ng-if="vehicle!=null" value="manualMeasurment">Pomiar ręczny [cm]</option>
+                        <option ng-if="vehicle!=null" value="returnToFull">Dotankowano do pełna [L]</option>
+                        <option ng-if="vehicle!=null" value="measuredAmount">Zmierzono ilość [L]</option>
+
+                        <option ng-if="vehicle==null" selected="selected" value="noVehicle">Proszę najpierw wybrać pojazd</option>
+                    </select>
+                </div>
+            </div>
+
+            <h4 class="text-center"> Zmierzone wartości </h4>
+
+            <div class="form-group">
+                <label class="control-label col-md-3">Zbiornik lewy</label>
+                <div class="col-md-3">
+                    <input type="number" class="form-control" min="0" ng-model="leftFuelTank" ng-disabled="measurmentWay == '' || measurmentWay == 'noVehicle'" title="leftFuelTank">
+                </div>
+                <label class="control-label col-md-3">Zbiornik prawy</label>
+                <div class="col-md-3">
+                    <input type="number" class="form-control" min="0" ng-model="rightFuelTank" ng-disabled="measurmentWay == '' || measurmentWay == 'noVehicle'" title="rightFuelTank">
+                </div>
+            </div>
+
+            <br>
+            <h4 class="text-center"> Podsumowanie pomiaru </h4>
+            <table class="table table-condensed table-responsive table-hover table-bordered table-striped">
+                <thead>
+                <tr>
+                    <th class="text-center">
+                        Zbiornik lewy
+                    </th>
+                    <th class="text-center">
+                        Zbiornik prawy
+                    </th>
+                    <th class="text-center">
+                        Litry łącznie
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+
+                <tr ng-if="measurmentWay == ''">
+                    <td class="text-center">0</td>
+                    <td class="text-center">0</td>
+                    <td class="text-center">0</td>
+                </tr>
+
+                <tr ng-if="measurmentWay == 'manualMeasurment'">
+                    <td class="text-center">
+                        {{leftFuelTank * vehicle.leftTankConverter | number : 2}}
+                    </td>
+                    <td class="text-center">
+                        {{rightFuelTank * vehicle.rightTankConverter | number : 2}}
+                    </td>
+                    <td class="text-center">
+                        {{leftFuelTank * vehicle.leftTankConverter + rightFuelTank * vehicle.rightTankConverter | number : 2}}
+                    </td>
+                </tr>
+
+                <tr ng-if="measurmentWay == 'returnToFull'">
+                    <td class="text-center">
+                        {{vehicle.leftTankCapacity-leftFuelTank | number : 2}}
+                    </td>
+                    <td class="text-center">
+                        {{vehicle.rightTankCapacity-rightFuelTank | number : 2}}
+                    </td>
+                    <td class="text-center">
+                        {{vehicle.leftTankCapacity-leftFuelTank + vehicle.rightTankCapacity-rightFuelTank | number : 2}}
+                    </td>
+                </tr>
+
+                <tr ng-if="measurmentWay == 'measuredAmount'">
+                    <td class="text-center">
+                        {{leftFuelTank | number : 2}}
+                    </td>
+                    <td class="text-center">
+                        {{rightFuelTank | number : 2}}
+                    </td>
+                    <td class="text-center">
+                        {{leftFuelTank + rightFuelTank| number : 2}}
+                    </td>
+                </tr>
+
+                </tbody>
+            </table>
+
+        </form>
+
+    </div>
+
+    <div class="modal-footer">
+        <button type="button" class="btn btn-success" ng-click="accept()">{{acceptButtonTitle}}</button>
+        <button type="button" class="btn btn-danger" ng-click="close()">Anuluj</button>
+    </div>
+</div>
